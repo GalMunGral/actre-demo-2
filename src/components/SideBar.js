@@ -112,6 +112,7 @@ const SideBar = (state, context) => {
     const selected = getSelected();
 
     const deleteAll = () => {
+      console.log(folder, selected);
       dispatch((d) => {
         setTimeout(() => {
           d({

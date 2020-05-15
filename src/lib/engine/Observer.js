@@ -1,4 +1,4 @@
-import { update } from "./DOMRenderer";
+import { update, render } from "./DOMRenderer";
 
 var renderingComponent;
 function setRenderingComponent(comp) {
@@ -36,7 +36,7 @@ function observe(component, state, context) {
             window.queueMicrotask(() => {
               stateChangeCounter = 0;
               component.__dirty__ = true;
-              update(component);
+              update(component, key);
             });
           }
         },
@@ -53,11 +53,16 @@ function observe(component, state, context) {
       Object.defineProperty(context, key, {
         get() {
           if (renderingComponent && !observers.has(renderingComponent)) {
-            observers.add(renderingComponent);
-            renderingComponent.__subscriptions__.push({
+            // IMPORTANT: MAKE A COPY OF THE COMPONENT BECAUSE `renderingComponent` changes
+            const component = renderingComponent;
+            observers.add(component);
+            component.__subscriptions__.push({
+              observers,
               context,
               key,
-              cancel: () => observers.delete(renderingComponent),
+              cancel: () => {
+                observers.delete(component);
+              },
             });
           }
           return value;

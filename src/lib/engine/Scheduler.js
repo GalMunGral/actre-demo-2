@@ -30,15 +30,8 @@ function commitUpdate() {
   // Find next task that is not canceled
   while (pendingTasks.length > 0) {
     const next = pendingTasks.shift();
-    if (next.canceled) {
-      console.error("canceled");
-      continue;
-    }
+    if (next.canceled) continue;
     currentTask = next;
-    console.error(
-      currentTask,
-      pendingTasks.map((s) => [s.name, s.canceled, s.reason])
-    );
     return window.requestIdleCallback(doWork);
   }
 }

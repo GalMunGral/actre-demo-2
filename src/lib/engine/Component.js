@@ -59,6 +59,13 @@ const moveComponent = (component) => (cursor) => {
 
 const unmountComponent = (component) => () => {
   if (isComposite(component)) {
+    console.log(
+      component.__memoized_props__,
+      component.__type__.name || component.__type__,
+      component.__$first__,
+      component.__$last__
+    );
+
     let cur = component.__$first__;
     while (cur !== component.__$last__) {
       let next = cur.nextSibling;

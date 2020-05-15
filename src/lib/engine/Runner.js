@@ -24,11 +24,8 @@ function schedule(operation) {
 }
 
 function commit() {
-  console.log("start");
   pendingOperations.forEach((op) => {
-    // console.log(op);
     op(cursor);
-    console.log(cursor, stack);
   });
   pendingOperations = [];
 }

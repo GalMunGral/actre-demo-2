@@ -32,7 +32,6 @@ const css = (...args) => {
 
     for (let rule of subrules) {
       rule = "." + className + rule(props);
-      // console.log(rule);
       if (!subruleCache.has(rule)) {
         styleSheet.insertRule(rule);
         subruleCache.add(rule);

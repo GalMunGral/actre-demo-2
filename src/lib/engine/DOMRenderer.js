@@ -46,7 +46,6 @@ function* renderComponent(component, props, children, context) {
     !component.__dirty__
   ) {
     // !!! Can't set cursor in this function because this might exit early !!!
-    console.warn("SKIP", component.__type__.name || component.__type__);
     return;
   }
 
@@ -70,15 +69,12 @@ function* renderComponent(component, props, children, context) {
     const rendered = component(props, children);
     setRenderingComponent(null);
     yield; // Exit before moving on to child components
-    runner.schedule(() => console.log("entering", component.__type__.name));
 
     runner.schedule(() => runner.pushCursor((cursor) => cursor));
     yield* reconcileChildren(component, rendered, context);
     runner.schedule((cursor) => (component.__$last__ = cursor));
     runner.schedule(() => runner.popCursor());
-    runner.schedule(() => console.log("left", component.__type__.name));
 
-    runner.schedule(() => console.log(component.__type__.name));
     runner.schedule((cursor) => (component.__$first__ = cursor.nextSibling));
     // runner.schedule(() => runner.setCursor(() => component.__$last__));
     runner.schedule(() =>
@@ -139,37 +135,36 @@ function* reconcileChildren(component, elements, context) {
       (j = childMap[props.key]) !== undefined &&
       (comp = oldChildren[j]).__type__ === type
     ) {
-      runner.schedule(() =>
-        console.warn("REUSE", comp.__type__.name || comp.__type__)
-      );
       delete childMap[props.key];
       if (j < lastIndex) {
         runner.schedule(moveComponent(comp));
       } else {
         lastIndex = j;
       }
+      // When re-rendering, the cursor is not necessarily the previous settled element.
+      if (isComposite(comp)) {
+        runner.schedule(() =>
+          runner.setCursor(() => comp.__$first__.previousSibling)
+        );
+      } else {
+        runner.schedule(() =>
+          runner.setCursor(() => comp.__$node__.previousSibling)
+        );
+      }
       yield* renderComponent(comp, props, children, comp.__context__);
     } else {
       comp = yield* instantiateComponent(element, context);
-      runner.schedule(() =>
-        console.warn("NEW", comp.__type__.name || comp.__type__)
-      );
     }
     // !!! Bug fix: let parent advance cursor !!!
     if (isComposite(comp)) {
       runner.schedule(() => runner.setCursor(() => comp.__$last__));
-      runner.schedule(() => console.log("after", comp.__type__.name));
     } else {
       runner.schedule(() => runner.setCursor(() => comp.__$node__));
-      runner.schedule(() =>
-        console.log("after", comp.__type__, isComposite(comp))
-      );
     }
     newChildren.push(comp);
   }
   for (let i of Object.values(childMap)) {
     const comp = oldChildren[i];
-
     destroyComponent(comp);
     runner.schedule(unmountComponent(comp));
   }
@@ -178,10 +173,16 @@ function* reconcileChildren(component, elements, context) {
 }
 
 function destroyComponent(component) {
+  console.log(
+    "destroyComponent",
+    component.__type__.name || component.__type__
+  );
+  if (component.__DESTROYED__) throw "hey";
+  component.__DESTROYED__ = true;
+
   if (isComposite(component)) {
     component.__state__.notify("beforeunmount");
     component.__subscriptions__.forEach((subscription) => {
-      console.warn("CANCEL", component.__type__.name, subscription.key);
       subscription.cancel();
     });
     component.__requests__.forEach((task) => {
@@ -210,12 +211,6 @@ function render(element, container, context) {
 
 function update(component, reason = "") {
   const renderTask = (function* () {
-    console.warn(
-      "RERENDER",
-      component.__type__.name,
-      component.__$first__,
-      reason
-    );
     runner.schedule(() => {
       if (!isComposite(component))
         throw "Only composite components can be updated";
@@ -227,9 +222,6 @@ function update(component, reason = "") {
       component.__memoized_props__,
       component.__memoized_children__,
       component.__context__
-    );
-    runner.schedule(() =>
-      console.log("DONE", component.__type__.name, component.__$first__, reason)
     );
   })();
 
