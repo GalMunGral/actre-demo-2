@@ -1,5 +1,4 @@
 import Item from "./Item";
-import useItemSelection from "../hooks/itemSelection";
 import css from "../lib/css";
 
 const dragImage = css`
@@ -51,8 +50,8 @@ const Mails = (state, context) => {
             transform: `translate3d(${state.x}px, ${state.y}px, 0)`,
           }),
           [
-            i((classNmae = `fas fa-mail-bulk ${icon()}`)),
-            p(
+            i((className = `fas fa-mail-bulk ${icon()}`)),
+            span(
               `Move ${selected.length} ${
                 selected.length > 1 ? "items" : "item"
               }`
