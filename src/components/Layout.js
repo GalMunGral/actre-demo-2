@@ -1,6 +1,7 @@
 import css from "../lib/css";
 
 const container = css`
+  grid-area: c;
   height: 100%;
   display: flex;
   flex-direction: column;

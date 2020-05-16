@@ -25,10 +25,10 @@ const icon = css`
   color: gray;
 `;
 
-const IconButton = () => ({ icon, onclick }) =>
+const IconButton = () => ({ type, onclick }) =>
   // use transform
   button((className = button()), (onclick = onclick), [
-    i((className = `fas fa-${icon}`)),
+    i((className = `fas fa-${type} ${icon()}`)),
   ]);
 
 export default IconButton;

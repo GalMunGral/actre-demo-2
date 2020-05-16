@@ -58,12 +58,13 @@ const format = (length) => (s) =>
   s.length <= length ? s : s.slice(0, length) + "...";
 
 const Item = (state, context) => {
-  const { dispatch, T } = context.store;
+  const { dispatch, Type: T } = context.store;
   const { replaceDraft, setEditing } = context.editor;
-  const { getFolder, setFolder, setMailId } = context.route;
+  const { getFolder, setMailId } = context.route;
   const { getSelected, setSelected, toggleItem } = useItemSelection(
     context.selection
   );
+
   const OFFSET = 15;
   let setCoordinatesThrottled;
   let timer;
@@ -135,9 +136,7 @@ const Item = (state, context) => {
           folder !== "trash"
             ? Checkbox(
                 (checked = isItemSelected),
-                (onchange = () => toggleItem(item, !isItemSelected)),
-                (onmousedown = (e) => e.stopPropagation()),
-                (onmouseup = (e) => e.stopPropagation())
+                (onchange = () => toggleItem(item, !isItemSelected))
               )
             : null,
           div((className = sender()), senderName || senderEmail || "(no name)"),
@@ -153,7 +152,7 @@ const Item = (state, context) => {
           folder !== "trash"
             ? div((className = actions()), [
                 IconButton(
-                  (icon = "trash"),
+                  (type = "trash"),
                   (onclick = deleteItem),
                   (onmousedown = (e) => e.stopPropagation()),
                   (onmouseup = (e) => e.stopPropagation())

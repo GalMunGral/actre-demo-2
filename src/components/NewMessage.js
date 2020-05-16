@@ -1,12 +1,8 @@
-import React, { useContext, useState } from "react";
-import styled from "styled-components";
-import { EditorContext } from "../contexts";
+import css from "../lib/css";
 import IconButton from "./IconButton";
 import Space from "./Space";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes, faUndo, faRedo } from "@fortawesome/free-solid-svg-icons";
 
-const Window = styled.div`
+const window = css`
   border: none;
   position: fixed;
   bottom: 0;
@@ -20,7 +16,7 @@ const Window = styled.div`
   transition: width 0.2s;
 `;
 
-const Header = styled.header`
+const header = css`
   height: auto;
   padding: 12px 15px;
   line-height: 1rem;
@@ -31,7 +27,7 @@ const Header = styled.header`
   cursor: pointer;
 `;
 
-const CloseButton = styled.button`
+const closeButton = css`
   --size: 1rem;
   float: right;
   border: none;
@@ -46,61 +42,39 @@ const CloseButton = styled.button`
   color: white;
   cursor: pointer;
   transition: all 0.2s;
+`.and`:hover {
+  color: var(--light-gray);
+  transform: scale(1.2);
+}`;
 
-  &:hover {
-    color: var(--light-gray);
-    transform: scale(1.2);
-  }
-`;
-
-const Body = styled.section`
-  height: ${({ minimized }) => (minimized ? 0 : "60vh")};
-  width: ${({ minimized }) => (minimized ? "300px" : "40vw")};
+const body = css`
+  height: ${(minimized) => (minimized ? 0 : "60vh")};
+  width: ${(minimized) => (minimized ? "300px" : "40vw")};
   display: flex;
   flex-direction: column;
   transition: all 0.2s;
 `;
 
-const Input = ({ className, label, value, setValue, placeholder }) => {
-  const [focused, setFocused] = useState(false);
-  return (
-    <div className={className}>
-      {(focused || value) && <label>{label}</label>}
-      <input
-        value={value}
-        placeholder={!focused && !value ? placeholder : ""}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        onChange={(e) => setValue(e.target.value)}
-      />
-    </div>
-  );
-};
-
-const StyledInput = styled(Input)`
+const input = css`
   line-height: 1rem;
   font-size: 1rem;
   margin: 0 20px;
   padding: 0;
   border-bottom: 1px solid var(--light-gray);
+`.and` > label {
+  color: gray;
+  margin-right: 5px;
+}`.and` > input {
+  line-height: 1rem;
+  font-size: 1rem;
+  padding: 8px 0;
+  border: none;
+  outline: none;
+  background: white;
+  font-family: inherit;
+}`;
 
-  & > label {
-    color: gray;
-    margin-right: 5px;
-  }
-
-  & > input {
-    line-height: 1rem;
-    font-size: 1rem;
-    padding: 8px 0;
-    border: none;
-    outline: none;
-    background: white;
-    font-family: inherit;
-  }
-`;
-
-const TextArea = styled.textarea`
+const textArea = css`
   --horizontal-margin: 20px;
   flex: 1 1 auto;
   margin: 0 var(--horizontal-margin);
@@ -113,14 +87,14 @@ const TextArea = styled.textarea`
   font-family: inherit;
 `;
 
-const ButtonGroup = styled.section`
+const buttonGroup = css`
   margin: 15px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 `;
 
-const SendButton = styled.button`
+const sendButton = css`
   line-height: 1rem;
   font-size: 1rem;
   padding: 10px 22px;
@@ -133,74 +107,103 @@ const SendButton = styled.button`
   outline: none;
   cursor: pointer;
   transition: all 0.1s;
+`.and`:hover {
+  filter: brightness(1.2);
+  box-shadow: 0 0 3px 0 var(--blue);
+}`;
 
-  &:hover {
-    filter: brightness(1.2);
-    box-shadow: 0 0 3px 0 var(--blue);
-  }
-`;
+const Input = (state) => {
+  state.focused = false;
 
-const NewMessage = () => {
+  return ({ label, value, setValue, placeholder }) => {
+    return (
+      // use transform
+      div((className = input()), [
+        state.focused || value ? label(label) : null,
+        input(
+          (key = "input"), // If key is not specified, input will get recreated every time because its index changes 1 -> 0 -> 1
+          (value = value),
+          (placeholder = !state.focused && !value ? placeholder : ""),
+          (onfocus = () => (state.focused = true)),
+          (onblur = () => (state.focused = false)),
+          (onchange = (e) => setValue(e.target.value))
+        ),
+      ])
+    );
+  };
+};
+
+const NewMessage = (state, context) => {
+  state.minimized = false;
+
   const {
-    recipientEmail,
+    getRecipientEmail,
     setRecipientEmail,
-    subject,
+    getSubject,
     setSubject,
-    content,
+    getContent,
     updateHistory,
     undo,
     redo,
     saveDraft,
     send,
     close,
-  } = useContext(EditorContext);
+  } = context.editor;
 
-  const [minimized, setMinimized] = useState(false);
-  const toggle = () => setMinimized(!minimized);
-
-  return (
-    <Window minimized={minimized}>
-      <Header onClick={toggle}>
-        <span>New Message</span>
-        <CloseButton
-          onClick={() => {
-            saveDraft();
-            close();
-          }}
-        >
-          <FontAwesomeIcon icon={faTimes} />
-        </CloseButton>
-      </Header>
-      <Body minimized={minimized}>
-        <StyledInput
-          label="To:"
-          placeholder="Recipient"
-          value={recipientEmail}
-          setValue={setRecipientEmail}
-        />
-        <StyledInput
-          label="Subject:"
-          placeholder="Subject"
-          value={subject}
-          setValue={setSubject}
-        />
-        <TextArea value={content} onChange={updateHistory} />
-        <ButtonGroup>
-          <SendButton
-            onClick={() => {
-              send();
-              close();
-            }}
-          >
-            Send
-          </SendButton>
-          <IconButton onClick={undo} icon={faUndo} />
-          <IconButton onClick={redo} icon={faRedo} />
-          <Space />
-        </ButtonGroup>
-      </Body>
-    </Window>
-  );
+  return () => {
+    return (
+      // use transform
+      div((className = window()), [
+        header(
+          (className = header()),
+          (onclick = () => (state.minimized = !state.minimized)),
+          [
+            span("New Message"),
+            button(
+              (className = closeButton()),
+              (onclick = () => {
+                saveDraft();
+                close();
+              }),
+              [i((className = "fas fa-times"))]
+            ),
+          ]
+        ),
+        section((className = body(state.minimized)), [
+          Input(
+            (label = "To:"),
+            (placeholder = "Recipient"),
+            (value = getRecipientEmail()),
+            (setValue = setRecipientEmail)
+          ),
+          Input(
+            (label = "Subject:"),
+            (placeholder = "Subject"),
+            (value = getSubject()),
+            (setValue = setSubject)
+          ),
+          textarea(
+            (className = textArea()),
+            (value = getContent()),
+            (oninput = updateHistory)
+          ),
+          section((className = buttonGroup()), [
+            button(
+              (className = sendButton()),
+              (onclick = (e) => {
+                send();
+                close();
+              }),
+              "Send"
+            ),
+            IconButton((onclick = undo), (type = "undo")),
+            IconButton((onclick = redo), (type = "redo")),
+            Space(),
+          ]),
+        ]),
+      ])
+    );
+  };
 };
 
 export default NewMessage;

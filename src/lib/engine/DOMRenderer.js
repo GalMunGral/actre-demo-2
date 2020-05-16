@@ -173,10 +173,6 @@ function* reconcileChildren(component, elements, context) {
 }
 
 function destroyComponent(component) {
-  console.log(
-    "destroyComponent",
-    component.__type__.name || component.__type__
-  );
   if (component.__DESTROYED__) throw "hey";
   component.__DESTROYED__ = true;
 

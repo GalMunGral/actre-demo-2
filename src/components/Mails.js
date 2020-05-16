@@ -41,7 +41,7 @@ const Mails = (state, context) => {
               state.x = x;
               state.y = y;
             }),
-            (setDragging = () => (state.dragging = true))
+            (setDragging = (v) => (state.dragging = v))
           )
         ),
         div(

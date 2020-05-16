@@ -14,7 +14,7 @@ const menu = css`
 `;
 
 const fixedWidth = css`
-  width: 2rem;
+  width: 1rem;
   font-size: 1rem;
 `;
 const icon = css`
@@ -87,7 +87,6 @@ const menuItem = css`
   background: ${({ activated }) =>
     activated ? "var(--theme-light)" : "var(--gray)"};
 }`.and` > i {
-  width: 20px;
   margin: 0 ${({ collapsed }) => (collapsed ? "0" : "20px")};
   color: inherit;
 }`;
@@ -102,7 +101,7 @@ const SideBar = (state, context) => {
   const { getFolder, setFolder } = context.route;
   const { dispatch, Type: T } = context.store;
   const { getSelected, setSelected } = context.selection;
-  const { createDraft, open } = context.editor;
+  const { getEditing, createDraft, open } = context.editor;
 
   state.hovered = false;
   state.dropZoneActive = false;
@@ -110,9 +109,9 @@ const SideBar = (state, context) => {
   return ({ collapsed }) => {
     const folder = getFolder();
     const selected = getSelected();
+    const editing = getEditing();
 
     const deleteAll = () => {
-      console.log(folder, selected);
       dispatch((d) => {
         setTimeout(() => {
           d({

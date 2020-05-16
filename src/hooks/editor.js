@@ -7,7 +7,8 @@ const subject = Symbol("subject");
 const editing = Symbol("editing");
 
 const useEditor = (state, store) => {
-  const { dispatch, types: T } = store;
+  console.log("called");
+  const { dispatch, Type: T } = store;
   const {
     undo,
     redo,
@@ -80,6 +81,7 @@ const useEditor = (state, store) => {
     setEditing: (v) => (state[editing] = v),
     undo,
     redo,
+    getContent,
     updateHistory,
     saveDraft,
     createDraft,

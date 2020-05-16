@@ -3,6 +3,7 @@ const useItemSelection = (selection) => {
 
   const toggleItem = (item, shouldSelect) => {
     const selected = getSelected();
+
     if (shouldSelect) {
       if (selected.includes(item.id)) return;
       setSelected([...selected, item.id]);

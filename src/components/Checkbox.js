@@ -69,12 +69,19 @@ const checkbox = css`
 
 const Checkbox = () => ({ checked, onchange }) =>
   // use transform
-  div((className = checkbox()), [
-    div([
-      input((type = "checkbox"), (checked = checked), (onchange = onchange)),
-      div((className = background(checked))),
-      div((className = checkmark(checked)), [i((className = "fas fa-check"))]),
-    ]),
-  ]);
+  div(
+    (className = checkbox()),
+    (onmousedown = (e) => e.stopPropagation()),
+    (onmouseup = (e) => e.stopPropagation()),
+    [
+      div([
+        input((type = "checkbox"), (checked = checked), (onchange = onchange)),
+        div((className = background(checked))),
+        div((className = checkmark(checked)), [
+          i((className = "fas fa-check")),
+        ]),
+      ]),
+    ]
+  );
 
 export default Checkbox;

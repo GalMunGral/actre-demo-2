@@ -24,20 +24,22 @@ const Mailbox = (_, context) => {
       // use transform
       Layout([
         MailboxButtons(),
-        // folder === "inbox"
-        //   ? div(
-        //       (className = tabs()),
-        //       ["primary", "social", "promotions"].map((tab) =>
-        //         Tab(
-        //           (key = tab),
-        //           (name = tab),
-        //           (onclick = () => setTab(tab)),
-        //           (active = tab === currentTab)
-        //         )
-        //       )
-        //     )
-        //   : null,
-        Mails((mails = page)),
+        div([
+          folder === "inbox"
+            ? div(
+                (className = tabs()),
+                ["primary", "social", "promotions"].map((tab) =>
+                  Tab(
+                    (key = tab),
+                    (name = tab),
+                    (onclick = () => setTab(tab)),
+                    (active = tab === currentTab)
+                  )
+                )
+              )
+            : null,
+          Mails((mails = page)),
+        ]),
       ])
     );
   };

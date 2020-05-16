@@ -41,11 +41,11 @@ const MailboxButtons = (_, context) => () => {
       div((className = progress()), [
         span(
           (className = text()),
-          (innerHTML = `${start}&ndash;${end} of ${total}`)
+          (innerHTML = `${start}&ndash;${Math.min(end, total)} of ${total}`)
         ),
       ]),
-      IconButton((onclick = prevPage), (icon = "angle-left")),
-      IconButton((onclick = nextPage), (icon = "angle-right")),
+      IconButton((onclick = prevPage), (type = "angle-left")),
+      IconButton((onclick = nextPage), (type = "angle-right")),
     ]
   );
 };
