@@ -1,31 +1,30 @@
-import css from "../lib/css";
+import styled from "../lib/css";
 import createIcon from "../assets/create.png";
-import useStoreAsync from "../hooks/store";
 
-const menu = css`
+const Menu = styled.div`
   grid-area: b;
   transition: width 0.05s ease-out;
   background: white;
   overflow: hidden;
-  width: ${(collapsed) => (collapsed ? 72 : 250)}px;
+  width: ${({ collapsed }) => (collapsed ? 72 : 250)}px;
   display: flex;
   flex-direction: column;
-  align-items: ${(collapsed) => (collapsed ? "center" : "start")};
+  align-items: ${({ collapsed }) => (collapsed ? "center" : "start")};
 `;
 
-const fixedWidth = css`
+const MenuIcon = styled.i`
   width: 1rem;
   font-size: 1rem;
 `;
-const icon = css`
+const ButtonIcon = styled.img`
   --size: 32px;
   width: var(--size);
   height: var(--size);
 `;
 
-const button = css`
+const Button = styled.button`
   --size: 50px;
-  width: ${(collapsed) => (collapsed ? "var(--size)" : "150px")};
+  width: ${({ collapsed }) => (collapsed ? "var(--size)" : "150px")};
   height: var(--size);
   margin: 15px 10px;
   padding: 0;
@@ -48,14 +47,14 @@ const button = css`
 }
 `;
 
-const buttonText = css`
+const ButtonText = styled.span`
   margin-left: 10px;
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--dark-gray);
 `;
 
-const menuItem = css`
+const MenuItem = styled.div`
   --size: 35px;
   height: var(--size);
   line-height: 1rem;
@@ -79,17 +78,24 @@ const menuItem = css`
   background: ${({ activated }) =>
     activated ? "var(--theme-light)" : "white"};
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s;\
+
 `.and`:hover {
   background: ${({ activated }) =>
     activated ? "var(--theme-light)" : "var(--light-gray)"};
-}`.and`:active {
+}
+`.and`:active {
   background: ${({ activated }) =>
     activated ? "var(--theme-light)" : "var(--gray)"};
-}`.and` > i {
+}
+`.and` > i {
   margin: 0 ${({ collapsed }) => (collapsed ? "0" : "20px")};
   color: inherit;
-}`;
+}
+`.and` * {
+  pointer-events: none;
+}
+`;
 
 const iconMap = {
   inbox: "inbox",
@@ -98,7 +104,7 @@ const iconMap = {
 };
 
 const SideBar = (state, context) => {
-  const { getFolder, setFolder } = context.route;
+  const { getFolder, navigate } = context.route;
   const { dispatch, Type: T } = context.store;
   const { getSelected, setSelected } = context.selection;
   const { getEditing, createDraft, open } = context.editor;
@@ -125,13 +131,13 @@ const SideBar = (state, context) => {
 
     return (
       // use transform
-      div(
-        (className = menu(collapsed && !state.hovered)),
+      Menu(
+        (collapsed = collapsed && !state.hovered),
         (onmouseenter = () => (state.hovered = true)),
         (onmouseleave = () => (state.hovered = false)),
         [
-          button(
-            (className = button(collapsed && !state.hovered)),
+          Button(
+            (collapsed = collapsed && !state.hovered),
             (onclick = () => {
               if (!editing) {
                 createDraft();
@@ -139,35 +145,29 @@ const SideBar = (state, context) => {
               }
             }),
             [
-              img((className = icon()), (src = createIcon)),
-              !collapsed || state.hovered
-                ? span((className = buttonText()), "Compose")
-                : null,
+              ButtonIcon((src = createIcon)),
+              !collapsed || state.hovered ? ButtonText("Compose") : null,
             ]
           ),
           ...["inbox", "sent", "drafts"].map((folder) =>
-            div(
-              (className = menuItem({
-                collapsed: collapsed && !state.hovered,
-                activated: getFolder() === folder,
-              })),
-              (onclick = () => setFolder(folder)),
+            MenuItem(
+              (collapsed = collapsed && !state.hovered),
+              (activated = getFolder() === folder),
+              (onclick = () => navigate("/" + folder)),
               [
-                i((className = `fas fa-${iconMap[folder]} ${fixedWidth()}`)),
+                MenuIcon((className = `fas fa-${iconMap[folder]}`)),
                 !collapsed || state.hovered ? span(folder) : null,
               ]
             )
           ),
-          div(
-            (className = menuItem({
-              collapsed: collapsed && !state.hovered,
-              activated: getFolder() === "trash",
-            })),
+          MenuItem(
+            (collapsed = collapsed && !state.hovered),
+            (activated = getFolder() === "trash"),
             (style = {
               background: state.dropZoneActive ? "var(--theme)" : "",
               color: state.dropZoneActive ? "white" : "",
             }),
-            (onclick = () => setFolder("trash")),
+            (onclick = () => navigate("/trash")),
             (ondragenter = (e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -177,7 +177,7 @@ const SideBar = (state, context) => {
               e.preventDefault();
               e.stopPropagation();
             }),
-            (ongragleave = () => {
+            (ondragleave = () => {
               state.dropZoneActive = false;
             }),
             (ondrop = () => {
@@ -185,7 +185,7 @@ const SideBar = (state, context) => {
               state.dropZoneActive = false;
             }),
             [
-              i((className = `fas fa-trash ${fixedWidth()}`)),
+              MenuIcon((className = "fas fa-trash")),
               !collapsed || state.hovered ? span("trash") : null,
             ]
           ),

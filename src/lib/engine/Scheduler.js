@@ -1,7 +1,10 @@
+import Heap from "heap";
 import runner from "./Runner";
 
 var currentTask = null;
-var pendingTasks = [];
+var pendingTasks = new Heap(function priority(a, b) {
+  return a.sender.__depth__ - b.sender.__depth__;
+});
 
 function requestRender(renderTask) {
   if (currentTask) {
@@ -13,14 +16,18 @@ function requestRender(renderTask) {
 }
 
 function doWork(deadline) {
-  while (deadline.timeRemaining() > 5) {
-    const { done } = currentTask.next();
-    if (done) {
-      window.requestAnimationFrame(commitUpdate);
-      return;
+  try {
+    while (deadline.timeRemaining()) {
+      const { done } = currentTask.next();
+      if (done) {
+        window.requestAnimationFrame(commitUpdate);
+        return;
+      }
     }
+    window.requestIdleCallback(doWork);
+  } catch (e) {
+    console.log(e.stack);
   }
-  window.requestIdleCallback(doWork);
 }
 
 function commitUpdate() {
@@ -28,11 +35,18 @@ function commitUpdate() {
   currentTask = null;
 
   // Find next task that is not canceled
-  while (pendingTasks.length > 0) {
-    const next = pendingTasks.shift();
-    if (next.canceled) continue;
-    currentTask = next;
-    return window.requestIdleCallback(doWork);
+  while (!pendingTasks.empty()) {
+    const next = pendingTasks.pop();
+    if (
+      next &&
+      !next.canceled &&
+      next.sender.__$first__ &&
+      next.sender.__$first__.isConnected // Make sure the component has not been unmounted
+    ) {
+      currentTask = next;
+      window.requestIdleCallback(doWork);
+      break;
+    }
   }
 }
 

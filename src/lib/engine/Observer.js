@@ -1,4 +1,4 @@
-import { update, render } from "./DOMRenderer";
+import { update } from "./DOMRenderer";
 
 var renderingComponent;
 function setRenderingComponent(comp) {
@@ -18,9 +18,19 @@ class State extends EventTarget {
   }
 }
 
+var dirty = false;
+var updateQueue = new Set();
+
+function flushUpdateQueue() {
+  for (let component of updateQueue) {
+    update(component);
+  }
+  updateQueue.clear();
+  dirty = false;
+}
+
 function observe(component, state, context) {
   observeState: {
-    let stateChangeCounter = 0;
     for (let [key, value] of Object.entries(state)) {
       const fieldName = `__${key}__`;
       state[fieldName] = value;
@@ -30,14 +40,11 @@ function observe(component, state, context) {
         },
         set(newValue) {
           state[fieldName] = newValue;
-          stateChangeCounter++;
-          /* Batch updates */
-          if (stateChangeCounter === 1) {
-            window.queueMicrotask(() => {
-              stateChangeCounter = 0;
-              component.__dirty__ = true;
-              update(component, key);
-            });
+          component.__dirty__ = true;
+          updateQueue.add(component);
+          if (!dirty) {
+            dirty = true;
+            window.queueMicrotask(flushUpdateQueue);
           }
         },
       });
@@ -69,23 +76,20 @@ function observe(component, state, context) {
         },
         set(newValue) {
           value = newValue;
-          stateChangeCounter++;
-          /* Batch updates */
-          if (stateChangeCounter === 1) {
-            window.queueMicrotask(() => {
-              stateChangeCounter = 0;
-              for (let observer of observers) {
-                observer.__dirty__ = true;
-                update(observer, key);
-              }
-            });
+          for (let observer of observers) {
+            observer.__dirty__ = true;
+            updateQueue.add(observer);
+          }
+          if (!dirty) {
+            dirty = true;
+            window.queueMicrotask(flushUpdateQueue);
           }
         },
       });
     });
   }
 
-  state.notify("init");
+  // state.notify("init");
 }
 
 export { State, observe, setRenderingComponent };

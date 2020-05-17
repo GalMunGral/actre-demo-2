@@ -1,8 +1,10 @@
-import { v4 as uuidv4 } from "uuid";
+import uid from "uid";
+import htmlTags from "html-tags";
 
-const cache = new Map();
-const subruleCache = new Set();
-var styleSheet = null;
+var classCache = new Map();
+var ruleCache = new Set();
+document.head.append(document.createElement("style"));
+var styleSheet = document.styleSheets[document.styleSheets.length - 1];
 
 const compileCSS = (segments, ...fns) => (props) => {
   const computed = [segments[0]];
@@ -13,40 +15,50 @@ const compileCSS = (segments, ...fns) => (props) => {
   return computed.join("");
 };
 
-const css = (...args) => {
-  const subrules = [];
-  const generateClass = (props) => {
-    const styleDeclaration = compileCSS(...args)(props);
+const styled = (component) => (...args) => {
+  const declarations = compileCSS(...args);
+  const rules = [];
 
-    if (!cache.has(styleDeclaration)) {
-      const className = "s-" + uuidv4();
-      if (!styleSheet) {
-        document.head.append(document.createElement("style"));
-        styleSheet = document.styleSheets[document.styleSheets.length - 1];
-      }
-      styleSheet.insertRule(`.${className} { ${styleDeclaration} }`);
-      cache.set(styleDeclaration, className);
+  const StyleWrapper = () => (props, children) => {
+    const computedDeclarations = declarations(props);
+
+    let className;
+    if (!classCache.has(computedDeclarations)) {
+      className = "s-" + uid();
+      styleSheet.insertRule("." + className + "{" + computedDeclarations + "}");
+      classCache.set(computedDeclarations, className);
+    } else {
+      className = classCache.get(computedDeclarations);
     }
 
-    const className = cache.get(styleDeclaration);
-
-    for (let rule of subrules) {
-      rule = "." + className + rule(props);
-      if (!subruleCache.has(rule)) {
-        styleSheet.insertRule(rule);
-        subruleCache.add(rule);
+    rules.forEach((rule) => {
+      const computedRule = "." + className + rule(props);
+      if (!ruleCache.has(computedRule)) {
+        styleSheet.insertRule(computedRule);
+        ruleCache.add(computedRule);
       }
-    }
+    });
 
-    return className;
+    return [
+      [
+        component,
+        {
+          ...props,
+          className: className + (props.className ? " " + props.className : ""),
+        },
+        children,
+      ],
+    ];
   };
 
-  generateClass.and = (...args) => {
-    subrules.push(compileCSS(...args));
-    return generateClass;
+  StyleWrapper.and = function attachRules(...args) {
+    rules.push(compileCSS(...args));
+    return this;
   };
 
-  return generateClass;
+  return StyleWrapper;
 };
 
-export default css;
+htmlTags.forEach((tag) => (styled[tag] = styled(tag)));
+
+export default styled;

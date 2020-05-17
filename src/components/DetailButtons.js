@@ -2,11 +2,12 @@ import IconButton from "./IconButton";
 
 const DetailButtons = (_, context) => () => {
   const { dispatch, Type: T } = context.store;
-  const { getFolder, getMailId, setMailId } = context.route;
+  const { getFolder, getMailId, navigate } = context.route;
   const folder = getFolder();
   const mailId = getMailId();
 
-  const goBack = () => setMailId(null);
+  const goBack = () => window.history.back();
+
   const deleteMail = () => {
     goBack();
     dispatch((d) => {

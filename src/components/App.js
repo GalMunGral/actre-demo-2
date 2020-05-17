@@ -7,10 +7,10 @@ import AppBar from "./AppBar";
 import Mailbox from "./Mailbox";
 import SideBar from "./SideBar";
 import NewMessage from "./NewMessage";
-import css from "../lib/css";
+import styled from "../lib/css";
 import Detail from "./Detail";
 
-const container = css`
+const Container = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -27,7 +27,7 @@ const App = (state, context) => {
   context.editor = useEditor(context, context.store);
   context.route = useRoute(context);
   context.selection = useSelection(context);
-  context.pagination = usePagination(context, 20, {
+  context.pagination = usePagination(context, 50, {
     store: context.store,
     route: context.route,
     selection: context.selection,
@@ -36,21 +36,18 @@ const App = (state, context) => {
   state.collapsed = false;
 
   return () => {
-    const folder = context.route.getFolder();
     const mailId = context.route.getMailId();
     const editing = context.editor.getEditing();
 
-    document.title = folder;
-
     return (
       // use transform
-      div((className = container()), [
+      Container([
         AppBar((toggle = () => (state.collapsed = !state.collapsed))),
         SideBar(
           (collapsed = state.collapsed),
           (setCollapse = (v) => state.setCollapse(v))
         ),
-        mailId ? Detail() : Mailbox(),
+        mailId ? Detail((mailId = mailId)) : Mailbox(),
         editing ? NewMessage() : null,
       ])
     );

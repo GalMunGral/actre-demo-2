@@ -10,13 +10,13 @@ import {
   moveComponent,
 } from "./Component";
 
-function* instantiateComponent(element, context) {
+function* instantiateComponent(element, context, depth) {
   const [type, props, children] = element;
   let component;
 
   if (typeof type === "function") {
     const state = new State();
-    context = Object.create(context, { __provider__: { value: type } });
+    context = Object.create(context, { component: { value: type } });
     component = type(state, context);
     observe(component, state, context);
     component.__state__ = state;
@@ -30,13 +30,15 @@ function* instantiateComponent(element, context) {
   component.__key__ = props.key;
   component.__context__ = context;
   component.__cache__ = [];
+  component.__depth__ = depth;
 
-  yield* renderComponent(component, props, children, context);
+  yield* renderComponent(component, props, children, context, depth);
 
   return component;
 }
 
-function* renderComponent(component, props, children, context) {
+function* renderComponent(component, props, children, context, depth) {
+  // console.group(component.__type__.name || component.__type__, depth);
   const isFirstRender =
     !component.__memoized_props__ && !component.__memoized_children__;
 
@@ -46,6 +48,7 @@ function* renderComponent(component, props, children, context) {
     !component.__dirty__
   ) {
     // !!! Can't set cursor in this function because this might exit early !!!
+    // console.groupEnd();
     return;
   }
 
@@ -71,7 +74,9 @@ function* renderComponent(component, props, children, context) {
     yield; // Exit before moving on to child components
 
     runner.schedule(() => runner.pushCursor((cursor) => cursor));
-    yield* reconcileChildren(component, rendered, context);
+
+    yield* reconcileChildren(component, rendered, context, depth);
+
     runner.schedule((cursor) => (component.__$last__ = cursor));
     runner.schedule(() => runner.popCursor());
 
@@ -89,8 +94,8 @@ function* renderComponent(component, props, children, context) {
         if (isComposite(child)) {
           runner.schedule(() => child.__state__.notify("beforeunmount"));
         }
-        destroyComponent(comp);
-        runner.schedule(unmountComponent(comp));
+        destroyComponent(child);
+        runner.schedule(unmountComponent(child));
       }
       runner.schedule(() => {
         component.__$node__.textContent = String(children);
@@ -101,14 +106,17 @@ function* renderComponent(component, props, children, context) {
       runner.schedule(() =>
         runner.pushCursor(() => component.__$first_child__)
       );
-      yield* reconcileChildren(component, children, context);
+
+      yield* reconcileChildren(component, children, context, depth);
+
       runner.schedule(() => runner.popCursor());
     }
     // runner.schedule(() => runner.setCursor(() => component.__$node__));
   }
+  // console.groupEnd();
 }
 
-function* reconcileChildren(component, elements, context) {
+function* reconcileChildren(component, elements, context, depth) {
   if (component.__cache__.length === 0 && component.__cache__.isText) {
     if (isComposite(component))
       throw "A composite component must not render to text!";
@@ -151,9 +159,15 @@ function* reconcileChildren(component, elements, context) {
           runner.setCursor(() => comp.__$node__.previousSibling)
         );
       }
-      yield* renderComponent(comp, props, children, comp.__context__);
+      yield* renderComponent(
+        comp,
+        props,
+        children,
+        comp.__context__,
+        depth + 1
+      );
     } else {
-      comp = yield* instantiateComponent(element, context);
+      comp = yield* instantiateComponent(element, context, depth + 1);
     }
     // !!! Bug fix: let parent advance cursor !!!
     if (isComposite(comp)) {
@@ -192,7 +206,6 @@ function destroyComponent(component) {
 }
 
 function render(element, container, context) {
-  console.debug("render");
   element = normalize(element);
   container.innerHTML = "";
   container.append(new Comment());
@@ -200,12 +213,12 @@ function render(element, container, context) {
     (function* () {
       runner.schedule(() => runner.setCursor(() => container.firstChild));
 
-      yield* instantiateComponent(element, context);
+      yield* instantiateComponent(element, context, 0);
     })()
   );
 }
 
-function update(component, reason = "") {
+function update(component) {
   const renderTask = (function* () {
     runner.schedule(() => {
       if (!isComposite(component))
@@ -217,14 +230,13 @@ function update(component, reason = "") {
       component,
       component.__memoized_props__,
       component.__memoized_children__,
-      component.__context__
+      component.__context__,
+      component.__depth__
     );
   })();
 
   renderTask.canceled = false;
-  renderTask.name = component.__type__.name;
-  renderTask.node = component.__$first__;
-  renderTask.reason == reason;
+  renderTask.sender = component;
   component.__requests__.push(renderTask);
 
   requestRender(renderTask);

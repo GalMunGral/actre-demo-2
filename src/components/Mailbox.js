@@ -2,9 +2,9 @@ import Tab from "./Tab";
 import Mails from "./Mails";
 import Layout from "./Layout";
 import MailboxButtons from "./MailboxButtons";
-import css from "../lib/css";
+import styled from "../lib/css";
 
-const tabs = css`
+const Container = styled.div`
   flex: 0 0 50px;
   display: flex;
   justify-content: start;
@@ -24,10 +24,9 @@ const Mailbox = (_, context) => {
       // use transform
       Layout([
         MailboxButtons(),
-        div([
+        section([
           folder === "inbox"
-            ? div(
-                (className = tabs()),
+            ? Container(
                 ["primary", "social", "promotions"].map((tab) =>
                   Tab(
                     (key = tab),

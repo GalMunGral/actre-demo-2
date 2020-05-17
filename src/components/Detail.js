@@ -1,41 +1,45 @@
-import css from "../lib/css";
+import styled from "../lib/css";
 import Layout from "./Layout";
 import DetailButtons from "./DetailButtons";
 
-const main = css`
+const Main = styled.main`
   margin: 0 50px;
 `;
 
-const header = css`
+const Header = styled.section`
   font-weight: 600;
   font-size: 1.8rem;
   margin: 20px 0;
   text-transform: capitalize;
 `;
 
-const senderInfo = css`
+const SenderInfo = styled.div`
   margin: 0;
   font-weight: bold;
   font-size: 0.9rem;
 `;
-const recipientInfo = css`
+const RecipientInfo = styled.div`
   margin: 0;
   color: gray;
   font-size: 0.8rem;
 `;
 
-const body = css`
+const Body = styled.section`
   margin: 20px 0;
   text-align: justify;
 `;
 
-const Detail = (__, context) => () => {
-  const { getFolder, getMailId } = context.route;
+const Detail = (state, context) => ({ mailId }) => {
+  const { getFolder, redirect } = context.route;
   const { getState } = context.store;
   const folder = getFolder();
-  const mailId = getMailId();
   const allMails = getState();
   const mail = allMails[folder].find((item) => item.id === mailId);
+
+  if (!mail) {
+    redirect("/" + folder);
+    return /* use transform */ p("Redirecting...");
+  }
 
   const {
     subject,
@@ -46,25 +50,27 @@ const Detail = (__, context) => () => {
     content,
   } = mail;
 
+  state.on("willunmount", () => {
+    console.log("Detail page will be unmounted");
+  });
+
   return (
     // use transform
     Layout([
       DetailButtons(),
-      section((className = main()), [
-        header((className = header()), subject),
-        section(
-          (className = senderInfo()),
+      Main([
+        Header(subject),
+        SenderInfo(
           (innerHTML = `${senderName || "(no name)"}&nbsp;&lt;${
             senderEmail || "(no email)"
           }&gt;`)
         ),
-        section(
-          (className = recipientInfo()),
+        RecipientInfo(
           (innerHTML = `To: ${recipientName || "(no name)"}&nbsp;&lt;${
             recipientEmail || "(no email)"
           }&gt;`)
         ),
-        section((className = body()), content),
+        Body(content),
       ]),
     ])
   );

@@ -5,6 +5,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, "public"),
     filename: "main.js",
+    publicPath: "/",
   },
   module: {
     rules: [
@@ -62,6 +63,7 @@ module.exports = {
   devtool: "source-map",
   devServer: {
     contentBase: path.join(__dirname, "public"),
+    historyApiFallback: true,
     proxy: {
       "/api": "http://localhost:8081",
     },

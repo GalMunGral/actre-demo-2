@@ -1,4 +1,4 @@
-import css from "../lib/css";
+import styled from "../lib/css";
 
 const colorMap = {
   primary: "#f44336",
@@ -12,11 +12,11 @@ const iconMap = {
   promotions: "tag",
 };
 
-const icon = css`
+const Icon = styled.i`
   margin: 0 20px;
 `;
 
-const tab = css`
+const Box = styled.div`
   --height: 55px;
   display: inline-block;
   position: relative;
@@ -49,8 +49,8 @@ const tab = css`
 const Tab = () => ({ name, key, onclick, active }) => {
   return (
     // use transform
-    div((className = tab({ active, name })), (key = key), (onclick = onclick), [
-      i((className = `fas fa-${iconMap[name]} ${icon()}`)),
+    Box((active = active), (name = name), (key = key), (onclick = onclick), [
+      Icon((className = `fas fa-${iconMap[name]}`)),
       p(name),
     ])
   );

@@ -7,7 +7,6 @@ const subject = Symbol("subject");
 const editing = Symbol("editing");
 
 const useEditor = (state, store) => {
-  console.log("called");
   const { dispatch, Type: T } = store;
   const {
     undo,

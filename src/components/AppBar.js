@@ -1,7 +1,7 @@
 import logoUrl from "../assets/logo.png";
-import css from "../lib/css";
+import styled from "../lib/css";
 
-const bar = css`
+const Bar = styled.div`
   grid-area: a;
   padding: 2px 10px;
   width: 100%;
@@ -12,7 +12,7 @@ const bar = css`
   border-bottom: 1px solid var(--light-gray);
 `;
 
-const button = css`
+const Button = styled.button`
   --size: 48px;
   border: none;
   width: var(--size);
@@ -27,7 +27,7 @@ const button = css`
   }
 `;
 
-const group = css`
+const Group = styled.div`
   flex: 0 0 auto;
   min-width: 200px;
   height: 100%;
@@ -35,16 +35,16 @@ const group = css`
   align-items: center;
 `;
 
-const logo = css`
+const Logo = styled.img`
   height: 40px;
 `;
 
-const icon = css`
+const Icon = styled.i`
   font-size: 1rem;
   color: var(--dark-gray);
 `;
 
-const input = css`
+const Input = styled.input`
   height: 100%;
   width: 100%;
   border: none;
@@ -54,7 +54,7 @@ const input = css`
   font-size: 1rem;
 `;
 
-const searchBar = css`
+const SearchBar = styled.div`
   width: 50vw;
   height: calc(100% - 20px);
   padding: 5px;
@@ -69,7 +69,7 @@ const searchBar = css`
   }
 `;
 
-const searchIcon = css`
+const SearchIcon = styled.i`
   font-size: 1rem;
   color: var(--dark-gray);
   margin: 20px;
@@ -77,18 +77,16 @@ const searchIcon = css`
 
 const AppBar = () => ({ toggle }) =>
   // use transform
-  div((className = bar()), [
-    section((className = group()), [
-      button((className = button()), (onclick = toggle), [
-        i((className = `fas fa-bars ${icon()}`)),
-      ]),
-      img((className = logo()), (src = logoUrl), (alt = "logo")),
+  Bar([
+    Group([
+      Button((onclick = toggle), [Icon((className = "fas fa-bars"))]),
+      Logo((src = logoUrl), (alt = "logo")),
     ]),
-    section((className = searchBar()), [
-      div((className = `fas fa-search ${searchIcon()}`)),
-      input((className = input()), (placeholder = "Search mail")),
+    SearchBar([
+      SearchIcon((className = "fas fa-search")),
+      Input((placeholder = "Search mail")),
     ]),
-    div((className = group())),
+    Group(),
   ]);
 
 export default AppBar;

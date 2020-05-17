@@ -1,6 +1,6 @@
-import css from "../lib/css";
+import styled from "../lib/css";
 
-const background = css`
+const Background = styled.div`
   --border-size: 2px;
   margin: 0;
   position: absolute;
@@ -9,16 +9,16 @@ const background = css`
   left: calc(0px - var(--border-size));
   top: calc(0px - var(--border-size));
   border: var(--border-size) solid
-    ${(checked) => (checked ? "gray" : "var(--gray)")};
-  background: ${(checked) => (checked ? "gray" : "white")};
+    ${({ checked }) => (checked ? "gray" : "var(--gray)")};
+  background: ${({ checked }) => (checked ? "gray" : "white")};
   border-radius: 3px;
   pointer-events: none;
-  transform: scale(${(checked) => (checked ? 2 : 1)});
-  opacity: ${(checked) => (checked ? 0 : 1)};
-  transition: all ${(checked) => (checked ? "0.2s" : 0)};
+  transform: scale(${({ checked }) => (checked ? 2 : 1)});
+  opacity: ${({ checked }) => (checked ? 0 : 1)};
+  transition: all ${({ checked }) => (checked ? "0.2s" : 0)};
 `;
 
-const checkmark = css`
+const CheckMark = styled.div`
   --border-size: 2px;
   margin: 0;
   position: absolute;
@@ -30,17 +30,17 @@ const checkmark = css`
   left: calc(0px - var(--border-size));
   top: calc(0px - var(--border-size));
   border: var(--border-size) solid
-    ${(checked) => (checked ? "gray" : "var(--light-gray)")};
-  background: ${(checked) => (checked ? "gray" : "white")};
+    ${({ checked }) => (checked ? "gray" : "var(--light-gray)")};
+  background: ${({ checked }) => (checked ? "gray" : "white")};
   border-radius: 3px;
   pointer-events: none;
   color: var(--light-gray);
   font-size: 0.8rem;
-  transform: scale(${(checked) => (checked ? 1 : 0)});
+  transform: scale(${({ checked }) => (checked ? 1 : 0)});
   transition: transform 0.2s;
 `;
 
-const checkbox = css`
+const Clickable = styled.div`
   --size: 40px;
   display: flex;
   justify-content: center;
@@ -49,7 +49,7 @@ const checkbox = css`
   height: var(--size);
   border-radius: calc(0.5 * var(--size));
 `.and`:hover {
-  background: ${(checked) => (checked ? "none" : "var(--light-gray)")};
+  background: ${({ checked }) => (checked ? "none" : "var(--light-gray)")};
 }`.and` > div {
   flex: 0 0 auto;
   position: relative;
@@ -69,17 +69,18 @@ const checkbox = css`
 
 const Checkbox = () => ({ checked, onchange }) =>
   // use transform
-  div(
-    (className = checkbox()),
+  Clickable(
     (onmousedown = (e) => e.stopPropagation()),
     (onmouseup = (e) => e.stopPropagation()),
+    (onclick = onchange),
     [
       div([
-        input((type = "checkbox"), (checked = checked), (onchange = onchange)),
-        div((className = background(checked))),
-        div((className = checkmark(checked)), [
-          i((className = "fas fa-check")),
-        ]),
+        Background((checked = checked)),
+        CheckMark((checked = checked), [i((className = "fas fa-check"))]),
+        input(
+          (type = "checkbox"),
+          (checked = checked) /* (onchange = onchange) */
+        ),
       ]),
     ]
   );

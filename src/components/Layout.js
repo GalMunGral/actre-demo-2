@@ -1,12 +1,12 @@
-import css from "../lib/css";
+import styled from "../lib/css";
 
-const container = css`
+const Container = styled.div`
   grid-area: c;
   height: 100%;
   display: flex;
   flex-direction: column;
 `;
-const toolbar = css`
+const Toolbar = styled.div`
   flex: 0 0 50px;
   border-bottom: 1px solid var(--light-gray);
   display: flex;
@@ -16,7 +16,7 @@ const toolbar = css`
   padding-right: 30px;
 `;
 
-const scrollable = css`
+const Scrollable = styled.div`
   flex: 1 1 auto;
   overflow-y: auto;
   padding-bottom: 80px;
@@ -29,10 +29,7 @@ const scrollable = css`
 const Layout = () => (_, [buttons, body]) => {
   return (
     // use transform
-    div((className = container()), [
-      div((className = toolbar()), [buttons]),
-      div((className = scrollable()), [body]),
-    ])
+    Container([Toolbar([buttons]), Scrollable([body])])
   );
 };
 

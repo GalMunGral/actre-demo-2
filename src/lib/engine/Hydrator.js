@@ -3,12 +3,12 @@ import { State, observe, setRenderingComponent } from "./Observer";
 import { normalize } from "./Utilities";
 import runner from "./Runner";
 
-function instantiateComponent(element, context) {
+function instantiateComponent(element, context, depth) {
   const [type, props, children] = element;
   let component;
   if (typeof type === "function") {
     const state = new State();
-    context = Object.create(context, { __provider__: { value: type } });
+    context = Object.create(context, { component: { value: type } });
     component = type(state, context);
     observe(component, state, context);
     component.__state__ = state;
@@ -21,11 +21,13 @@ function instantiateComponent(element, context) {
   component.__key__ = props.key;
   component.__context__ = context;
   component.__cache__ = [];
-  renderComponent(component, props, children, context);
+  component.__depth__ = depth;
+
+  renderComponent(component, props, children, context, depth);
   return component;
 }
 
-function renderComponent(component, props, children, context) {
+function renderComponent(component, props, children, context, depth) {
   component.__memoized_props__ = props;
   component.__memoized_children__ = children;
 
@@ -40,7 +42,9 @@ function renderComponent(component, props, children, context) {
     setRenderingComponent(null);
 
     runner.pushCursor((cursor) => cursor);
-    instantiateChildren(component, rendered, context);
+
+    instantiateChildren(component, rendered, context, depth);
+
     component.__$last__ = runner.getCursor();
     runner.popCursor();
     component.__$first__ = runner.getCursor().nextSibling;
@@ -52,21 +56,24 @@ function renderComponent(component, props, children, context) {
 
     if (!Array.isArray(children)) {
       component.__$node__.textContent = String(children);
+      component.__cache__.isText = true;
     } else {
       runner.pushCursor(() => component.__$first_child__);
-      instantiateChildren(component, children, context);
+
+      instantiateChildren(component, children, context, children);
+
       runner.popCursor();
     }
     runner.setCursor(() => component.__$node__);
   }
 }
 
-function instantiateChildren(component, elements, context) {
+function instantiateChildren(component, elements, context, depth) {
   elements
     .filter((e) => e)
     .map(normalize)
     .forEach((e) => {
-      const comp = instantiateComponent(e, context);
+      const comp = instantiateComponent(e, context, depth + 1);
       component.__cache__.push(comp);
     });
 }
@@ -75,7 +82,7 @@ function hydrate(element, container, context) {
   console.debug("hydrate");
   element = normalize(element);
   runner.setCursor(() => container.firstChild);
-  instantiateComponent(element, context);
+  instantiateComponent(element, context), 0;
 }
 
 export { hydrate };

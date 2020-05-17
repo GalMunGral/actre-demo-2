@@ -1,8 +1,8 @@
-import css from "../lib/css";
+import styled from "../lib/css";
 import IconButton from "./IconButton";
 import Space from "./Space";
 
-const window = css`
+const Window = styled.div`
   border: none;
   position: fixed;
   bottom: 0;
@@ -16,7 +16,7 @@ const window = css`
   transition: width 0.2s;
 `;
 
-const header = css`
+const Header = styled.header`
   height: auto;
   padding: 12px 15px;
   line-height: 1rem;
@@ -27,7 +27,7 @@ const header = css`
   cursor: pointer;
 `;
 
-const closeButton = css`
+const CloseButton = styled.button`
   --size: 1rem;
   float: right;
   border: none;
@@ -47,15 +47,15 @@ const closeButton = css`
   transform: scale(1.2);
 }`;
 
-const body = css`
-  height: ${(minimized) => (minimized ? 0 : "60vh")};
-  width: ${(minimized) => (minimized ? "300px" : "40vw")};
+const Body = styled.section`
+  height: ${({ minimized }) => (minimized ? 0 : "60vh")};
+  width: ${({ minimized }) => (minimized ? "300px" : "40vw")};
   display: flex;
   flex-direction: column;
   transition: all 0.2s;
 `;
 
-const input = css`
+const InputBox = styled.div`
   line-height: 1rem;
   font-size: 1rem;
   margin: 0 20px;
@@ -74,7 +74,7 @@ const input = css`
   font-family: inherit;
 }`;
 
-const textArea = css`
+const TextArea = styled.textarea`
   --horizontal-margin: 20px;
   flex: 1 1 auto;
   margin: 0 var(--horizontal-margin);
@@ -87,14 +87,14 @@ const textArea = css`
   font-family: inherit;
 `;
 
-const buttonGroup = css`
+const ButtonGroup = styled.div`
   margin: 15px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 `;
 
-const sendButton = css`
+const SendButton = styled.button`
   line-height: 1rem;
   font-size: 1rem;
   padding: 10px 22px;
@@ -118,7 +118,7 @@ const Input = (state) => {
   return ({ label, value, setValue, placeholder }) => {
     return (
       // use transform
-      div((className = input()), [
+      InputBox([
         state.focused || value ? label(label) : null,
         input(
           (key = "input"), // If key is not specified, input will get recreated every time because its index changes 1 -> 0 -> 1
@@ -153,23 +153,18 @@ const NewMessage = (state, context) => {
   return () => {
     return (
       // use transform
-      div((className = window()), [
-        header(
-          (className = header()),
-          (onclick = () => (state.minimized = !state.minimized)),
-          [
-            span("New Message"),
-            button(
-              (className = closeButton()),
-              (onclick = () => {
-                saveDraft();
-                close();
-              }),
-              [i((className = "fas fa-times"))]
-            ),
-          ]
-        ),
-        section((className = body(state.minimized)), [
+      Window([
+        Header((onclick = () => (state.minimized = !state.minimized)), [
+          span("New Message"),
+          CloseButton(
+            (onclick = () => {
+              saveDraft();
+              close();
+            }),
+            [i((className = "fas fa-times"))]
+          ),
+        ]),
+        Body((minimized = state.minimized), [
           Input(
             (label = "To:"),
             (placeholder = "Recipient"),
@@ -182,14 +177,9 @@ const NewMessage = (state, context) => {
             (value = getSubject()),
             (setValue = setSubject)
           ),
-          textarea(
-            (className = textArea()),
-            (value = getContent()),
-            (oninput = updateHistory)
-          ),
-          section((className = buttonGroup()), [
-            button(
-              (className = sendButton()),
+          TextArea((value = getContent()), (oninput = updateHistory)),
+          ButtonGroup([
+            SendButton(
               (onclick = (e) => {
                 send();
                 close();

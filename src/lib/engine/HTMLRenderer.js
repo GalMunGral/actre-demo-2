@@ -37,7 +37,7 @@ function renderHTMLToBuffer(element, buffer, context) {
 function renderToBuffer(element, buffer, context) {
   let [type, props, children] = element;
   if (typeof type === "function") {
-    context = Object.create(context, { __provider__: { value: type } });
+    context = Object.create(context, { component: { value: type } });
     const state = { on: () => {} };
     const component = type(state, context);
     const childElements = component(props, children); // Render

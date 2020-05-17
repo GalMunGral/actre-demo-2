@@ -1,14 +1,14 @@
 import Checkbox from "./Checkbox";
 import IconButton from "./IconButton";
 import Space from "./Space";
-import css from "../lib/css";
+import styled from "../lib/css";
 
-const progress = css`
+const Progress = styled.div`
   flex: 0 0 200px;
   text-align: end;
 `;
 
-const text = css`
+const Text = styled.span`
   font-size: 0.9rem;
   color: gray;
   margin: 0 20px;
@@ -38,9 +38,8 @@ const MailboxButtons = (_, context) => () => {
         ? Checkbox((checked = allSelected()), (onchange = toggleAll))
         : null,
       Space(),
-      div((className = progress()), [
-        span(
-          (className = text()),
+      Progress([
+        Text(
           (innerHTML = `${start}&ndash;${Math.min(end, total)} of ${total}`)
         ),
       ]),

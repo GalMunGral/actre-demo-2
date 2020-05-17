@@ -1,63 +1,37 @@
 import Item from "./Item";
-import css from "../lib/css";
+import DragImage from "./DragImage";
 
-const dragImage = css`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 220px;
-  height: 60px;
-  line-height: 60px;
-  text-align: center;
-  color: white;
-  font-weight: bold;
-  background: var(--blue);
-  border-radius: 5px;
-  box-shadow: 0 1px 15px 0 gray;
-  pointer-events: none;
-`;
+const x = Symbol("x");
+const y = Symbol("y");
+const dragging = Symbol("dragging");
 
-const icon = css`
-  margin-right: 15px;
-`;
-
-const Mails = (state, context) => {
-  const { getSelected } = context.selection;
-  state.dragging = false;
-  state.x = 0;
-  state.y = 0;
+const Mails = (_, context) => {
+  context[dragging] = false;
+  context[x] = 0;
+  context[y] = 0;
+  context.getDragState = () => [context[dragging], context[x], context[y]];
 
   return ({ mails }) => {
-    const selected = getSelected();
+    const selected = context.selection.getSelected();
+
     return (
       // use transform
       [
-        ...mails.map((mail) =>
+        ...mails.map((mail, i) =>
           Item(
-            (key = mail.id),
+            (key = i), // Reuse these
             (item = mail),
-            (setCoordinates = (x, y) => {
-              state.x = x;
-              state.y = y;
+            (selected = selected.includes(mail.id)),
+            (setCoordinates = (newX, newY) => {
+              context[x] = newX;
+              context[y] = newY;
             }),
-            (setDragging = (v) => (state.dragging = v))
+            (setDragging = (v) => {
+              context[dragging] = v;
+            })
           )
         ),
-        div(
-          (className = dragImage()),
-          (style = {
-            visibility: state.dragging ? "visible" : "hidden",
-            transform: `translate3d(${state.x}px, ${state.y}px, 0)`,
-          }),
-          [
-            i((className = `fas fa-mail-bulk ${icon()}`)),
-            span(
-              `Move ${selected.length} ${
-                selected.length > 1 ? "items" : "item"
-              }`
-            ),
-          ]
-        ),
+        DragImage(),
       ]
     );
   };

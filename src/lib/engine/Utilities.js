@@ -1,21 +1,5 @@
-const voidElements = new Set([
-  "area",
-  "base",
-  "br",
-  "col",
-  "command",
-  "embed",
-  "hr",
-  "img",
-  "input",
-  "keygen",
-  "link",
-  "meta",
-  "param",
-  "source",
-  "track",
-  "wbr",
-]);
+import _voidElements from "html-tags/void";
+const voidElements = new Set(_voidElements);
 
 function isVoidElement(tag) {
   return voidElements.has(tag);

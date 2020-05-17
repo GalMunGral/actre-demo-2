@@ -1,6 +1,6 @@
-import css from "../lib/css";
+import styled from "../lib/css";
 
-const button = css`
+const Button = styled.button`
   --size: 40px;
   border: none;
   outline: none;
@@ -21,14 +21,17 @@ const button = css`
   background: var(--gray);
 }`;
 
-const icon = css`
+const Icon = styled.i`
   color: gray;
 `;
 
 const IconButton = () => ({ type, onclick }) =>
   // use transform
-  button((className = button()), (onclick = onclick), [
-    i((className = `fas fa-${type} ${icon()}`)),
-  ]);
+  Button(
+    (onclick = onclick),
+    (onmousedown = (e) => e.stopPropagation()),
+    (onmouseup = (e) => e.stopPropagation()),
+    [Icon((className = `fas fa-${type}`))]
+  );
 
 export default IconButton;
