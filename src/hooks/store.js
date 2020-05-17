@@ -1,7 +1,7 @@
-import data from "../MOCK_DATA.json";
 import useReducer from "./reducer";
 
 const Type = {
+  LOAD: "LOAD",
   DELETE: "DELETE",
   SAVE_DRAFT: "SAVE_DRAFT",
   SEND: "SEND",
@@ -9,7 +9,7 @@ const Type = {
 };
 
 const initialState = {
-  inbox: data,
+  inbox: [],
   sent: [],
   drafts: [],
   trash: [],
@@ -17,6 +17,13 @@ const initialState = {
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case Type.LOAD: {
+      const { folder, data } = action.payload;
+      return {
+        ...state,
+        [folder]: [...state[folder], ...data],
+      };
+    }
     case Type.DELETE: {
       const { id, folder } = action.payload;
       return {
@@ -59,6 +66,17 @@ const reducer = (state, action) => {
 
 const useStore = (state) => {
   const { getState, dispatch } = useReducer(state, reducer, initialState);
+  fetch("/data.json")
+    .then((res) => res.json())
+    .then((data) => {
+      dispatch({
+        type: Type.LOAD,
+        payload: {
+          folder: "inbox",
+          data,
+        },
+      });
+    });
   return { getState, dispatch, Type };
 };
 

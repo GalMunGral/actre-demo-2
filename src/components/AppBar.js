@@ -1,4 +1,3 @@
-import logoUrl from "../assets/logo.png";
 import styled from "../lib/css";
 
 const Bar = styled.div`
@@ -80,7 +79,7 @@ const AppBar = () => ({ toggle }) =>
   Bar([
     Group([
       Button((onclick = toggle), [Icon((className = "fas fa-bars"))]),
-      Logo((src = logoUrl), (alt = "logo")),
+      Logo((src = "/assets/logo.png"), (alt = "logo")),
     ]),
     SearchBar([
       SearchIcon((className = "fas fa-search")),

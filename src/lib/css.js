@@ -1,10 +1,10 @@
 import uid from "uid";
 import htmlTags from "html-tags";
 
-var classCache = new Map();
-var ruleCache = new Set();
-document.head.append(document.createElement("style"));
-var styleSheet = document.styleSheets[document.styleSheets.length - 1];
+const classCache = new Map();
+const ruleCache = new Set();
+const styleEl = document.createElement("style");
+document.body.append(styleEl);
 
 const compileCSS = (segments, ...fns) => (props) => {
   const computed = [segments[0]];
@@ -19,37 +19,45 @@ const styled = (component) => (...args) => {
   const declarations = compileCSS(...args);
   const rules = [];
 
-  const StyleWrapper = () => (props, children) => {
-    const computedDeclarations = declarations(props);
+  const StyleWrapper = () =>
+    function* (props, children) {
+      const computedDeclarations = declarations(props);
 
-    let className;
-    if (!classCache.has(computedDeclarations)) {
-      className = "s-" + uid();
-      styleSheet.insertRule("." + className + "{" + computedDeclarations + "}");
-      classCache.set(computedDeclarations, className);
-    } else {
-      className = classCache.get(computedDeclarations);
-    }
-
-    rules.forEach((rule) => {
-      const computedRule = "." + className + rule(props);
-      if (!ruleCache.has(computedRule)) {
-        styleSheet.insertRule(computedRule);
-        ruleCache.add(computedRule);
+      let className;
+      if (!classCache.has(computedDeclarations)) {
+        className = "s-" + uid();
+        yield () => {
+          styleEl.sheet.insertRule(
+            "." + className + " { " + computedDeclarations + " } "
+          );
+        };
+        classCache.set(computedDeclarations, className);
+      } else {
+        className = classCache.get(computedDeclarations);
       }
-    });
 
-    return [
-      [
-        component,
-        {
-          ...props,
-          className: className + (props.className ? " " + props.className : ""),
-        },
-        children,
-      ],
-    ];
-  };
+      for (let rule of rules) {
+        const computedRule = "." + className + rule(props);
+        if (!ruleCache.has(computedRule)) {
+          yield () => {
+            styleEl.sheet.insertRule(computedRule);
+          };
+          ruleCache.add(computedRule);
+        }
+      }
+
+      return [
+        [
+          component,
+          {
+            ...props,
+            className:
+              className + (props.className ? " " + props.className : ""),
+          },
+          children,
+        ],
+      ];
+    };
 
   StyleWrapper.and = function attachRules(...args) {
     rules.push(compileCSS(...args));

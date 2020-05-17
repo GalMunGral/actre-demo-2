@@ -6,13 +6,13 @@ function getCursor() {
   return cursor;
 }
 
-function setCursor(thunk) {
-  cursor = thunk(cursor);
+function setCursor(node) {
+  cursor = node;
 }
 
-function pushCursor(thunk) {
+function pushCursor(node) {
   stack.push(cursor);
-  cursor = thunk(cursor);
+  cursor = node;
 }
 
 function popCursor() {
@@ -24,17 +24,8 @@ function schedule(operation) {
 }
 
 function commit() {
-  pendingOperations.forEach((op) => {
-    op(cursor);
-  });
+  pendingOperations.forEach((o) => o());
   pendingOperations = [];
 }
 
-export default {
-  getCursor,
-  setCursor,
-  pushCursor,
-  popCursor,
-  schedule,
-  commit,
-};
+export { getCursor, setCursor, pushCursor, popCursor, schedule, commit };

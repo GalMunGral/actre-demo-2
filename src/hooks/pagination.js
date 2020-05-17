@@ -12,7 +12,10 @@ const usePagination = (state, pageSize, { store, route, selection }) => {
   const getTotal = () => {
     const allMails = getAllMails();
     const folder = getFolder();
-    return allMails[folder].length;
+    const tab = getTab();
+    return folder === "inbox" && tab
+      ? allMails[folder].filter((item) => item.category === tab).length
+      : allMails[folder].length;
   };
   const nextPage = () => {
     const total = getTotal();

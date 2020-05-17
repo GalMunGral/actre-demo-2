@@ -51,4 +51,9 @@ function equals(a, b) {
   return true;
 }
 
-export { isVoidElement, toKebabCase, normalize, equals };
+function isGeneratorFunction(obj) {
+  const constructor = obj.constructor;
+  return constructor && constructor.name === "GeneratorFunction";
+}
+
+export { isVoidElement, toKebabCase, normalize, equals, isGeneratorFunction };

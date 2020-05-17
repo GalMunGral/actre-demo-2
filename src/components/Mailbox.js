@@ -13,7 +13,7 @@ const Container = styled.div`
 
 const Mailbox = (_, context) => {
   const { getFolder, getTab, setTab } = context.route;
-  const { getPage } = context.pagination;
+  const { getPage, resetPage } = context.pagination;
 
   return () => {
     const folder = getFolder();
@@ -31,7 +31,10 @@ const Mailbox = (_, context) => {
                   Tab(
                     (key = tab),
                     (name = tab),
-                    (onclick = () => setTab(tab)),
+                    (onclick = () => {
+                      setTab(tab);
+                      resetPage();
+                    }),
                     (active = tab === currentTab)
                   )
                 )

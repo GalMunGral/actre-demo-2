@@ -1,7 +1,7 @@
 import { DOMComponent, isComposite } from "./Component";
 import { State, observe, setRenderingComponent } from "./Observer";
 import { normalize } from "./Utilities";
-import runner from "./Runner";
+import { getCursor, setCursor, pushCursor, popCursor } from "./Runner";
 
 function instantiateComponent(element, context, depth) {
   const [type, props, children] = element;
@@ -15,7 +15,7 @@ function instantiateComponent(element, context, depth) {
     component.__subscriptions__ = [];
     component.__requests__ = [];
   } else {
-    component = DOMComponent(type, runner.getCursor().nextSibling);
+    component = DOMComponent(type, getCursor().nextSibling);
   }
   component.__type__ = type;
   component.__key__ = props.key;
@@ -41,14 +41,14 @@ function renderComponent(component, props, children, context, depth) {
     const rendered = component(props, children);
     setRenderingComponent(null);
 
-    runner.pushCursor((cursor) => cursor);
+    pushCursor(getCursor());
 
     instantiateChildren(component, rendered, context, depth);
 
-    component.__$last__ = runner.getCursor();
-    runner.popCursor();
-    component.__$first__ = runner.getCursor().nextSibling;
-    runner.setCursor(() => component.__$last__);
+    component.__$last__ = getCursor();
+    popCursor();
+    component.__$first__ = getCursor().nextSibling;
+    setCursor(component.__$last__);
     component.__state__.notify("mounted");
   } else {
     // Render
@@ -58,13 +58,11 @@ function renderComponent(component, props, children, context, depth) {
       component.__$node__.textContent = String(children);
       component.__cache__.isText = true;
     } else {
-      runner.pushCursor(() => component.__$first_child__);
-
+      pushCursor(component.__$first_child__);
       instantiateChildren(component, children, context, children);
-
-      runner.popCursor();
+      popCursor();
     }
-    runner.setCursor(() => component.__$node__);
+    setCursor(component.__$node__);
   }
 }
 
@@ -81,7 +79,7 @@ function instantiateChildren(component, elements, context, depth) {
 function hydrate(element, container, context) {
   console.debug("hydrate");
   element = normalize(element);
-  runner.setCursor(() => container.firstChild);
+  setCursor(container.firstChild);
   instantiateComponent(element, context), 0;
 }
 

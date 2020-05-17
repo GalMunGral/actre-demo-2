@@ -7,6 +7,11 @@ module.exports = {
     filename: "main.js",
     publicPath: "/",
   },
+  resolve: {
+    alias: {
+      assets: path.join(__dirname, "public/assets"),
+    },
+  },
   module: {
     rules: [
       {

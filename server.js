@@ -2,9 +2,9 @@ const { readFileSync } = require("fs");
 const { request } = require("http");
 const express = require("express");
 
-const { renderToString } = require("./build/lib/HTMLRenderer.js");
+const { renderToString } = require("./build/lib/engine/HTMLRenderer.js");
 const { default: App } = require("./build/components/App.js");
-const context = require("./config.js");
+const context = require("./config.js") || {};
 
 const server = express();
 

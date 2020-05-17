@@ -1,7 +1,7 @@
 import { requestRender } from "./Scheduler";
-import runner from "./Runner";
+import { getCursor, setCursor, pushCursor, popCursor } from "./Runner";
 import { State, observe, setRenderingComponent } from "./Observer";
-import { normalize, equals } from "./Utilities";
+import { normalize, equals, isGeneratorFunction } from "./Utilities";
 import {
   isComposite,
   DOMComponent,
@@ -17,15 +17,20 @@ function* instantiateComponent(element, context, depth) {
   if (typeof type === "function") {
     const state = new State();
     context = Object.create(context, { component: { value: type } });
-    component = type(state, context);
+    if (isGeneratorFunction(type)) {
+      component = yield* type(state, context);
+    } else {
+      component = type(state, context);
+    }
     observe(component, state, context);
     component.__state__ = state;
     component.__subscriptions__ = [];
     component.__requests__ = [];
   } else {
-    component = DOMComponent(type);
-    runner.schedule(mountComponent(component));
+    component = yield* DOMComponent(type);
+    yield* mountComponent(component);
   }
+
   component.__type__ = type;
   component.__key__ = props.key;
   component.__context__ = context;
@@ -38,7 +43,6 @@ function* instantiateComponent(element, context, depth) {
 }
 
 function* renderComponent(component, props, children, context, depth) {
-  // console.group(component.__type__.name || component.__type__, depth);
   const isFirstRender =
     !component.__memoized_props__ && !component.__memoized_children__;
 
@@ -47,8 +51,6 @@ function* renderComponent(component, props, children, context, depth) {
     equals(children, component.__memoized_children__) &&
     !component.__dirty__
   ) {
-    // !!! Can't set cursor in this function because this might exit early !!!
-    // console.groupEnd();
     return;
   }
 
@@ -67,62 +69,54 @@ function* renderComponent(component, props, children, context, depth) {
   }
 
   if (isComposite(component)) {
-    // Render
     setRenderingComponent(component);
-    const rendered = component(props, children);
+    let rendered;
+    if (isGeneratorFunction(component)) {
+      rendered = yield* component(props, children); // Render
+    } else {
+      rendered = component(props, children); // Render
+    }
     setRenderingComponent(null);
-    yield; // Exit before moving on to child components
 
-    runner.schedule(() => runner.pushCursor((cursor) => cursor));
-
+    yield () => pushCursor(getCursor());
     yield* reconcileChildren(component, rendered, context, depth);
-
-    runner.schedule((cursor) => (component.__$last__ = cursor));
-    runner.schedule(() => runner.popCursor());
-
-    runner.schedule((cursor) => (component.__$first__ = cursor.nextSibling));
-    // runner.schedule(() => runner.setCursor(() => component.__$last__));
-    runner.schedule(() =>
-      component.__state__.notify(isFirstRender ? "mounted" : "updatecommited")
-    );
+    yield () => {
+      component.__$last__ = getCursor();
+      popCursor();
+      component.__$first__ = getCursor().nextSibling;
+      component.__state__.notify(isFirstRender ? "mounted" : "updatecommited");
+    };
   } else {
-    runner.schedule(() => component(props)); // Render
-    yield; // Exit before moving on to child components
+    yield* component(props); // Render
+
     if (!Array.isArray(children)) {
-      // unmount children first!
       for (let child of component.__cache__) {
         if (isComposite(child)) {
-          runner.schedule(() => child.__state__.notify("beforeunmount"));
+          child.__state__.notify("beforeunmount");
         }
         destroyComponent(child);
-        runner.schedule(unmountComponent(child));
       }
-      runner.schedule(() => {
+      component.__cache__ = [];
+      component.__cache__.isText = true;
+      yield () => {
         component.__$node__.textContent = String(children);
-        component.__cache__ = [];
-        component.__cache__.isText = true;
-      });
+      };
     } else {
-      runner.schedule(() =>
-        runner.pushCursor(() => component.__$first_child__)
-      );
-
+      yield () => pushCursor(component.__$first_child__);
       yield* reconcileChildren(component, children, context, depth);
-
-      runner.schedule(() => runner.popCursor());
+      yield () => popCursor();
     }
-    // runner.schedule(() => runner.setCursor(() => component.__$node__));
   }
-  // console.groupEnd();
 }
 
 function* reconcileChildren(component, elements, context, depth) {
   if (component.__cache__.length === 0 && component.__cache__.isText) {
     if (isComposite(component))
       throw "A composite component must not render to text!";
-    // was a textual component, need to clear the innerText first!
-    component.__$node__.innerHTML = "";
-    component.__$node__.append(component.__$first_child__);
+    yield () => {
+      component.__$node__.innerHTML = "";
+      component.__$node__.append(component.__$first_child__);
+    };
   }
 
   elements = elements.filter((e) => e).map(normalize);
@@ -145,20 +139,18 @@ function* reconcileChildren(component, elements, context, depth) {
     ) {
       delete childMap[props.key];
       if (j < lastIndex) {
-        runner.schedule(moveComponent(comp));
+        yield* moveComponent(comp);
       } else {
         lastIndex = j;
       }
       // When re-rendering, the cursor is not necessarily the previous settled element.
-      if (isComposite(comp)) {
-        runner.schedule(() =>
-          runner.setCursor(() => comp.__$first__.previousSibling)
+      yield () => {
+        setCursor(
+          isComposite(comp)
+            ? comp.__$first__.previousSibling
+            : comp.__$node__.previousSibling
         );
-      } else {
-        runner.schedule(() =>
-          runner.setCursor(() => comp.__$node__.previousSibling)
-        );
-      }
+      };
       yield* renderComponent(
         comp,
         props,
@@ -169,25 +161,21 @@ function* reconcileChildren(component, elements, context, depth) {
     } else {
       comp = yield* instantiateComponent(element, context, depth + 1);
     }
-    // !!! Bug fix: let parent advance cursor !!!
-    if (isComposite(comp)) {
-      runner.schedule(() => runner.setCursor(() => comp.__$last__));
-    } else {
-      runner.schedule(() => runner.setCursor(() => comp.__$node__));
-    }
+    yield () => {
+      setCursor(isComposite(comp) ? comp.__$last__ : comp.__$node__);
+    };
     newChildren.push(comp);
   }
   for (let i of Object.values(childMap)) {
-    const comp = oldChildren[i];
-    destroyComponent(comp);
-    runner.schedule(unmountComponent(comp));
+    destroyComponent(oldChildren[i]);
+    yield* unmountComponent(oldChildren[i]);
   }
   component.__cache__ = newChildren;
   component.__cache__.isText = false;
 }
 
 function destroyComponent(component) {
-  if (component.__DESTROYED__) throw "hey";
+  if (component.__DESTROYED__) throw "Already destroyed!";
   component.__DESTROYED__ = true;
 
   if (isComposite(component)) {
@@ -199,10 +187,9 @@ function destroyComponent(component) {
       task.canceled = true;
     });
   }
-  const children = component.__cache__;
-  children.forEach((child) => {
+  for (let child of component.__cache__) {
     destroyComponent(child);
-  });
+  }
 }
 
 function render(element, container, context) {
@@ -210,22 +197,18 @@ function render(element, container, context) {
   container.innerHTML = "";
   container.append(new Comment());
   requestRender(
-    (function* () {
-      runner.schedule(() => runner.setCursor(() => container.firstChild));
-
+    (function* renderTask() {
+      const entryPoint = container.firstChild;
+      yield () => setCursor(entryPoint);
       yield* instantiateComponent(element, context, 0);
     })()
   );
 }
 
 function update(component) {
-  const renderTask = (function* () {
-    runner.schedule(() => {
-      if (!isComposite(component))
-        throw "Only composite components can be updated";
-      runner.setCursor(() => component.__$first__.previousSibling);
-    });
-
+  const renderTask = (function* renderTask() {
+    const entryPoint = component.__$first__.previousSibling;
+    yield () => setCursor(entryPoint);
     yield* renderComponent(
       component,
       component.__memoized_props__,
@@ -237,8 +220,8 @@ function update(component) {
 
   renderTask.canceled = false;
   renderTask.sender = component;
-  component.__requests__.push(renderTask);
 
+  component.__requests__.push(renderTask);
   requestRender(renderTask);
 }
 

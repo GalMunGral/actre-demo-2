@@ -1,5 +1,5 @@
 import Heap from "heap";
-import runner from "./Runner";
+import { schedule, commit } from "./Runner";
 
 var currentTask = null;
 var pendingTasks = new Heap(function priority(a, b) {
@@ -18,10 +18,12 @@ function requestRender(renderTask) {
 function doWork(deadline) {
   try {
     while (deadline.timeRemaining()) {
-      const { done } = currentTask.next();
+      const { done, value: work } = currentTask.next();
       if (done) {
-        window.requestAnimationFrame(commitUpdate);
-        return;
+        return window.requestAnimationFrame(commitUpdate);
+      } else {
+        // value(); // Synchronous mode
+        schedule(work); // Asynchronous mode
       }
     }
     window.requestIdleCallback(doWork);
@@ -31,7 +33,7 @@ function doWork(deadline) {
 }
 
 function commitUpdate() {
-  runner.commit();
+  commit();
   currentTask = null;
 
   // Find next task that is not canceled

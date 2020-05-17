@@ -1,5 +1,4 @@
 import styled from "../lib/css";
-import createIcon from "../assets/create.png";
 
 const Menu = styled.div`
   grid-area: b;
@@ -145,7 +144,7 @@ const SideBar = (state, context) => {
               }
             }),
             [
-              ButtonIcon((src = createIcon)),
+              ButtonIcon((src = "/assets/create.png")),
               !collapsed || state.hovered ? ButtonText("Compose") : null,
             ]
           ),

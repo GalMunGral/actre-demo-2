@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server",
-    "build:components": "babel ./src/components -d ./build/components",
-    "build:renderer": "babel ./src/lib/HTMLRenderer.js ./src/lib/Utilities.js -d ./build/lib",
-    "build": "webpack && npm run build:components && npm run build:renderer",
+    "build": "webpack && babel ./src --ignore index.js -d ./build",
     "start": "npm run build && nodemon server.js"
   },
   "repository": {
@@ -28,6 +26,7 @@
     "babel-loader": "^8.1.0",
     "css-loader": "^3.5.3",
     "file-loader": "^6.0.0",
+    "nodemon": "^2.0.4",
     "style-loader": "^1.2.1",
     "url-loader": "^4.1.0",
     "webpack": "^4.43.0",
@@ -38,6 +37,7 @@
     "@fortawesome/fontawesome-free": "^5.13.0",
     "heap": "^0.2.6",
     "html-tags": "^3.1.0",
+    "jsdom": "^16.2.2",
     "lodash": "^4.17.15",
     "uid": "^1.0.0"
   }
