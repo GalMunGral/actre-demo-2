@@ -56,6 +56,7 @@ const Clickable = styled.div`
   width: 0.8rem;
   height: 0.8rem;
   margin: 5px;
+}
 `.and` > div > input {
   opacity: 0;
   width: 1rem;

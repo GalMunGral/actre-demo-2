@@ -1,4 +1,24 @@
-import { normalize, isVoidElement, toKebabCase } from "../common/Utilities";
+import {
+  normalize,
+  isVoidElement,
+  toKebabCase,
+  isGeneratorFunction,
+} from "../common/Utilities";
+
+var styleSheet = [];
+
+function handleEffects(generator) {
+  var done, value;
+  while (({ value, done } = generator.next()) && !done) {
+    switch (value.type) {
+      case "ADD_CSS_RULE": {
+        const cssRule = value.payload;
+        styleSheet.push(cssRule);
+      }
+    }
+  }
+  return value;
+}
 
 function renderHTMLToBuffer(element, buffer, context) {
   const [type, props, children] = element;
@@ -24,7 +44,7 @@ function renderHTMLToBuffer(element, buffer, context) {
     if (!Array.isArray(children)) {
       buffer.push(String(children));
     } else {
-      buffer.push(" ");
+      buffer.push("<!---->");
       children
         .filter((e) => e)
         .map(normalize)
@@ -35,13 +55,25 @@ function renderHTMLToBuffer(element, buffer, context) {
 }
 
 function renderToBuffer(element, buffer, context) {
-  console.log(buffer);
   let [type, props, children] = element;
   if (typeof type === "function") {
     context = Object.create(context, { component: { value: type } });
     const state = { on: () => {} };
-    const component = type(state, context);
-    const childElements = component(props, children); // Render
+
+    let component;
+    if (isGeneratorFunction(type)) {
+      component = handleEffects(type(state, context));
+    } else {
+      component = type(state, context);
+    }
+
+    let childElements;
+    if (isGeneratorFunction(component)) {
+      childElements = handleEffects(component(props, children)); // Render
+    } else {
+      childElements = component(props, children); // Render
+    }
+
     childElements
       .filter((e) => e)
       .map(normalize)
@@ -54,7 +86,7 @@ function renderToBuffer(element, buffer, context) {
 function renderToString(rootElement, context) {
   const buffer = [];
   renderToBuffer(normalize(rootElement), buffer, context);
-  return buffer.join("");
+  return [styleSheet.join(""), buffer.join("")];
 }
 
 export { renderToString };

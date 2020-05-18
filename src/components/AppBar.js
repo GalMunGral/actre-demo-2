@@ -79,7 +79,7 @@ const AppBar = () => ({ toggle }) =>
   Bar([
     Group([
       Button((onclick = toggle), [Icon((className = "fas fa-bars"))]),
-      Logo((src = "images/logo.png"), (alt = "logo")),
+      Logo((src = "/assets/images/logo.png"), (alt = "logo")),
     ]),
     SearchBar([
       SearchIcon((className = "fas fa-search")),

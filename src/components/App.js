@@ -38,7 +38,6 @@ const App = (state, context) => {
   return () => {
     const mailId = context.route.getMailId();
     const editing = context.editor.getEditing();
-
     return (
       // use transform
       Container([

@@ -24,7 +24,9 @@ function schedule(operation) {
 }
 
 function commit() {
-  pendingOperations.forEach((o) => o());
+  pendingOperations.forEach((operation) => {
+    operation();
+  });
   pendingOperations = [];
 }
 

@@ -144,7 +144,7 @@ const SideBar = (state, context) => {
               }
             }),
             [
-              ButtonIcon((src = "/images/create.png")),
+              ButtonIcon((src = "/assets/images/create.png")),
               !collapsed || state.hovered ? ButtonText("Compose") : null,
             ]
           ),

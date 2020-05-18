@@ -66,17 +66,19 @@ const reducer = (state, action) => {
 
 const useStore = (state) => {
   const { getState, dispatch } = useReducer(state, reducer, initialState);
-  fetch("/data.json")
-    .then((res) => res.json())
-    .then((data) => {
-      dispatch({
-        type: Type.LOAD,
-        payload: {
-          folder: "inbox",
-          data,
-        },
+  if (typeof fetch == "function") {
+    fetch("/data.json")
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({
+          type: Type.LOAD,
+          payload: {
+            folder: "inbox",
+            data,
+          },
+        });
       });
-    });
+  }
   return { getState, dispatch, Type };
 };
 

@@ -1,6 +1,7 @@
 import { requestRender } from "./Scheduler";
 import { getCursor, setCursor, pushCursor, popCursor } from "./Runner";
 import { State, observe, setRenderingComponent } from "./Observer";
+import { handleEffects } from "./EffectHandler";
 import { normalize, equals, isGeneratorFunction } from "../common/Utilities";
 import {
   isComposite,
@@ -9,28 +10,6 @@ import {
   unmountComponent,
   moveComponent,
 } from "./Component";
-
-var styleSheet;
-
-function* handleEffects(generator) {
-  var done, value;
-  while (({ value, done } = generator.next()) && !done) {
-    switch (value.type) {
-      case "ADD_CSS_RULE": {
-        if (!styleSheet) {
-          yield () => {
-            const styleEl = document.createElement("style");
-            document.head.append(styleEl);
-            styleSheet = styleEl.sheet;
-          };
-        }
-        const cssRule = value.payload;
-        yield () => styleSheet.insertRule(cssRule);
-      }
-    }
-  }
-  return value;
-}
 
 function* instantiateComponent(element, context, depth) {
   const [type, props, children] = element;

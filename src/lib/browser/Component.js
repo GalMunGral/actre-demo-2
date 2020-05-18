@@ -9,19 +9,18 @@ function getComponentName(component) {
   return isComposite(component) ? component.__type__.name : component.__type__;
 }
 
-function* DOMComponent(tag, node) {
-  let element = node;
-  if (!element)
-    yield () => {
-      element = document.createElement(tag);
-    };
+function* DOMComponent(tag, nodeThunk) {
+  var element;
+  yield () => {
+    element =
+      nodeThunk && typeof nodeThunk == "function"
+        ? nodeThunk()
+        : document.createElement(tag);
+  };
   const __cache__ = { style: {} };
 
   function* component(props) {
     for (let [name, value] of Object.entries(props)) {
-      // If hydrating, don't trigger style recalculation and relayout
-      if (node && (name === "className" || name === "style")) continue;
-
       if (name === "style") {
         for (let [styleName, styleValue] of Object.entries(value)) {
           styleName = toKebabCase(styleName);
@@ -43,7 +42,7 @@ function* DOMComponent(tag, node) {
   }
   yield () => {
     component.__$node__ = element;
-    if (!node && !isVoidElement(tag)) {
+    if (!nodeThunk && !isVoidElement(tag)) {
       component.__$node__.append(new Comment());
     }
     component.__$first_child__ = component.__$node__.firstChild;

@@ -1,21 +1,27 @@
+import { requestRender } from "./Scheduler";
 import { DOMComponent, isComposite } from "./Component";
 import { State, observe, setRenderingComponent } from "./Observer";
-import { normalize } from "../common/Utilities";
+import { normalize, isGeneratorFunction } from "../common/Utilities";
 import { getCursor, setCursor, pushCursor, popCursor } from "./Runner";
+import { handleEffects } from "./EffectHandler";
 
-function instantiateComponent(element, context, depth) {
+function* instantiateComponent(element, context, depth) {
   const [type, props, children] = element;
   let component;
   if (typeof type === "function") {
     const state = new State();
     context = Object.create(context, { component: { value: type } });
-    component = type(state, context);
+    if (isGeneratorFunction(type)) {
+      component = yield* handleEffects(type(state, context));
+    } else {
+      component = type(state, context);
+    }
     observe(component, state, context);
     component.__state__ = state;
     component.__subscriptions__ = [];
     component.__requests__ = [];
   } else {
-    component = DOMComponent(type, getCursor().nextSibling);
+    component = yield* DOMComponent(type, () => getCursor().nextSibling);
   }
   component.__type__ = type;
   component.__key__ = props.key;
@@ -23,11 +29,11 @@ function instantiateComponent(element, context, depth) {
   component.__cache__ = [];
   component.__depth__ = depth;
 
-  renderComponent(component, props, children, context, depth);
+  yield* renderComponent(component, props, children, context, depth);
   return component;
 }
 
-function renderComponent(component, props, children, context, depth) {
+function* renderComponent(component, props, children, context, depth) {
   component.__memoized_props__ = props;
   component.__memoized_children__ = children;
 
@@ -37,50 +43,61 @@ function renderComponent(component, props, children, context, depth) {
       nextChildren: children,
     });
     // Render
+    let rendered;
     setRenderingComponent(component);
-    const rendered = component(props, children);
+    if (isGeneratorFunction(component)) {
+      rendered = yield* handleEffects(component(props, children));
+    } else {
+      rendered = component(props, children);
+    }
     setRenderingComponent(null);
 
-    pushCursor(getCursor());
-
-    instantiateChildren(component, rendered, context, depth);
-
-    component.__$last__ = getCursor();
-    popCursor();
-    component.__$first__ = getCursor().nextSibling;
-    setCursor(component.__$last__);
-    component.__state__.notify("mounted");
+    yield () => pushCursor(getCursor());
+    yield* instantiateChildren(component, rendered, context, depth);
+    yield () => {
+      component.__$last__ = getCursor();
+      popCursor();
+      component.__$first__ = getCursor().nextSibling;
+      component.__state__.notify("mounted");
+    };
   } else {
     // Render
-    component(props);
+    yield* component(props);
 
     if (!Array.isArray(children)) {
-      component.__$node__.textContent = String(children);
+      yield () => {
+        component.__$node__.textContent = String(children);
+      };
       component.__cache__.isText = true;
     } else {
-      pushCursor(component.__$first_child__);
-      instantiateChildren(component, children, context, children);
-      popCursor();
+      yield () => pushCursor(component.__$first_child__);
+      yield* instantiateChildren(component, children, context, children);
+      yield () => popCursor();
     }
-    setCursor(component.__$node__);
   }
 }
 
-function instantiateChildren(component, elements, context, depth) {
-  elements
-    .filter((e) => e)
-    .map(normalize)
-    .forEach((e) => {
-      const comp = instantiateComponent(e, context, depth + 1);
-      component.__cache__.push(comp);
-    });
+function* instantiateChildren(component, elements, context, depth) {
+  elements = elements.filter((e) => e).map(normalize);
+  for (let element of elements) {
+    const comp = yield* instantiateComponent(element, context, depth + 1);
+    yield () => {
+      setCursor(isComposite(comp) ? comp.__$last__ : comp.__$node__);
+    };
+    component.__cache__.push(comp);
+  }
 }
 
 function hydrate(element, container, context) {
-  console.debug("hydrate");
+  console.debug("---HYDRATE---");
   element = normalize(element);
-  setCursor(container.firstChild);
-  instantiateComponent(element, context), 0;
+  requestRender(
+    (function* renderTask() {
+      const entryPoint = container.firstChild;
+      yield () => setCursor(entryPoint);
+      yield* instantiateComponent(element, context, 0);
+    })()
+  );
 }
 
 export { hydrate };

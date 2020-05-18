@@ -47,7 +47,7 @@ const moduleConfig = {
           loader: "file-loader",
           options: {
             name: "[name].[ext]",
-            outputPath: "fonts/",
+            outputPath: "/fonts",
           },
         },
       ],
@@ -85,8 +85,7 @@ const serverConfig = {
   target: "node",
   mode: "development",
   entry: {
-    app: "./src/components/App.js",
-    renderer: "./src/lib/server/HTMLRenderer.js",
+    server: "./src/server.js",
   },
   output: {
     path: path.join(__dirname, "build"),
@@ -95,9 +94,10 @@ const serverConfig = {
   },
   resolve: resolveConfig,
   module: moduleConfig,
+  devtool: "source-map",
   plugins: [
     new NodemonPlugin({
-      script: "./server.js",
+      script: "./build/server.js",
     }),
   ],
 };
