@@ -1,11 +1,8 @@
 import { Box, Icon } from "./DragImageComponents";
 
 const DragImage = (_, context) => () => {
-  const [dragging, x, y] = context.getDragState();
   const selected = context.selection.getSelected();
-  const text = `Move ${selected.length} ${
-    selected.length > 1 ? "items" : "item"
-  }`;
+  const [dragging, x, y] = context.getDragState();
 
   return (
     // use transform
@@ -14,7 +11,12 @@ const DragImage = (_, context) => () => {
         visibility: dragging ? "visible" : "hidden",
         transform: `translate3d(${x}px, ${y}px, 0)`,
       }),
-      [Icon((className = "fas fa-mail-bulk")), span(text)]
+      [
+        Icon((className = "fas fa-mail-bulk")),
+        span(
+          `Move ${selected.length} ${selected.length > 1 ? "items" : "item"}`
+        ),
+      ]
     )
   );
 };
