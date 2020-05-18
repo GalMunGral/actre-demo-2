@@ -17,7 +17,7 @@ const Mailbox = (_, context) => {
       // use-transform
       // prettier-ignore
       Container(
-         ["primary", "social", "promotions"].map((tab) =>
+        ["primary", "social", "promotions"].map((tab) =>
           Tab(
             key=tab,
             name=tab,
