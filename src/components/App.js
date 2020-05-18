@@ -29,13 +29,14 @@ const App = (state, context) => {
 
     return (
       // use transform
+      // prettier-ignore
       Container([
-        AppBar(toggle = () => { state.collapsed = !state.collapsed }),
+        AppBar(toggle=() => { state.collapsed = !state.collapsed }),
         Sidebar(
-          collapsed = state.collapsed,
-          setCollapse = (v) => state.setCollapse(v)
+          collapsed=state.collapsed,
+          setCollapse=(v) => state.setCollapse(v)
         ),
-        mailId ? Detail(mailId = mailId) : Mailbox(),
+        mailId ? Detail(mailId=mailId) : Mailbox(),
         editing ? Editor() : null,
       ])
     );

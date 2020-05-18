@@ -4,17 +4,16 @@ const DragImage = (_, context) => () => {
   const selected = context.selection.getSelected();
   const [dragging, x, y] = context.getDragState();
 
+  //prettier-ignore
   return (
-    // use transform
+    // use transform 
     Box(
-      (
-        
-        style = {
+      style = {
         visibility: dragging ? "visible" : "hidden",
         transform: `translate3d(${x}px, ${y}px, 0)`,
-      }),
+      },
       [
-        Icon((className = "fas fa-mail-bulk")),
+        Icon(className="fas fa-mail-bulk"),
         span(
           `Move ${selected.length} ${selected.length > 1 ? "items" : "item"}`
         ),
