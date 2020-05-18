@@ -1,11 +1,11 @@
-import Item from "./Item";
+import MailItem from "./MailItem";
 import DragImage from "./DragImage";
 
 const x = Symbol("x");
 const y = Symbol("y");
 const dragging = Symbol("dragging");
 
-const Mails = (_, context) => {
+const MailList = (_, context) => {
   context[dragging] = false;
   context[x] = 0;
   context[y] = 0;
@@ -18,7 +18,7 @@ const Mails = (_, context) => {
       // use transform
       [
         ...mails.map((mail, i) =>
-          Item(
+          MailItem(
             (key = i), // Reuse these
             (item = mail),
             (selected = selected.includes(mail.id)),
@@ -37,4 +37,4 @@ const Mails = (_, context) => {
   };
 };
 
-export default Mails;
+export default MailList;

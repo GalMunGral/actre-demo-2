@@ -58,6 +58,7 @@ const moduleConfig = {
 const resolveConfig = {
   alias: {
     assets: path.join(__dirname, "assets"),
+    lib: path.join(__dirname, "src/lib"),
   },
 };
 

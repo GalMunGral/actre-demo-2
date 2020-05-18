@@ -1,64 +1,20 @@
 import _ from "lodash";
+import useItemSelection from "../hooks/itemSelection";
 import Checkbox from "./Checkbox";
 import IconButton from "./IconButton";
-import styled from "../lib/common/Decorator";
-import useItemSelection from "../hooks/itemSelection";
-
-const Row = styled.div`
-  --height: 40px;
-  position: relative;
-  height: var(--height);
-  line-height: var(--height);
-  padding: 0 10px;
-  display: flex;
-  border-bottom: 1px solid var(--light-gray);
-  background-color: ${({ selected }) =>
-    selected ? "var(--highlight)" : "white"};
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-`.and`:active {
-  cursor: grabbing;
-}`.and`:hover {
-  background: ${({ selected }) => (selected ? "var(--highlight)" : "white")};
-  filter: brightness(0.95);
-`.and`:hover * {
-  visibility: visible;
-}`;
-
-const Sender = styled.div`
-  flex: 0 0 200px;
-  font-weight: 600;
-`;
-
-const Summary = styled.div`
-  flex: 1 1 auto;
-  line-height: 1rem;
-`;
-
-const Title = styled.span`
-  font-weight: 600;
-  font-size: 1rem;
-  text-transform: capitalize;
-`;
-
-const Preheader = styled.span`
-  font-weight: 300;
-  font-size: 1rem;
-  color: gray;
-`;
-
-const Actions = styled.div`
-  margin-right: 30px;
-  flex: 0 0 auto;
-  visibility: hidden;
-  color: var(--gray);
-`;
+import {
+  Container,
+  SenderInfo,
+  Summary,
+  Title,
+  Preheader,
+  Actions,
+} from "./MailItemComponents";
 
 const format = (length) => (s) =>
   s.length <= length ? s : s.slice(0, length) + "...";
 
-const Item = (state, context) => {
+const MailItem = (state, context) => {
   const { dispatch, Type: T } = context.store;
   const { replaceDraft, setEditing } = context.editor;
   const { getFolder, setMailId } = context.route;
@@ -128,7 +84,7 @@ const Item = (state, context) => {
 
     return (
       // use transform
-      Row(
+      Container(
         (selected = selected),
         (draggable = folder !== "trash"),
         (ondragstart = ondragstart),
@@ -143,7 +99,7 @@ const Item = (state, context) => {
                 (onchange = () => toggleItem(item, !selected))
               )
             : null,
-          Sender(senderName || senderEmail || "(no name)"),
+          SenderInfo(senderName || senderEmail || "(no name)"),
           Summary([
             Title(format(30)(subject) || "(empty)"),
             Preheader(
@@ -168,4 +124,4 @@ const Item = (state, context) => {
   };
 };
 
-export default Item;
+export default MailItem;

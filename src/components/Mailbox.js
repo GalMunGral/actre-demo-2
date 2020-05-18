@@ -1,15 +1,10 @@
 import Tab from "./Tab";
-import Mails from "./Mails";
+import MailList from "./MailList";
 import Layout from "./Layout";
-import MailboxButtons from "./MailboxButtons";
-import styled from "../lib/common/Decorator";
+import MailboxToolbar from "./MailboxToolbar";
+import { Container } from "./MailboxComponents";
 
-const Container = styled.div`
-  flex: 0 0 50px;
-  display: flex;
-  justify-content: start;
-  border-bottom: 1px solid var(--light-gray);
-`;
+const tabs = ["primary", "social", "promotions"];
 
 const Mailbox = (_, context) => {
   const { getFolder, getTab, setTab } = context.route;
@@ -23,11 +18,11 @@ const Mailbox = (_, context) => {
     return (
       // use transform
       Layout([
-        MailboxButtons(),
+        MailboxToolbar(),
         section([
           folder === "inbox"
             ? Container(
-                ["primary", "social", "promotions"].map((tab) =>
+                tabs.map((tab) =>
                   Tab(
                     (key = tab),
                     (name = tab),
@@ -40,7 +35,7 @@ const Mailbox = (_, context) => {
                 )
               )
             : null,
-          Mails((mails = page)),
+          MailList((mails = page)),
         ]),
       ])
     );

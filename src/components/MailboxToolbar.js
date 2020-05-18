@@ -1,18 +1,7 @@
 import Checkbox from "./Checkbox";
 import IconButton from "./IconButton";
 import Space from "./Space";
-import styled from "../lib/common/Decorator";
-
-const Progress = styled.div`
-  flex: 0 0 200px;
-  text-align: end;
-`;
-
-const Text = styled.span`
-  font-size: 0.9rem;
-  color: gray;
-  margin: 0 20px;
-`;
+import { PageRange, PageRangeText } from "./MailboxToolbarComponents";
 
 const MailboxButtons = (_, context) => () => {
   const {
@@ -38,8 +27,8 @@ const MailboxButtons = (_, context) => () => {
         ? Checkbox((checked = allSelected()), (onchange = toggleAll))
         : null,
       Space(),
-      Progress([
-        Text(
+      PageRange([
+        PageRangeText(
           (innerHTML = `${start}&ndash;${Math.min(end, total)} of ${total}`)
         ),
       ]),

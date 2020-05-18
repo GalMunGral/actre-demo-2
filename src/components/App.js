@@ -5,22 +5,10 @@ import useEditor from "../hooks/editor";
 import useRoute from "../hooks/route";
 import AppBar from "./AppBar";
 import Mailbox from "./Mailbox";
-import SideBar from "./SideBar";
-import NewMessage from "./NewMessage";
-import styled from "../lib/common/Decorator";
+import Sidebar from "./Sidebar";
+import Editor from "./Editor";
 import Detail from "./Detail";
-
-const Container = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  display: grid;
-  grid-template:
-    "a a" 64px
-    "b c" calc(100vh - 60px) / auto 1fr;
-`;
+import { Container } from "./AppComponents";
 
 const App = (state, context) => {
   context.store = useStoreAsync(context);
@@ -38,16 +26,17 @@ const App = (state, context) => {
   return () => {
     const mailId = context.route.getMailId();
     const editing = context.editor.getEditing();
+
     return (
       // use transform
       Container([
         AppBar((toggle = () => (state.collapsed = !state.collapsed))),
-        SideBar(
+        Sidebar(
           (collapsed = state.collapsed),
           (setCollapse = (v) => state.setCollapse(v))
         ),
         mailId ? Detail((mailId = mailId)) : Mailbox(),
-        editing ? NewMessage() : null,
+        editing ? Editor() : null,
       ])
     );
   };

@@ -1,35 +1,14 @@
-import styled from "../lib/common/Decorator";
 import Layout from "./Layout";
-import DetailButtons from "./DetailButtons";
+import DetailToolbar from "./DetailToolbar";
+import {
+  Main,
+  Header,
+  SenderInfo,
+  RecipientInfo,
+  Body,
+} from "./DetailComponents";
 
-const Main = styled.main`
-  margin: 0 50px;
-`;
-
-const Header = styled.section`
-  font-weight: 600;
-  font-size: 1.8rem;
-  margin: 20px 0;
-  text-transform: capitalize;
-`;
-
-const SenderInfo = styled.div`
-  margin: 0;
-  font-weight: bold;
-  font-size: 0.9rem;
-`;
-const RecipientInfo = styled.div`
-  margin: 0;
-  color: gray;
-  font-size: 0.8rem;
-`;
-
-const Body = styled.section`
-  margin: 20px 0;
-  text-align: justify;
-`;
-
-const Detail = (state, context) => ({ mailId }) => {
+const Detail = (__, context) => ({ mailId }) => {
   const { getFolder, redirect } = context.route;
   const { getState } = context.store;
   const folder = getFolder();
@@ -50,14 +29,10 @@ const Detail = (state, context) => ({ mailId }) => {
     content,
   } = mail;
 
-  state.on("willunmount", () => {
-    console.log("Detail page will be unmounted");
-  });
-
   return (
     // use transform
     Layout([
-      DetailButtons(),
+      DetailToolbar(),
       Main([
         Header(subject),
         SenderInfo(
