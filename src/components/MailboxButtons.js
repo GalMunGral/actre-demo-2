@@ -1,7 +1,7 @@
 import Checkbox from "./Checkbox";
 import IconButton from "./IconButton";
 import Space from "./Space";
-import styled from "../lib/css";
+import styled from "../lib/common/Decorator";
 
 const Progress = styled.div`
   flex: 0 0 200px;

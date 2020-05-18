@@ -1,4 +1,4 @@
-import styled from "../lib/css";
+import styled from "../lib/common/Decorator";
 
 const Menu = styled.div`
   grid-area: b;
@@ -144,7 +144,7 @@ const SideBar = (state, context) => {
               }
             }),
             [
-              ButtonIcon((src = "/assets/create.png")),
+              ButtonIcon((src = "/images/create.png")),
               !collapsed || state.hovered ? ButtonText("Compose") : null,
             ]
           ),

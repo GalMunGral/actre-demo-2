@@ -1,4 +1,4 @@
-import styled from "../lib/css";
+import styled from "../lib/common/Decorator";
 import Layout from "./Layout";
 import DetailButtons from "./DetailButtons";
 

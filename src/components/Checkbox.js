@@ -1,4 +1,4 @@
-import styled from "../lib/css";
+import styled from "../lib/common/Decorator";
 
 const Background = styled.div`
   --border-size: 2px;

@@ -2,7 +2,7 @@ import Tab from "./Tab";
 import Mails from "./Mails";
 import Layout from "./Layout";
 import MailboxButtons from "./MailboxButtons";
-import styled from "../lib/css";
+import styled from "../lib/common/Decorator";
 
 const Container = styled.div`
   flex: 0 0 50px;

@@ -7,7 +7,7 @@ import AppBar from "./AppBar";
 import Mailbox from "./Mailbox";
 import SideBar from "./SideBar";
 import NewMessage from "./NewMessage";
-import styled from "../lib/css";
+import styled from "../lib/common/Decorator";
 import Detail from "./Detail";
 
 const Container = styled.div`

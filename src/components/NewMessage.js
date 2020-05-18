@@ -1,4 +1,4 @@
-import styled from "../lib/css";
+import styled from "../lib/common/Decorator";
 import IconButton from "./IconButton";
 import Space from "./Space";
 

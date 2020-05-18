@@ -1,76 +1,106 @@
+const NodemonPlugin = require("nodemon-webpack-plugin");
 const path = require("path");
 
-module.exports = {
-  mode: "development",
-  output: {
-    path: path.join(__dirname, "public"),
-    filename: "main.js",
-    publicPath: "/",
-  },
-  resolve: {
-    alias: {
-      assets: path.join(__dirname, "public/assets"),
-    },
-  },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: [
-              [
-                "@babel/preset-env",
-                {
-                  targets: {
-                    browsers: "last 2 Chrome versions",
-                  },
+const moduleConfig = {
+  rules: [
+    {
+      test: /\.js$/,
+      exclude: /node_modules/,
+      use: {
+        loader: "babel-loader",
+        options: {
+          presets: [
+            [
+              "@babel/preset-env",
+              {
+                targets: {
+                  browsers: "last 2 Chrome versions",
+                  node: "current",
                 },
-              ],
+              },
             ],
-            plugins: [
-              "@babel/plugin-proposal-nullish-coalescing-operator",
-              "./src/lib/engine/babel-plugin-transform-render-function.js",
-            ],
-          },
+          ],
+          plugins: [
+            "@babel/plugin-proposal-nullish-coalescing-operator",
+            "./src/lib/babel-plugin-transform-render-function.js",
+          ],
         },
       },
-      {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"],
-      },
-      {
-        test: /\.(svg|jpg|png)$/,
-        use: {
-          loader: "url-loader",
-          options: {
-            limit: 8192,
-          },
-        },
-      },
-      {
-        // copied
-        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-        use: [
-          {
-            loader: "file-loader",
-            options: {
-              name: "[name].[ext]",
-              outputPath: "fonts/",
-            },
-          },
-        ],
-      },
-    ],
-  },
-  devtool: "source-map",
-  devServer: {
-    contentBase: path.join(__dirname, "public"),
-    historyApiFallback: true,
-    proxy: {
-      "/api": "http://localhost:8081",
     },
+    {
+      test: /\.css$/,
+      use: ["style-loader", "css-loader"],
+    },
+    {
+      test: /\.(svg|jpg|png)$/,
+      use: {
+        loader: "url-loader",
+        options: {
+          limit: 8192,
+        },
+      },
+    },
+    {
+      test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/, // copied
+      use: [
+        {
+          loader: "file-loader",
+          options: {
+            name: "[name].[ext]",
+            outputPath: "fonts/",
+          },
+        },
+      ],
+    },
+  ],
+};
+
+const resolveConfig = {
+  alias: {
+    assets: path.join(__dirname, "assets"),
   },
 };
+
+const clientConfig = {
+  mode: "development",
+  entry: "./src/index.js",
+  output: {
+    path: path.join(__dirname, "public/build"),
+    filename: "main.js",
+    publicPath: "/build",
+  },
+  resolve: resolveConfig,
+  module: moduleConfig,
+  devtool: "source-map",
+  devServer: {
+    contentBase: [
+      path.join(__dirname, "public"),
+      path.join(__dirname, "assets"),
+    ],
+    historyApiFallback: true,
+  },
+};
+
+const serverConfig = {
+  target: "node",
+  mode: "development",
+  entry: {
+    app: "./src/components/App.js",
+    renderer: "./src/lib/server/HTMLRenderer.js",
+  },
+  output: {
+    path: path.join(__dirname, "build"),
+    filename: "[name].js",
+    // publicPath: "/",
+  },
+  resolve: resolveConfig,
+  module: moduleConfig,
+  plugins: [
+    new NodemonPlugin({
+      script: "./server.js",
+    }),
+  ],
+};
+
+module.exports = (env) =>
+  env.mode === "SSR" ? [clientConfig, serverConfig] : clientConfig;

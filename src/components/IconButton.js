@@ -1,4 +1,4 @@
-import styled from "../lib/css";
+import styled from "../lib/common/Decorator";
 
 const Button = styled.button`
   --size: 40px;

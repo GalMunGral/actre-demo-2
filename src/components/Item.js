@@ -1,7 +1,7 @@
 import _ from "lodash";
 import Checkbox from "./Checkbox";
 import IconButton from "./IconButton";
-import styled from "../lib/css";
+import styled from "../lib/common/Decorator";
 import useItemSelection from "../hooks/itemSelection";
 
 const Row = styled.div`
