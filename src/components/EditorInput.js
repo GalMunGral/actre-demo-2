@@ -5,7 +5,7 @@ const EditorInput = (state) => {
 
   return ({ label, value, setValue, placeholder }) => {
     return (
-      // use transform
+      // use-transform
       // prettier-ignore
       InputBox([
         state.focused || value ? label(label) : null,
