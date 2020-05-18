@@ -1,6 +1,6 @@
-import styled from "lib/common/Decorator";
+import decor from "lib/common/Decorator";
 
-export const Box = styled.div`
+export const Box = decor.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -16,6 +16,6 @@ export const Box = styled.div`
   pointer-events: none;
 `;
 
-export const Icon = styled.i`
+export const Icon = decor.i`
   margin-right: 15px;
 `;

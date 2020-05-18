@@ -1,6 +1,6 @@
-import styled from "lib/common/Decorator";
+import decor from "lib/common/Decorator";
 
-export const Menu = styled.div`
+export const Menu = decor.div`
   grid-area: b;
   transition: width 0.05s ease-out;
   background: white;
@@ -11,17 +11,17 @@ export const Menu = styled.div`
   align-items: ${({ collapsed }) => (collapsed ? "center" : "start")};
 `;
 
-export const MenuIcon = styled.i`
+export const MenuIcon = decor.i`
   width: 1rem;
   font-size: 1rem;
 `;
-export const EditorButtonIcon = styled.img`
+export const EditorButtonIcon = decor.img`
   --size: 32px;
   width: var(--size);
   height: var(--size);
 `;
 
-export const EditorButton = styled.button`
+export const EditorButton = decor.button`
   --size: 50px;
   width: ${({ collapsed }) => (collapsed ? "var(--size)" : "150px")};
   height: var(--size);
@@ -48,14 +48,14 @@ export const EditorButton = styled.button`
 }
 `;
 
-export const EditorButtonText = styled.span`
+export const EditorButtonText = decor.span`
   margin-left: 10px;
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--dark-gray);
 `;
 
-export const MenuItem = styled.div`
+export const MenuItem = decor.div`
   --size: 35px;
   height: var(--size);
   line-height: 1rem;

@@ -1,6 +1,6 @@
-import styled from "lib/common/Decorator";
+import decor from "lib/common/Decorator";
 
-export const Container = styled.div`
+export const Container = decor.div`
   grid-area: a;
   padding: 2px 10px;
   width: 100%;
@@ -11,7 +11,7 @@ export const Container = styled.div`
   border-bottom: 1px solid var(--light-gray);
 `;
 
-export const Group = styled.div`
+export const Group = decor.div`
   flex: 0 0 auto;
   min-width: 200px;
   height: 100%;
@@ -19,7 +19,7 @@ export const Group = styled.div`
   align-items: center;
 `;
 
-export const MenuButton = styled.button`
+export const MenuButton = decor.button`
   --size: 48px;
   border: none;
   width: var(--size);
@@ -35,16 +35,16 @@ export const MenuButton = styled.button`
   }
 `;
 
-export const AppLogo = styled.img`
+export const AppLogo = decor.img`
   height: 40px;
 `;
 
-export const MenuIcon = styled.i`
+export const MenuIcon = decor.i`
   font-size: 1rem;
   color: var(--dark-gray);
 `;
 
-export const SearchInput = styled.input`
+export const SearchInput = decor.input`
   height: 100%;
   width: 100%;
   border: none;
@@ -54,7 +54,7 @@ export const SearchInput = styled.input`
   font-size: 1rem;
 `;
 
-export const SearchBar = styled.div`
+export const SearchBar = decor.div`
   width: 50vw;
   height: calc(100% - 20px);
   padding: 5px;
@@ -70,7 +70,7 @@ export const SearchBar = styled.div`
 }
 `;
 
-export const SearchIcon = styled.i`
+export const SearchIcon = decor.i`
   font-size: 1rem;
   color: var(--dark-gray);
   margin: 20px;

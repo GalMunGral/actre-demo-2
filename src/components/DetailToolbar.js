@@ -1,6 +1,6 @@
 import IconButton from "./IconButton";
 
-const DetailButtons = (_, context) => () => {
+const DetailToolbar = (_, context) => () => {
   const { dispatch, Type: T } = context.store;
   const { getFolder, getMailId, navigate } = context.route;
   const folder = getFolder();
@@ -33,4 +33,4 @@ const DetailButtons = (_, context) => () => {
   );
 };
 
-export default DetailButtons;
+export default DetailToolbar;

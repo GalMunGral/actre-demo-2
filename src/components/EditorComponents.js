@@ -1,6 +1,6 @@
-import styled from "lib/common/Decorator";
+import decor from "lib/common/Decorator";
 
-export const Window = styled.div`
+export const Window = decor.div`
   border: none;
   position: fixed;
   bottom: 0;
@@ -14,7 +14,7 @@ export const Window = styled.div`
   transition: width 0.2s;
 `;
 
-export const Header = styled.header`
+export const Header = decor.header`
   height: auto;
   padding: 12px 15px;
   line-height: 1rem;
@@ -25,7 +25,7 @@ export const Header = styled.header`
   cursor: pointer;
 `;
 
-export const CloseButton = styled.button`
+export const CloseButton = decor.button`
   --size: 1rem;
   float: right;
   border: none;
@@ -47,7 +47,7 @@ export const CloseButton = styled.button`
 }
 `;
 
-export const Body = styled.section`
+export const Body = decor.section`
   height: ${({ minimized }) => (minimized ? 0 : "60vh")};
   width: ${({ minimized }) => (minimized ? "300px" : "40vw")};
   display: flex;
@@ -55,7 +55,7 @@ export const Body = styled.section`
   transition: all 0.2s;
 `;
 
-export const InputBox = styled.div`
+export const InputBox = decor.div`
   line-height: 1rem;
   font-size: 1rem;
   margin: 0 20px;
@@ -77,7 +77,7 @@ export const InputBox = styled.div`
 }
 `;
 
-export const TextArea = styled.textarea`
+export const TextArea = decor.textarea`
   --horizontal-margin: 20px;
   flex: 1 1 auto;
   margin: 0 var(--horizontal-margin);
@@ -90,14 +90,14 @@ export const TextArea = styled.textarea`
   font-family: inherit;
 `;
 
-export const ButtonGroup = styled.div`
+export const ButtonGroup = decor.div`
   margin: 15px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 `;
 
-export const SendButton = styled.button`
+export const SendButton = decor.button`
   line-height: 1rem;
   font-size: 1rem;
   padding: 10px 22px;
@@ -110,7 +110,7 @@ export const SendButton = styled.button`
   outline: none;
   cursor: pointer;
   transition: all 0.1s;\
-  
+
 `.and`:hover {
   filter: brightness(1.2);
   box-shadow: 0 0 3px 0 var(--blue);

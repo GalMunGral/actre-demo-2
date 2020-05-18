@@ -1,13 +1,13 @@
-import styled from "lib/common/Decorator";
+import decor from "lib/common/Decorator";
 
-export const Container = styled.div`
+export const Container = decor.div`
   grid-area: c;
   height: 100%;
   display: flex;
   flex-direction: column;
 `;
 
-export const ToolbarContainer = styled.div`
+export const ToolbarContainer = decor.div`
   flex: 0 0 50px;
   border-bottom: 1px solid var(--light-gray);
   display: flex;
@@ -17,7 +17,7 @@ export const ToolbarContainer = styled.div`
   padding-right: 30px;
 `;
 
-export const Scrollable = styled.div`
+export const Scrollable = decor.div`
   flex: 1 1 auto;
   overflow-y: auto;
   padding-bottom: 80px;\

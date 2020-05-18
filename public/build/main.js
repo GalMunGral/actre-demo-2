@@ -18011,10 +18011,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _hooks_route__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../hooks/route */ "./src/hooks/route.js");
 /* harmony import */ var _AppBar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./AppBar */ "./src/components/AppBar.js");
 /* harmony import */ var _Mailbox__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Mailbox */ "./src/components/Mailbox.js");
-/* harmony import */ var _SideBar__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./SideBar */ "./src/components/SideBar.js");
-/* harmony import */ var _NewMessage__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./NewMessage */ "./src/components/NewMessage.js");
-/* harmony import */ var _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../lib/common/Decorator */ "./src/lib/common/Decorator.js");
-/* harmony import */ var _Detail__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Detail */ "./src/components/Detail.js");
+/* harmony import */ var _Sidebar__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Sidebar */ "./src/components/Sidebar.js");
+/* harmony import */ var _Editor__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Editor */ "./src/components/Editor.js");
+/* harmony import */ var _Detail__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Detail */ "./src/components/Detail.js");
+/* harmony import */ var _AppComponents__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./AppComponents */ "./src/components/AppComponents.js");
 
 
 
@@ -18026,17 +18026,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const Container = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_9__["default"].div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  display: grid;
-  grid-template:
-    "a a" 64px
-    "b c" calc(100vh - 60px) / auto 1fr;
-`;
 
 const App = (state, context) => {
   context.store = Object(_hooks_store__WEBPACK_IMPORTED_MODULE_0__["default"])(context);
@@ -18053,14 +18042,14 @@ const App = (state, context) => {
     const mailId = context.route.getMailId();
     const editing = context.editor.getEditing();
     return (// use transform
-      [[Container, {}, [[_AppBar__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      [[_AppComponents__WEBPACK_IMPORTED_MODULE_10__["Container"], {}, [[_AppBar__WEBPACK_IMPORTED_MODULE_5__["default"], {
         toggle: () => state.collapsed = !state.collapsed
-      }, []], [_SideBar__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      }, []], [_Sidebar__WEBPACK_IMPORTED_MODULE_7__["default"], {
         collapsed: state.collapsed,
         setCollapse: v => state.setCollapse(v)
-      }, []], mailId ? [_Detail__WEBPACK_IMPORTED_MODULE_10__["default"], {
+      }, []], mailId ? [_Detail__WEBPACK_IMPORTED_MODULE_9__["default"], {
         mailId: mailId
-      }, []] : [_Mailbox__WEBPACK_IMPORTED_MODULE_6__["default"], {}, []], editing ? [_NewMessage__WEBPACK_IMPORTED_MODULE_8__["default"], {}, []] : null]]]
+      }, []] : [_Mailbox__WEBPACK_IMPORTED_MODULE_6__["default"], {}, []], editing ? [_Editor__WEBPACK_IMPORTED_MODULE_8__["default"], {}, []] : null]]]
     );
   };
 };
@@ -18078,9 +18067,49 @@ const App = (state, context) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lib/common/Decorator */ "./src/lib/common/Decorator.js");
+/* harmony import */ var _AppBarComponents__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AppBarComponents */ "./src/components/AppBarComponents.js");
 
-const Bar = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
+
+const AppBar = () => ({
+  toggle
+}) => // use transform
+[[_AppBarComponents__WEBPACK_IMPORTED_MODULE_0__["Container"], {}, [[_AppBarComponents__WEBPACK_IMPORTED_MODULE_0__["Group"], {}, [[_AppBarComponents__WEBPACK_IMPORTED_MODULE_0__["MenuButton"], {
+  onclick: toggle
+}, [[_AppBarComponents__WEBPACK_IMPORTED_MODULE_0__["MenuIcon"], {
+  className: "fas fa-bars"
+}, []]]], [_AppBarComponents__WEBPACK_IMPORTED_MODULE_0__["AppLogo"], {
+  src: "/assets/images/logo.png",
+  alt: "logo"
+}, []]]], [_AppBarComponents__WEBPACK_IMPORTED_MODULE_0__["SearchBar"], {}, [[_AppBarComponents__WEBPACK_IMPORTED_MODULE_0__["SearchIcon"], {
+  className: "fas fa-search"
+}, []], [_AppBarComponents__WEBPACK_IMPORTED_MODULE_0__["SearchInput"], {
+  placeholder: "Search mail"
+}, []]]], [_AppBarComponents__WEBPACK_IMPORTED_MODULE_0__["Group"], {}, []]]]];
+
+/* harmony default export */ __webpack_exports__["default"] = (AppBar);
+
+/***/ }),
+
+/***/ "./src/components/AppBarComponents.js":
+/*!********************************************!*\
+  !*** ./src/components/AppBarComponents.js ***!
+  \********************************************/
+/*! exports provided: Container, Group, MenuButton, AppLogo, MenuIcon, SearchInput, SearchBar, SearchIcon */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Container", function() { return Container; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Group", function() { return Group; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MenuButton", function() { return MenuButton; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppLogo", function() { return AppLogo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MenuIcon", function() { return MenuIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SearchInput", function() { return SearchInput; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SearchBar", function() { return SearchBar; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SearchIcon", function() { return SearchIcon; });
+/* harmony import */ var lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lib/common/Decorator */ "./src/lib/common/Decorator.js");
+
+const Container = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
   grid-area: a;
   padding: 2px 10px;
   width: 100%;
@@ -18090,7 +18119,14 @@ const Bar = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
   justify-content: space-between;
   border-bottom: 1px solid var(--light-gray);
 `;
-const Button = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].button`
+const Group = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
+  flex: 0 0 auto;
+  min-width: 200px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+`;
+const MenuButton = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].button`
   --size: 48px;
   border: none;
   width: var(--size);
@@ -18099,26 +18135,20 @@ const Button = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].but
   margin: 5px;
   background: none;
   outline: none;
-  cursor: pointer;
+  cursor: pointer;\
+
 `.and`:hover {
     background: var(--light-gray);
   }
 `;
-const Group = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
-  flex: 0 0 auto;
-  min-width: 200px;
-  height: 100%;
-  display: flex;
-  align-items: center;
-`;
-const Logo = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].img`
+const AppLogo = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].img`
   height: 40px;
 `;
-const Icon = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].i`
+const MenuIcon = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].i`
   font-size: 1rem;
   color: var(--dark-gray);
 `;
-const Input = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].input`
+const SearchInput = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].input`
   height: 100%;
   width: 100%;
   border: none;
@@ -18127,7 +18157,7 @@ const Input = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].inpu
   font-family: inherit;
   font-size: 1rem;
 `;
-const SearchBar = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
+const SearchBar = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
   width: 50vw;
   height: calc(100% - 20px);
   padding: 5px;
@@ -18135,35 +18165,44 @@ const SearchBar = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].
   border-radius: 10px;
   transition: all 0.2s;
   display: flex;
-  align-items: center;
+  align-items: center;\
+
 `.and`:focus-within {
-    box-shadow: 0 1px 4px 0px var(--gray);
-    background: white;
-  }
+  box-shadow: 0 1px 4px 0px var(--gray);
+  background: white;
+}
 `;
-const SearchIcon = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].i`
+const SearchIcon = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].i`
   font-size: 1rem;
   color: var(--dark-gray);
   margin: 20px;
 `;
 
-const AppBar = () => ({
-  toggle
-}) => // use transform
-[[Bar, {}, [[Group, {}, [[Button, {
-  onclick: toggle
-}, [[Icon, {
-  className: "fas fa-bars"
-}, []]]], [Logo, {
-  src: "/assets/images/logo.png",
-  alt: "logo"
-}, []]]], [SearchBar, {}, [[SearchIcon, {
-  className: "fas fa-search"
-}, []], [Input, {
-  placeholder: "Search mail"
-}, []]]], [Group, {}, []]]]];
+/***/ }),
 
-/* harmony default export */ __webpack_exports__["default"] = (AppBar);
+/***/ "./src/components/AppComponents.js":
+/*!*****************************************!*\
+  !*** ./src/components/AppComponents.js ***!
+  \*****************************************/
+/*! exports provided: Container */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Container", function() { return Container; });
+/* harmony import */ var lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lib/common/Decorator */ "./src/lib/common/Decorator.js");
+
+const Container = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template:
+    "a a" 64px
+    "b c" calc(100vh - 60px) / auto 1fr;
+`;
 
 /***/ }),
 
@@ -18176,9 +18215,47 @@ const AppBar = () => ({
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lib/common/Decorator */ "./src/lib/common/Decorator.js");
+/* harmony import */ var _CheckboxComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CheckboxComponent */ "./src/components/CheckboxComponent.js");
 
-const Background = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
+
+const Checkbox = () => ({
+  checked,
+  onchange
+}) => // use transform
+[[_CheckboxComponent__WEBPACK_IMPORTED_MODULE_0__["Clickable"], {
+  onmousedown: e => e.stopPropagation(),
+  onmouseup: e => e.stopPropagation(),
+  onclick: onchange
+}, [["div", {}, [[_CheckboxComponent__WEBPACK_IMPORTED_MODULE_0__["Background"], {
+  checked: checked
+}, []], [_CheckboxComponent__WEBPACK_IMPORTED_MODULE_0__["CheckMark"], {
+  checked: checked
+}, [["i", {
+  className: "fas fa-check"
+}, []]]], ["input", {
+  type: "checkbox",
+  checked: checked
+}, []]]]]]];
+
+/* harmony default export */ __webpack_exports__["default"] = (Checkbox);
+
+/***/ }),
+
+/***/ "./src/components/CheckboxComponent.js":
+/*!*********************************************!*\
+  !*** ./src/components/CheckboxComponent.js ***!
+  \*********************************************/
+/*! exports provided: Background, CheckMark, Clickable */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Background", function() { return Background; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CheckMark", function() { return CheckMark; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Clickable", function() { return Clickable; });
+/* harmony import */ var lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lib/common/Decorator */ "./src/lib/common/Decorator.js");
+
+const Background = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
   --border-size: 2px;
   margin: 0;
   position: absolute;
@@ -18205,7 +18282,7 @@ const Background = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"]
   checked
 }) => checked ? "0.2s" : 0};
 `;
-const CheckMark = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
+const CheckMark = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
   --border-size: 2px;
   margin: 0;
   position: absolute;
@@ -18232,19 +18309,21 @@ const CheckMark = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].
 }) => checked ? 1 : 0});
   transition: transform 0.2s;
 `;
-const Clickable = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
+const Clickable = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
   --size: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
   width: var(--size);
   height: var(--size);
-  border-radius: calc(0.5 * var(--size));
+  border-radius: calc(0.5 * var(--size));\
+
 `.and`:hover {
   background: ${({
   checked
 }) => checked ? "none" : "var(--light-gray)"};
-}`.and` > div {
+}
+`.and` > div {
   flex: 0 0 auto;
   position: relative;
   width: 0.8rem;
@@ -18262,27 +18341,6 @@ const Clickable = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].
   cursor: pointer;
 }`;
 
-const Checkbox = () => ({
-  checked,
-  onchange
-}) => // use transform
-[[Clickable, {
-  onmousedown: e => e.stopPropagation(),
-  onmouseup: e => e.stopPropagation(),
-  onclick: onchange
-}, [["div", {}, [[Background, {
-  checked: checked
-}, []], [CheckMark, {
-  checked: checked
-}, [["i", {
-  className: "fas fa-check"
-}, []]]], ["input", {
-  type: "checkbox",
-  checked: checked
-}, []]]]]]];
-
-/* harmony default export */ __webpack_exports__["default"] = (Checkbox);
-
 /***/ }),
 
 /***/ "./src/components/Detail.js":
@@ -18294,37 +18352,14 @@ const Checkbox = () => ({
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lib/common/Decorator */ "./src/lib/common/Decorator.js");
-/* harmony import */ var _Layout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Layout */ "./src/components/Layout.js");
-/* harmony import */ var _DetailButtons__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DetailButtons */ "./src/components/DetailButtons.js");
+/* harmony import */ var _Layout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Layout */ "./src/components/Layout.js");
+/* harmony import */ var _DetailToolbar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DetailToolbar */ "./src/components/DetailToolbar.js");
+/* harmony import */ var _DetailComponents__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DetailComponents */ "./src/components/DetailComponents.js");
 
 
 
-const Main = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].main`
-  margin: 0 50px;
-`;
-const Header = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].section`
-  font-weight: 600;
-  font-size: 1.8rem;
-  margin: 20px 0;
-  text-transform: capitalize;
-`;
-const SenderInfo = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
-  margin: 0;
-  font-weight: bold;
-  font-size: 0.9rem;
-`;
-const RecipientInfo = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
-  margin: 0;
-  color: gray;
-  font-size: 0.8rem;
-`;
-const Body = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].section`
-  margin: 20px 0;
-  text-align: justify;
-`;
 
-const Detail = (state, context) => ({
+const Detail = (__, context) => ({
   mailId
 }) => {
   const {
@@ -18354,15 +18389,12 @@ const Detail = (state, context) => ({
     recipientEmail,
     content
   } = mail;
-  state.on("willunmount", () => {
-    console.log("Detail page will be unmounted");
-  });
   return (// use transform
-    [[_Layout__WEBPACK_IMPORTED_MODULE_1__["default"], {}, [[_DetailButtons__WEBPACK_IMPORTED_MODULE_2__["default"], {}, []], [Main, {}, [[Header, {}, subject], [SenderInfo, {
+    [[_Layout__WEBPACK_IMPORTED_MODULE_0__["default"], {}, [[_DetailToolbar__WEBPACK_IMPORTED_MODULE_1__["default"], {}, []], [_DetailComponents__WEBPACK_IMPORTED_MODULE_2__["Main"], {}, [[_DetailComponents__WEBPACK_IMPORTED_MODULE_2__["Header"], {}, subject], [_DetailComponents__WEBPACK_IMPORTED_MODULE_2__["SenderInfo"], {
       innerHTML: `${senderName || "(no name)"}&nbsp;&lt;${senderEmail || "(no email)"}&gt;`
-    }, []], [RecipientInfo, {
+    }, []], [_DetailComponents__WEBPACK_IMPORTED_MODULE_2__["RecipientInfo"], {
       innerHTML: `To: ${recipientName || "(no name)"}&nbsp;&lt;${recipientEmail || "(no email)"}&gt;`
-    }, []], [Body, {}, content]]]]]]
+    }, []], [_DetailComponents__WEBPACK_IMPORTED_MODULE_2__["Body"], {}, content]]]]]]
   );
 };
 
@@ -18370,9 +18402,51 @@ const Detail = (state, context) => ({
 
 /***/ }),
 
-/***/ "./src/components/DetailButtons.js":
+/***/ "./src/components/DetailComponents.js":
+/*!********************************************!*\
+  !*** ./src/components/DetailComponents.js ***!
+  \********************************************/
+/*! exports provided: Main, Header, SenderInfo, RecipientInfo, Body */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Main", function() { return Main; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Header", function() { return Header; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SenderInfo", function() { return SenderInfo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RecipientInfo", function() { return RecipientInfo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Body", function() { return Body; });
+/* harmony import */ var lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lib/common/Decorator */ "./src/lib/common/Decorator.js");
+
+const Main = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].main`
+  margin: 0 50px;
+`;
+const Header = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].section`
+  font-weight: 600;
+  font-size: 1.8rem;
+  margin: 20px 0;
+  text-transform: capitalize;
+`;
+const SenderInfo = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
+  margin: 0;
+  font-weight: bold;
+  font-size: 0.9rem;
+`;
+const RecipientInfo = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
+  margin: 0;
+  color: gray;
+  font-size: 0.8rem;
+`;
+const Body = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].section`
+  margin: 20px 0;
+  text-align: justify;
+`;
+
+/***/ }),
+
+/***/ "./src/components/DetailToolbar.js":
 /*!*****************************************!*\
-  !*** ./src/components/DetailButtons.js ***!
+  !*** ./src/components/DetailToolbar.js ***!
   \*****************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -18382,7 +18456,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _IconButton__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./IconButton */ "./src/components/IconButton.js");
 
 
-const DetailButtons = (_, context) => () => {
+const DetailToolbar = (_, context) => () => {
   const {
     dispatch,
     Type: T
@@ -18421,7 +18495,7 @@ const DetailButtons = (_, context) => () => {
   );
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (DetailButtons);
+/* harmony default export */ __webpack_exports__["default"] = (DetailToolbar);
 
 /***/ }),
 
@@ -18434,9 +18508,43 @@ const DetailButtons = (_, context) => () => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lib/common/Decorator */ "./src/lib/common/Decorator.js");
+/* harmony import */ var _DragImageComponents__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DragImageComponents */ "./src/components/DragImageComponents.js");
 
-const DragImageBox = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
+
+const DragImage = (_, context) => () => {
+  const [dragging, x, y] = context.getDragState();
+  const selected = context.selection.getSelected();
+  const text = `Move ${selected.length} ${selected.length > 1 ? "items" : "item"}`;
+  return (// use transform
+    [[_DragImageComponents__WEBPACK_IMPORTED_MODULE_0__["Box"], {
+      style: {
+        visibility: dragging ? "visible" : "hidden",
+        transform: `translate3d(${x}px, ${y}px, 0)`
+      }
+    }, [[_DragImageComponents__WEBPACK_IMPORTED_MODULE_0__["Icon"], {
+      className: "fas fa-mail-bulk"
+    }, []], ["span", {}, text]]]]
+  );
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (DragImage);
+
+/***/ }),
+
+/***/ "./src/components/DragImageComponents.js":
+/*!***********************************************!*\
+  !*** ./src/components/DragImageComponents.js ***!
+  \***********************************************/
+/*! exports provided: Box, Icon */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Box", function() { return Box; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Icon", function() { return Icon; });
+/* harmony import */ var lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lib/common/Decorator */ "./src/lib/common/Decorator.js");
+
+const Box = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
   position: fixed;
   top: 0;
   left: 0;
@@ -18451,27 +18559,259 @@ const DragImageBox = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default
   box-shadow: 0 1px 15px 0 gray;
   pointer-events: none;
 `;
-const DragImageIcon = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].i`
+const Icon = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].i`
   margin-right: 15px;
 `;
 
-const DragImage = (_, context) => () => {
-  const [dragging, x, y] = context.getDragState();
-  const selected = context.selection.getSelected();
-  const text = `Move ${selected.length} ${selected.length > 1 ? "items" : "item"}`;
-  return (// use transform
-    [[DragImageBox, {
-      style: {
-        visibility: dragging ? "visible" : "hidden",
-        transform: `translate3d(${x}px, ${y}px, 0)`
-      }
-    }, [[DragImageIcon, {
-      className: "fas fa-mail-bulk"
-    }, []], ["span", {}, text]]]]
-  );
+/***/ }),
+
+/***/ "./src/components/Editor.js":
+/*!**********************************!*\
+  !*** ./src/components/Editor.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _IconButton__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./IconButton */ "./src/components/IconButton.js");
+/* harmony import */ var _Space__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Space */ "./src/components/Space.js");
+/* harmony import */ var _EditorInput__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./EditorInput */ "./src/components/EditorInput.js");
+/* harmony import */ var _EditorComponents__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./EditorComponents */ "./src/components/EditorComponents.js");
+
+
+
+
+
+const Editor = (state, context) => {
+  const {
+    getRecipientEmail,
+    setRecipientEmail,
+    getSubject,
+    setSubject,
+    getContent,
+    updateHistory,
+    undo,
+    redo,
+    saveDraft,
+    send,
+    close
+  } = context.editor;
+  state.minimized = false;
+  return () => {
+    return (// use transform
+      [[_EditorComponents__WEBPACK_IMPORTED_MODULE_3__["Window"], {}, [[_EditorComponents__WEBPACK_IMPORTED_MODULE_3__["Header"], {
+        onclick: () => state.minimized = !state.minimized
+      }, [["span", {}, "New Message"], [_EditorComponents__WEBPACK_IMPORTED_MODULE_3__["CloseButton"], {
+        onclick: () => {
+          saveDraft();
+          close();
+        }
+      }, [["i", {
+        className: "fas fa-times"
+      }, []]]]]], [_EditorComponents__WEBPACK_IMPORTED_MODULE_3__["Body"], {
+        minimized: state.minimized
+      }, [[_EditorInput__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        label: "To:",
+        placeholder: "Recipient",
+        value: getRecipientEmail(),
+        setValue: setRecipientEmail
+      }, []], [_EditorInput__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        label: "Subject:",
+        placeholder: "Subject",
+        value: getSubject(),
+        setValue: setSubject
+      }, []], [_EditorComponents__WEBPACK_IMPORTED_MODULE_3__["TextArea"], {
+        value: getContent(),
+        oninput: updateHistory
+      }, []], [_EditorComponents__WEBPACK_IMPORTED_MODULE_3__["ButtonGroup"], {}, [[_EditorComponents__WEBPACK_IMPORTED_MODULE_3__["SendButton"], {
+        onclick: e => {
+          send();
+          close();
+        }
+      }, "Send"], [_IconButton__WEBPACK_IMPORTED_MODULE_0__["default"], {
+        onclick: undo,
+        type: "undo"
+      }, []], [_IconButton__WEBPACK_IMPORTED_MODULE_0__["default"], {
+        onclick: redo,
+        type: "redo"
+      }, []], [_Space__WEBPACK_IMPORTED_MODULE_1__["default"], {}, []]]]]]]]]
+    );
+  };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (DragImage);
+/* harmony default export */ __webpack_exports__["default"] = (Editor);
+
+/***/ }),
+
+/***/ "./src/components/EditorComponents.js":
+/*!********************************************!*\
+  !*** ./src/components/EditorComponents.js ***!
+  \********************************************/
+/*! exports provided: Window, Header, CloseButton, Body, InputBox, TextArea, ButtonGroup, SendButton */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Window", function() { return Window; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Header", function() { return Header; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CloseButton", function() { return CloseButton; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Body", function() { return Body; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "InputBox", function() { return InputBox; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TextArea", function() { return TextArea; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ButtonGroup", function() { return ButtonGroup; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SendButton", function() { return SendButton; });
+/* harmony import */ var lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lib/common/Decorator */ "./src/lib/common/Decorator.js");
+
+const Window = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
+  border: none;
+  position: fixed;
+  bottom: 0;
+  right: 100px;
+  background: white;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 20px 5px var(--gray);
+  z-index: 998;
+  transition: width 0.2s;
+`;
+const Header = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].header`
+  height: auto;
+  padding: 12px 15px;
+  line-height: 1rem;
+  font-size: 1rem;
+  background: var(--dark-gray);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+`;
+const CloseButton = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].button`
+  --size: 1rem;
+  float: right;
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  width: var(--size);
+  height: var(--size);
+  line-height: var(--size);
+  font-size: var(--size);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;\
+
+`.and`:hover {
+  color: var(--light-gray);
+  transform: scale(1.2);
+}
+`;
+const Body = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].section`
+  height: ${({
+  minimized
+}) => minimized ? 0 : "60vh"};
+  width: ${({
+  minimized
+}) => minimized ? "300px" : "40vw"};
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s;
+`;
+const InputBox = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
+  line-height: 1rem;
+  font-size: 1rem;
+  margin: 0 20px;
+  padding: 0;
+  border-bottom: 1px solid var(--light-gray);\
+
+`.and` > label {
+  color: gray;
+  margin-right: 5px;
+}
+`.and` > input {
+  line-height: 1rem;
+  font-size: 1rem;
+  padding: 8px 0;
+  border: none;
+  outline: none;
+  background: white;
+  font-family: inherit;
+}
+`;
+const TextArea = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].textarea`
+  --horizontal-margin: 20px;
+  flex: 1 1 auto;
+  margin: 0 var(--horizontal-margin);
+  padding-top: 10px;
+  width: calc(100% - 2 * var(--horizontal-margin));
+  resize: none;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  font-family: inherit;
+`;
+const ButtonGroup = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
+  margin: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+const SendButton = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].button`
+  line-height: 1rem;
+  font-size: 1rem;
+  padding: 10px 22px;
+  background: var(--blue);
+  border-radius: 3px;
+  color: white;
+  font-weight: 600;
+  margin-right: 10px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.1s;\
+
+`.and`:hover {
+  filter: brightness(1.2);
+  box-shadow: 0 0 3px 0 var(--blue);
+}`;
+
+/***/ }),
+
+/***/ "./src/components/EditorInput.js":
+/*!***************************************!*\
+  !*** ./src/components/EditorInput.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _EditorComponents__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EditorComponents */ "./src/components/EditorComponents.js");
+
+
+const EditorInput = state => {
+  state.focused = false;
+  return ({
+    label,
+    value,
+    setValue,
+    placeholder
+  }) => {
+    return (// use transform
+      [[_EditorComponents__WEBPACK_IMPORTED_MODULE_0__["InputBox"], {}, [state.focused || value ? ["label", {}, label] : null, ["input", {
+        key: "input",
+        value: value,
+        placeholder: !state.focused && !value ? placeholder : "",
+        onfocus: () => state.focused = true,
+        onblur: () => state.focused = false,
+        onchange: e => setValue(e.target.value)
+      }, []]]]]
+    );
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (EditorInput);
 
 /***/ }),
 
@@ -18484,9 +18824,39 @@ const DragImage = (_, context) => () => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lib/common/Decorator */ "./src/lib/common/Decorator.js");
+/* harmony import */ var _IconButtonComponents__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./IconButtonComponents */ "./src/components/IconButtonComponents.js");
 
-const Button = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].button`
+
+const IconButton = () => ({
+  type,
+  onclick
+}) => // use transform
+[[_IconButtonComponents__WEBPACK_IMPORTED_MODULE_0__["Button"], {
+  onclick: onclick,
+  onmousedown: e => e.stopPropagation(),
+  onmouseup: e => e.stopPropagation()
+}, [[_IconButtonComponents__WEBPACK_IMPORTED_MODULE_0__["Icon"], {
+  className: `fas fa-${type}`
+}, []]]]];
+
+/* harmony default export */ __webpack_exports__["default"] = (IconButton);
+
+/***/ }),
+
+/***/ "./src/components/IconButtonComponents.js":
+/*!************************************************!*\
+  !*** ./src/components/IconButtonComponents.js ***!
+  \************************************************/
+/*! exports provided: Button, Icon */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Button", function() { return Button; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Icon", function() { return Icon; });
+/* harmony import */ var lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lib/common/Decorator */ "./src/lib/common/Decorator.js");
+
+const Button = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].button`
   --size: 40px;
   border: none;
   outline: none;
@@ -18498,38 +18868,94 @@ const Button = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].but
   width: var(--size);
   height: var(--size);
   border-radius: calc(0.5 * var(--size));
-  cursor: pointer;
+  cursor: pointer;\
+
 `.and`:hover {
   background: var(--light-gray);
-}`.and`:hover i {
+}
+`.and`:hover i {
   filter: brightness(0.8);
-}`.and`:active {
+}
+`.and`:active {
   background: var(--gray);
-}`;
-const Icon = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].i`
+}
+`;
+const Icon = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].i`
   color: gray;
 `;
 
-const IconButton = () => ({
-  type,
-  onclick
-}) => // use transform
-[[Button, {
-  onclick: onclick,
-  onmousedown: e => e.stopPropagation(),
-  onmouseup: e => e.stopPropagation()
-}, [[Icon, {
-  className: `fas fa-${type}`
-}, []]]]];
+/***/ }),
 
-/* harmony default export */ __webpack_exports__["default"] = (IconButton);
+/***/ "./src/components/Layout.js":
+/*!**********************************!*\
+  !*** ./src/components/Layout.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _LayoutComponents__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LayoutComponents */ "./src/components/LayoutComponents.js");
+
+
+const Layout = () => (_, [buttons, body]) => {
+  return (// use transform
+    [[_LayoutComponents__WEBPACK_IMPORTED_MODULE_0__["Container"], {}, [[_LayoutComponents__WEBPACK_IMPORTED_MODULE_0__["ToolbarContainer"], {}, [buttons]], [_LayoutComponents__WEBPACK_IMPORTED_MODULE_0__["Scrollable"], {}, [body]]]]]
+  );
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Layout);
 
 /***/ }),
 
-/***/ "./src/components/Item.js":
-/*!********************************!*\
-  !*** ./src/components/Item.js ***!
-  \********************************/
+/***/ "./src/components/LayoutComponents.js":
+/*!********************************************!*\
+  !*** ./src/components/LayoutComponents.js ***!
+  \********************************************/
+/*! exports provided: Container, ToolbarContainer, Scrollable */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Container", function() { return Container; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ToolbarContainer", function() { return ToolbarContainer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Scrollable", function() { return Scrollable; });
+/* harmony import */ var lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lib/common/Decorator */ "./src/lib/common/Decorator.js");
+
+const Container = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
+  grid-area: c;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+const ToolbarContainer = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
+  flex: 0 0 50px;
+  border-bottom: 1px solid var(--light-gray);
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 30px;
+`;
+const Scrollable = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding-bottom: 80px;\
+
+`.and`::-webkit-scrollbar-thumb {
+  background: var(--gray);
+}
+`.and`::-webkit-scrollbar {
+  width: 10px;
+}
+`;
+
+/***/ }),
+
+/***/ "./src/components/MailItem.js":
+/*!************************************!*\
+  !*** ./src/components/MailItem.js ***!
+  \************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -18537,67 +18963,19 @@ const IconButton = () => ({
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Checkbox__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Checkbox */ "./src/components/Checkbox.js");
-/* harmony import */ var _IconButton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./IconButton */ "./src/components/IconButton.js");
-/* harmony import */ var _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../lib/common/Decorator */ "./src/lib/common/Decorator.js");
-/* harmony import */ var _hooks_itemSelection__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../hooks/itemSelection */ "./src/hooks/itemSelection.js");
+/* harmony import */ var _hooks_itemSelection__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../hooks/itemSelection */ "./src/hooks/itemSelection.js");
+/* harmony import */ var _Checkbox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Checkbox */ "./src/components/Checkbox.js");
+/* harmony import */ var _IconButton__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./IconButton */ "./src/components/IconButton.js");
+/* harmony import */ var _MailItemComponents__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./MailItemComponents */ "./src/components/MailItemComponents.js");
 
 
 
 
 
-const Row = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_3__["default"].div`
-  --height: 40px;
-  position: relative;
-  height: var(--height);
-  line-height: var(--height);
-  padding: 0 10px;
-  display: flex;
-  border-bottom: 1px solid var(--light-gray);
-  background-color: ${({
-  selected
-}) => selected ? "var(--highlight)" : "white"};
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-`.and`:active {
-  cursor: grabbing;
-}`.and`:hover {
-  background: ${({
-  selected
-}) => selected ? "var(--highlight)" : "white"};
-  filter: brightness(0.95);
-`.and`:hover * {
-  visibility: visible;
-}`;
-const Sender = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_3__["default"].div`
-  flex: 0 0 200px;
-  font-weight: 600;
-`;
-const Summary = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_3__["default"].div`
-  flex: 1 1 auto;
-  line-height: 1rem;
-`;
-const Title = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_3__["default"].span`
-  font-weight: 600;
-  font-size: 1rem;
-  text-transform: capitalize;
-`;
-const Preheader = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_3__["default"].span`
-  font-weight: 300;
-  font-size: 1rem;
-  color: gray;
-`;
-const Actions = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_3__["default"].div`
-  margin-right: 30px;
-  flex: 0 0 auto;
-  visibility: hidden;
-  color: var(--gray);
-`;
 
 const format = length => s => s.length <= length ? s : s.slice(0, length) + "...";
 
-const Item = (state, context) => {
+const MailItem = (state, context) => {
   const {
     dispatch,
     Type: T
@@ -18613,7 +18991,7 @@ const Item = (state, context) => {
   const {
     setSelected,
     toggleItem
-  } = Object(_hooks_itemSelection__WEBPACK_IMPORTED_MODULE_4__["default"])(context.selection);
+  } = Object(_hooks_itemSelection__WEBPACK_IMPORTED_MODULE_1__["default"])(context.selection);
   const OFFSET = 15;
   let setCoordinatesThrottled;
   let timer;
@@ -18687,7 +19065,7 @@ const Item = (state, context) => {
     };
 
     return (// use transform
-      [[Row, {
+      [[_MailItemComponents__WEBPACK_IMPORTED_MODULE_4__["Container"], {
         selected: selected,
         draggable: folder !== "trash",
         ondragstart: ondragstart,
@@ -18695,12 +19073,12 @@ const Item = (state, context) => {
         ondragend: ondragend,
         onmousedown: onmousedown,
         onmouseup: onmouseup
-      }, [folder !== "trash" ? [_Checkbox__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      }, [folder !== "trash" ? [_Checkbox__WEBPACK_IMPORTED_MODULE_2__["default"], {
         checked: selected,
         onchange: () => toggleItem(item, !selected)
-      }, []] : null, [Sender, {}, senderName || senderEmail || "(no name)"], [Summary, {}, [[Title, {}, format(30)(subject) || "(empty)"], [Preheader, {
+      }, []] : null, [_MailItemComponents__WEBPACK_IMPORTED_MODULE_4__["SenderInfo"], {}, senderName || senderEmail || "(no name)"], [_MailItemComponents__WEBPACK_IMPORTED_MODULE_4__["Summary"], {}, [[_MailItemComponents__WEBPACK_IMPORTED_MODULE_4__["Title"], {}, format(30)(subject) || "(empty)"], [_MailItemComponents__WEBPACK_IMPORTED_MODULE_4__["Preheader"], {
         innerHTML: `&nbsp;&mdash;&nbsp;${format(50)(content) || "(empty)"}`
-      }, []]]], folder !== "trash" ? [Actions, {}, [[_IconButton__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }, []]]], folder !== "trash" ? [_MailItemComponents__WEBPACK_IMPORTED_MODULE_4__["Actions"], {}, [[_IconButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
         type: "trash",
         onclick: deleteItem,
         onmousedown: e => e.stopPropagation(),
@@ -18710,53 +19088,127 @@ const Item = (state, context) => {
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Item);
+/* harmony default export */ __webpack_exports__["default"] = (MailItem);
 
 /***/ }),
 
-/***/ "./src/components/Layout.js":
-/*!**********************************!*\
-  !*** ./src/components/Layout.js ***!
-  \**********************************/
+/***/ "./src/components/MailItemComponents.js":
+/*!**********************************************!*\
+  !*** ./src/components/MailItemComponents.js ***!
+  \**********************************************/
+/*! exports provided: Container, SenderInfo, Summary, Title, Preheader, Actions */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Container", function() { return Container; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SenderInfo", function() { return SenderInfo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Summary", function() { return Summary; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Title", function() { return Title; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Preheader", function() { return Preheader; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Actions", function() { return Actions; });
+/* harmony import */ var lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lib/common/Decorator */ "./src/lib/common/Decorator.js");
+
+const Container = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
+  --height: 40px;
+  position: relative;
+  height: var(--height);
+  line-height: var(--height);
+  padding: 0 10px;
+  display: flex;
+  border-bottom: 1px solid var(--light-gray);
+  background-color: ${({
+  selected
+}) => selected ? "var(--highlight)" : "white"};
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;\
+
+`.and`:active {
+  cursor: grabbing;
+}
+`.and`:hover {
+  background: ${({
+  selected
+}) => selected ? "var(--highlight)" : "white"};
+  filter: brightness(0.95);
+}
+`.and`:hover * {
+  visibility: visible;
+}`;
+const SenderInfo = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
+  flex: 0 0 200px;
+  font-weight: 600;
+`;
+const Summary = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
+  flex: 1 1 auto;
+  line-height: 1rem;
+`;
+const Title = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].span`
+  font-weight: 600;
+  font-size: 1rem;
+  text-transform: capitalize;
+`;
+const Preheader = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].span`
+  font-weight: 300;
+  font-size: 1rem;
+  color: gray;
+`;
+const Actions = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
+  margin-right: 30px;
+  flex: 0 0 auto;
+  visibility: hidden;
+  color: var(--gray);
+`;
+
+/***/ }),
+
+/***/ "./src/components/MailList.js":
+/*!************************************!*\
+  !*** ./src/components/MailList.js ***!
+  \************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lib/common/Decorator */ "./src/lib/common/Decorator.js");
+/* harmony import */ var _MailItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MailItem */ "./src/components/MailItem.js");
+/* harmony import */ var _DragImage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DragImage */ "./src/components/DragImage.js");
 
-const Container = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
-  grid-area: c;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-`;
-const Toolbar = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
-  flex: 0 0 50px;
-  border-bottom: 1px solid var(--light-gray);
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  padding-left: 10px;
-  padding-right: 30px;
-`;
-const Scrollable = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
-  flex: 1 1 auto;
-  overflow-y: auto;
-  padding-bottom: 80px;
-`.and`::-webkit-scrollbar-thumb {
-  background: var(--gray);
-}`.and`::-webkit-scrollbar {
-  width: 10px;
-}`;
 
-const Layout = () => (_, [buttons, body]) => {
-  return (// use transform
-    [[Container, {}, [[Toolbar, {}, [buttons]], [Scrollable, {}, [body]]]]]
-  );
+const x = Symbol("x");
+const y = Symbol("y");
+const dragging = Symbol("dragging");
+
+const MailList = (_, context) => {
+  context[dragging] = false;
+  context[x] = 0;
+  context[y] = 0;
+
+  context.getDragState = () => [context[dragging], context[x], context[y]];
+
+  return ({
+    mails
+  }) => {
+    const selected = context.selection.getSelected();
+    return (// use transform
+      [...mails.map((mail, i) => [_MailItem__WEBPACK_IMPORTED_MODULE_0__["default"], {
+        key: i,
+        item: mail,
+        selected: selected.includes(mail.id),
+        setCoordinates: (newX, newY) => {
+          context[x] = newX;
+          context[y] = newY;
+        },
+        setDragging: v => {
+          context[dragging] = v;
+        }
+      }, []]), [_DragImage__WEBPACK_IMPORTED_MODULE_1__["default"], {}, []]]
+    );
+  };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Layout);
+/* harmony default export */ __webpack_exports__["default"] = (MailList);
 
 /***/ }),
 
@@ -18770,21 +19222,16 @@ const Layout = () => (_, [buttons, body]) => {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Tab__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Tab */ "./src/components/Tab.js");
-/* harmony import */ var _Mails__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Mails */ "./src/components/Mails.js");
+/* harmony import */ var _MailList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MailList */ "./src/components/MailList.js");
 /* harmony import */ var _Layout__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Layout */ "./src/components/Layout.js");
-/* harmony import */ var _MailboxButtons__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./MailboxButtons */ "./src/components/MailboxButtons.js");
-/* harmony import */ var _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../lib/common/Decorator */ "./src/lib/common/Decorator.js");
+/* harmony import */ var _MailboxToolbar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./MailboxToolbar */ "./src/components/MailboxToolbar.js");
+/* harmony import */ var _MailboxComponents__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./MailboxComponents */ "./src/components/MailboxComponents.js");
 
 
 
 
 
-const Container = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_4__["default"].div`
-  flex: 0 0 50px;
-  display: flex;
-  justify-content: start;
-  border-bottom: 1px solid var(--light-gray);
-`;
+const tabs = ["primary", "social", "promotions"];
 
 const Mailbox = (_, context) => {
   const {
@@ -18801,7 +19248,7 @@ const Mailbox = (_, context) => {
     const currentTab = getTab();
     const page = getPage();
     return (// use transform
-      [[_Layout__WEBPACK_IMPORTED_MODULE_2__["default"], {}, [[_MailboxButtons__WEBPACK_IMPORTED_MODULE_3__["default"], {}, []], ["section", {}, [folder === "inbox" ? [Container, {}, ["primary", "social", "promotions"].map(tab => [_Tab__WEBPACK_IMPORTED_MODULE_0__["default"], {
+      [[_Layout__WEBPACK_IMPORTED_MODULE_2__["default"], {}, [[_MailboxToolbar__WEBPACK_IMPORTED_MODULE_3__["default"], {}, []], ["section", {}, [folder === "inbox" ? [_MailboxComponents__WEBPACK_IMPORTED_MODULE_4__["Container"], {}, tabs.map(tab => [_Tab__WEBPACK_IMPORTED_MODULE_0__["default"], {
         key: tab,
         name: tab,
         onclick: () => {
@@ -18809,7 +19256,7 @@ const Mailbox = (_, context) => {
           resetPage();
         },
         active: tab === currentTab
-      }, []])] : null, [_Mails__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      }, []])] : null, [_MailList__WEBPACK_IMPORTED_MODULE_1__["default"], {
         mails: page
       }, []]]]]]]
     );
@@ -18820,9 +19267,30 @@ const Mailbox = (_, context) => {
 
 /***/ }),
 
-/***/ "./src/components/MailboxButtons.js":
+/***/ "./src/components/MailboxComponents.js":
+/*!*********************************************!*\
+  !*** ./src/components/MailboxComponents.js ***!
+  \*********************************************/
+/*! exports provided: Container */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Container", function() { return Container; });
+/* harmony import */ var lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lib/common/Decorator */ "./src/lib/common/Decorator.js");
+
+const Container = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
+  flex: 0 0 50px;
+  display: flex;
+  justify-content: start;
+  border-bottom: 1px solid var(--light-gray);
+`;
+
+/***/ }),
+
+/***/ "./src/components/MailboxToolbar.js":
 /*!******************************************!*\
-  !*** ./src/components/MailboxButtons.js ***!
+  !*** ./src/components/MailboxToolbar.js ***!
   \******************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -18832,20 +19300,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Checkbox__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Checkbox */ "./src/components/Checkbox.js");
 /* harmony import */ var _IconButton__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./IconButton */ "./src/components/IconButton.js");
 /* harmony import */ var _Space__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Space */ "./src/components/Space.js");
-/* harmony import */ var _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../lib/common/Decorator */ "./src/lib/common/Decorator.js");
+/* harmony import */ var _MailboxToolbarComponents__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./MailboxToolbarComponents */ "./src/components/MailboxToolbarComponents.js");
 
 
 
 
-const Progress = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_3__["default"].div`
-  flex: 0 0 200px;
-  text-align: end;
-`;
-const Text = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_3__["default"].span`
-  font-size: 0.9rem;
-  color: gray;
-  margin: 0 20px;
-`;
 
 const MailboxButtons = (_, context) => () => {
   const {
@@ -18868,7 +19327,7 @@ const MailboxButtons = (_, context) => () => {
     [folder !== "trash" ? [_Checkbox__WEBPACK_IMPORTED_MODULE_0__["default"], {
       checked: allSelected(),
       onchange: toggleAll
-    }, []] : null, [_Space__WEBPACK_IMPORTED_MODULE_2__["default"], {}, []], [Progress, {}, [[Text, {
+    }, []] : null, [_Space__WEBPACK_IMPORTED_MODULE_2__["default"], {}, []], [_MailboxToolbarComponents__WEBPACK_IMPORTED_MODULE_3__["PageRange"], {}, [[_MailboxToolbarComponents__WEBPACK_IMPORTED_MODULE_3__["PageRangeText"], {
       innerHTML: `${start}&ndash;${Math.min(end, total)} of ${total}`
     }, []]]], [_IconButton__WEBPACK_IMPORTED_MODULE_1__["default"], {
       onclick: prevPage,
@@ -18884,271 +19343,164 @@ const MailboxButtons = (_, context) => () => {
 
 /***/ }),
 
-/***/ "./src/components/Mails.js":
-/*!*********************************!*\
-  !*** ./src/components/Mails.js ***!
-  \*********************************/
-/*! exports provided: default */
+/***/ "./src/components/MailboxToolbarComponents.js":
+/*!****************************************************!*\
+  !*** ./src/components/MailboxToolbarComponents.js ***!
+  \****************************************************/
+/*! exports provided: PageRange, PageRangeText */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Item__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Item */ "./src/components/Item.js");
-/* harmony import */ var _DragImage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DragImage */ "./src/components/DragImage.js");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PageRange", function() { return PageRange; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PageRangeText", function() { return PageRangeText; });
+/* harmony import */ var lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lib/common/Decorator */ "./src/lib/common/Decorator.js");
 
-
-const x = Symbol("x");
-const y = Symbol("y");
-const dragging = Symbol("dragging");
-
-const Mails = (_, context) => {
-  context[dragging] = false;
-  context[x] = 0;
-  context[y] = 0;
-
-  context.getDragState = () => [context[dragging], context[x], context[y]];
-
-  return ({
-    mails
-  }) => {
-    const selected = context.selection.getSelected();
-    return (// use transform
-      [...mails.map((mail, i) => [_Item__WEBPACK_IMPORTED_MODULE_0__["default"], {
-        key: i,
-        item: mail,
-        selected: selected.includes(mail.id),
-        setCoordinates: (newX, newY) => {
-          context[x] = newX;
-          context[y] = newY;
-        },
-        setDragging: v => {
-          context[dragging] = v;
-        }
-      }, []]), [_DragImage__WEBPACK_IMPORTED_MODULE_1__["default"], {}, []]]
-    );
-  };
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (Mails);
-
-/***/ }),
-
-/***/ "./src/components/NewMessage.js":
-/*!**************************************!*\
-  !*** ./src/components/NewMessage.js ***!
-  \**************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lib/common/Decorator */ "./src/lib/common/Decorator.js");
-/* harmony import */ var _IconButton__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./IconButton */ "./src/components/IconButton.js");
-/* harmony import */ var _Space__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Space */ "./src/components/Space.js");
-
-
-
-const Window = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
-  border: none;
-  position: fixed;
-  bottom: 0;
-  right: 100px;
-  background: white;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 0 20px 5px var(--gray);
-  z-index: 998;
-  transition: width 0.2s;
+const PageRange = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
+  flex: 0 0 200px;
+  text-align: end;
 `;
-const Header = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].header`
-  height: auto;
-  padding: 12px 15px;
-  line-height: 1rem;
-  font-size: 1rem;
-  background: var(--dark-gray);
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-`;
-const CloseButton = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].button`
-  --size: 1rem;
-  float: right;
-  border: none;
-  background: none;
-  padding: 0;
-  margin: 0;
-  outline: none;
-  width: var(--size);
-  height: var(--size);
-  line-height: var(--size);
-  font-size: var(--size);
-  color: white;
-  cursor: pointer;
-  transition: all 0.2s;
-`.and`:hover {
-  color: var(--light-gray);
-  transform: scale(1.2);
-}`;
-const Body = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].section`
-  height: ${({
-  minimized
-}) => minimized ? 0 : "60vh"};
-  width: ${({
-  minimized
-}) => minimized ? "300px" : "40vw"};
-  display: flex;
-  flex-direction: column;
-  transition: all 0.2s;
-`;
-const InputBox = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
-  line-height: 1rem;
-  font-size: 1rem;
-  margin: 0 20px;
-  padding: 0;
-  border-bottom: 1px solid var(--light-gray);
-`.and` > label {
+const PageRangeText = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].span`
+  font-size: 0.9rem;
   color: gray;
-  margin-right: 5px;
-}`.and` > input {
-  line-height: 1rem;
-  font-size: 1rem;
-  padding: 8px 0;
-  border: none;
-  outline: none;
-  background: white;
-  font-family: inherit;
-}`;
-const TextArea = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].textarea`
-  --horizontal-margin: 20px;
-  flex: 1 1 auto;
-  margin: 0 var(--horizontal-margin);
-  padding-top: 10px;
-  width: calc(100% - 2 * var(--horizontal-margin));
-  resize: none;
-  border: none;
-  outline: none;
-  font-size: 1rem;
-  font-family: inherit;
+  margin: 0 20px;
 `;
-const ButtonGroup = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
-  margin: 15px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-const SendButton = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].button`
-  line-height: 1rem;
-  font-size: 1rem;
-  padding: 10px 22px;
-  background: var(--blue);
-  border-radius: 3px;
-  color: white;
-  font-weight: 600;
-  margin-right: 10px;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  transition: all 0.1s;
-`.and`:hover {
-  filter: brightness(1.2);
-  box-shadow: 0 0 3px 0 var(--blue);
-}`;
-
-const Input = state => {
-  state.focused = false;
-  return ({
-    label,
-    value,
-    setValue,
-    placeholder
-  }) => {
-    return (// use transform
-      [[InputBox, {}, [state.focused || value ? ["label", {}, label] : null, ["input", {
-        key: "input",
-        value: value,
-        placeholder: !state.focused && !value ? placeholder : "",
-        onfocus: () => state.focused = true,
-        onblur: () => state.focused = false,
-        onchange: e => setValue(e.target.value)
-      }, []]]]]
-    );
-  };
-};
-
-const NewMessage = (state, context) => {
-  state.minimized = false;
-  const {
-    getRecipientEmail,
-    setRecipientEmail,
-    getSubject,
-    setSubject,
-    getContent,
-    updateHistory,
-    undo,
-    redo,
-    saveDraft,
-    send,
-    close
-  } = context.editor;
-  return () => {
-    return (// use transform
-      [[Window, {}, [[Header, {
-        onclick: () => state.minimized = !state.minimized
-      }, [["span", {}, "New Message"], [CloseButton, {
-        onclick: () => {
-          saveDraft();
-          close();
-        }
-      }, [["i", {
-        className: "fas fa-times"
-      }, []]]]]], [Body, {
-        minimized: state.minimized
-      }, [[Input, {
-        label: "To:",
-        placeholder: "Recipient",
-        value: getRecipientEmail(),
-        setValue: setRecipientEmail
-      }, []], [Input, {
-        label: "Subject:",
-        placeholder: "Subject",
-        value: getSubject(),
-        setValue: setSubject
-      }, []], [TextArea, {
-        value: getContent(),
-        oninput: updateHistory
-      }, []], [ButtonGroup, {}, [[SendButton, {
-        onclick: e => {
-          send();
-          close();
-        }
-      }, "Send"], [_IconButton__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        onclick: undo,
-        type: "undo"
-      }, []], [_IconButton__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        onclick: redo,
-        type: "redo"
-      }, []], [_Space__WEBPACK_IMPORTED_MODULE_2__["default"], {}, []]]]]]]]]
-    );
-  };
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (NewMessage);
 
 /***/ }),
 
-/***/ "./src/components/SideBar.js":
+/***/ "./src/components/Sidebar.js":
 /*!***********************************!*\
-  !*** ./src/components/SideBar.js ***!
+  !*** ./src/components/Sidebar.js ***!
   \***********************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lib/common/Decorator */ "./src/lib/common/Decorator.js");
+/* harmony import */ var _SidebarComponents__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SidebarComponents */ "./src/components/SidebarComponents.js");
 
-const Menu = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
+const iconMap = {
+  inbox: "inbox",
+  sent: "paper-plane",
+  drafts: "scroll"
+};
+
+const Sidebar = (state, context) => {
+  const {
+    getFolder,
+    navigate
+  } = context.route;
+  const {
+    dispatch,
+    Type: T
+  } = context.store;
+  const {
+    getSelected,
+    setSelected
+  } = context.selection;
+  const {
+    getEditing,
+    createDraft,
+    open
+  } = context.editor;
+  state.hovered = false;
+  state.dropZoneActive = false;
+  return ({
+    collapsed
+  }) => {
+    const folder = getFolder();
+    const selected = getSelected();
+    const editing = getEditing();
+
+    const deleteAll = () => {
+      dispatch(d => {
+        setTimeout(() => {
+          d({
+            type: T.DELETE_SELECTED,
+            payload: {
+              folder,
+              selected
+            }
+          });
+          setSelected([]);
+        }, 200);
+      });
+    };
+
+    return (// use transform
+      [[_SidebarComponents__WEBPACK_IMPORTED_MODULE_0__["Menu"], {
+        collapsed: collapsed && !state.hovered,
+        onmouseenter: () => state.hovered = true,
+        onmouseleave: () => state.hovered = false
+      }, [[_SidebarComponents__WEBPACK_IMPORTED_MODULE_0__["EditorButton"], {
+        collapsed: collapsed && !state.hovered,
+        onclick: () => {
+          if (!editing) {
+            createDraft();
+            open();
+          }
+        }
+      }, [[_SidebarComponents__WEBPACK_IMPORTED_MODULE_0__["EditorButtonIcon"], {
+        src: "/assets/images/create.png"
+      }, []], !collapsed || state.hovered ? [_SidebarComponents__WEBPACK_IMPORTED_MODULE_0__["EditorButtonText"], {}, "Compose"] : null]], ...["inbox", "sent", "drafts"].map(folder => [_SidebarComponents__WEBPACK_IMPORTED_MODULE_0__["MenuItem"], {
+        collapsed: collapsed && !state.hovered,
+        activated: getFolder() === folder,
+        onclick: () => navigate("/" + folder)
+      }, [[_SidebarComponents__WEBPACK_IMPORTED_MODULE_0__["MenuIcon"], {
+        className: `fas fa-${iconMap[folder]}`
+      }, []], !collapsed || state.hovered ? ["span", {}, folder] : null]]), [_SidebarComponents__WEBPACK_IMPORTED_MODULE_0__["MenuItem"], {
+        collapsed: collapsed && !state.hovered,
+        activated: getFolder() === "trash",
+        style: {
+          background: state.dropZoneActive ? "var(--theme)" : "",
+          color: state.dropZoneActive ? "white" : ""
+        },
+        onclick: () => navigate("/trash"),
+        ondragenter: e => {
+          e.preventDefault();
+          e.stopPropagation();
+          state.dropZoneActive = true;
+        },
+        ondragover: e => {
+          e.preventDefault();
+          e.stopPropagation();
+        },
+        ondragleave: () => {
+          state.dropZoneActive = false;
+        },
+        ondrop: () => {
+          deleteAll();
+          state.dropZoneActive = false;
+        }
+      }, [[_SidebarComponents__WEBPACK_IMPORTED_MODULE_0__["MenuIcon"], {
+        className: "fas fa-trash"
+      }, []], !collapsed || state.hovered ? ["span", {}, "trash"] : null]]]]]
+    );
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Sidebar);
+
+/***/ }),
+
+/***/ "./src/components/SidebarComponents.js":
+/*!*********************************************!*\
+  !*** ./src/components/SidebarComponents.js ***!
+  \*********************************************/
+/*! exports provided: Menu, MenuIcon, EditorButtonIcon, EditorButton, EditorButtonText, MenuItem */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Menu", function() { return Menu; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MenuIcon", function() { return MenuIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EditorButtonIcon", function() { return EditorButtonIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EditorButton", function() { return EditorButton; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EditorButtonText", function() { return EditorButtonText; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MenuItem", function() { return MenuItem; });
+/* harmony import */ var lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lib/common/Decorator */ "./src/lib/common/Decorator.js");
+
+const Menu = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
   grid-area: b;
   transition: width 0.05s ease-out;
   background: white;
@@ -19162,16 +19514,16 @@ const Menu = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
   collapsed
 }) => collapsed ? "center" : "start"};
 `;
-const MenuIcon = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].i`
+const MenuIcon = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].i`
   width: 1rem;
   font-size: 1rem;
 `;
-const ButtonIcon = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].img`
+const EditorButtonIcon = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].img`
   --size: 32px;
   width: var(--size);
   height: var(--size);
 `;
-const Button = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].button`
+const EditorButton = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].button`
   --size: 50px;
   width: ${({
   collapsed
@@ -19190,20 +19542,22 @@ const Button = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].but
   transition: width 0.2s;
   font-family: inherit;
   cursor: pointer;
-  transition: box-shadow 0.2s;
+  transition: box-shadow 0.2s;\
+
 `.and`:hover {
   box-shadow: 0 5px 10px 0 var(--gray);
-}`.and`:active {
+}
+`.and`:active {
   background: var(--light-gray);
 }
 `;
-const ButtonText = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].span`
+const EditorButtonText = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].span`
   margin-left: 10px;
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--dark-gray);
 `;
-const MenuItem = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
+const MenuItem = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
   --size: 35px;
   height: var(--size);
   line-height: 1rem;
@@ -19264,107 +19618,6 @@ const MenuItem = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].d
   pointer-events: none;
 }
 `;
-const iconMap = {
-  inbox: "inbox",
-  sent: "paper-plane",
-  drafts: "scroll"
-};
-
-const SideBar = (state, context) => {
-  const {
-    getFolder,
-    navigate
-  } = context.route;
-  const {
-    dispatch,
-    Type: T
-  } = context.store;
-  const {
-    getSelected,
-    setSelected
-  } = context.selection;
-  const {
-    getEditing,
-    createDraft,
-    open
-  } = context.editor;
-  state.hovered = false;
-  state.dropZoneActive = false;
-  return ({
-    collapsed
-  }) => {
-    const folder = getFolder();
-    const selected = getSelected();
-    const editing = getEditing();
-
-    const deleteAll = () => {
-      dispatch(d => {
-        setTimeout(() => {
-          d({
-            type: T.DELETE_SELECTED,
-            payload: {
-              folder,
-              selected
-            }
-          });
-          setSelected([]);
-        }, 200);
-      });
-    };
-
-    return (// use transform
-      [[Menu, {
-        collapsed: collapsed && !state.hovered,
-        onmouseenter: () => state.hovered = true,
-        onmouseleave: () => state.hovered = false
-      }, [[Button, {
-        collapsed: collapsed && !state.hovered,
-        onclick: () => {
-          if (!editing) {
-            createDraft();
-            open();
-          }
-        }
-      }, [[ButtonIcon, {
-        src: "/assets/images/create.png"
-      }, []], !collapsed || state.hovered ? [ButtonText, {}, "Compose"] : null]], ...["inbox", "sent", "drafts"].map(folder => [MenuItem, {
-        collapsed: collapsed && !state.hovered,
-        activated: getFolder() === folder,
-        onclick: () => navigate("/" + folder)
-      }, [[MenuIcon, {
-        className: `fas fa-${iconMap[folder]}`
-      }, []], !collapsed || state.hovered ? ["span", {}, folder] : null]]), [MenuItem, {
-        collapsed: collapsed && !state.hovered,
-        activated: getFolder() === "trash",
-        style: {
-          background: state.dropZoneActive ? "var(--theme)" : "",
-          color: state.dropZoneActive ? "white" : ""
-        },
-        onclick: () => navigate("/trash"),
-        ondragenter: e => {
-          e.preventDefault();
-          e.stopPropagation();
-          state.dropZoneActive = true;
-        },
-        ondragover: e => {
-          e.preventDefault();
-          e.stopPropagation();
-        },
-        ondragleave: () => {
-          state.dropZoneActive = false;
-        },
-        ondrop: () => {
-          deleteAll();
-          state.dropZoneActive = false;
-        }
-      }, [[MenuIcon, {
-        className: "fas fa-trash"
-      }, []], !collapsed || state.hovered ? ["span", {}, "trash"] : null]]]]]
-    );
-  };
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (SideBar);
 
 /***/ }),
 
@@ -19377,7 +19630,8 @@ const SideBar = (state, context) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-const Space = () => () => // use transform
+const Space = () => () =>
+/* use transform */
 [["div", {
   style: {
     flex: "1 1 auto"
@@ -19397,22 +19651,58 @@ const Space = () => () => // use transform
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lib/common/Decorator */ "./src/lib/common/Decorator.js");
+/* harmony import */ var _TabComponents__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TabComponents */ "./src/components/TabComponents.js");
+
+const iconMap = {
+  primary: "inbox",
+  social: "user-friends",
+  promotions: "tag"
+};
+
+const Tab = () => ({
+  name,
+  key,
+  onclick,
+  active
+}) => {
+  return (// use transform
+    [[_TabComponents__WEBPACK_IMPORTED_MODULE_0__["Box"], {
+      active: active,
+      name: name,
+      key: key,
+      onclick: onclick
+    }, [[_TabComponents__WEBPACK_IMPORTED_MODULE_0__["Icon"], {
+      className: `fas fa-${iconMap[name]}`
+    }, []], ["p", {}, name]]]]
+  );
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Tab);
+
+/***/ }),
+
+/***/ "./src/components/TabComponents.js":
+/*!*****************************************!*\
+  !*** ./src/components/TabComponents.js ***!
+  \*****************************************/
+/*! exports provided: Icon, Box */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Icon", function() { return Icon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Box", function() { return Box; });
+/* harmony import */ var lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lib/common/Decorator */ "./src/lib/common/Decorator.js");
 
 const colorMap = {
   primary: "#f44336",
   social: "#2962ff",
   promotions: "#2e7d32"
 };
-const iconMap = {
-  primary: "inbox",
-  social: "user-friends",
-  promotions: "tag"
-};
-const Icon = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].i`
+const Icon = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].i`
   margin: 0 20px;
 `;
-const Box = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
+const Box = lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
   --height: 55px;
   display: inline-block;
   position: relative;
@@ -19430,7 +19720,8 @@ const Box = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
   name
 }) => active ? colorMap[name] : "gray"};
   cursor: pointer;
-  transition: background 0.02s ease-in-out;
+  transition: background 0.02s ease-in-out;\
+  
 `.and`::after {
   content: "";
   position: absolute;
@@ -19443,29 +19734,10 @@ const Box = _lib_common_Decorator__WEBPACK_IMPORTED_MODULE_0__["default"].div`
   active,
   name
 }) => active ? colorMap[name] : "transparent"};
-}`.and`:hover {
+}
+`.and`:hover {
   background: var(--light-gray);
 }`;
-
-const Tab = () => ({
-  name,
-  key,
-  onclick,
-  active
-}) => {
-  return (// use transform
-    [[Box, {
-      active: active,
-      name: name,
-      key: key,
-      onclick: onclick
-    }, [[Icon, {
-      className: `fas fa-${iconMap[name]}`
-    }, []], ["p", {}, name]]]]
-  );
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (Tab);
 
 /***/ }),
 
@@ -20092,8 +20364,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_browser__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./lib/browser */ "./src/lib/browser/index.js");
 /* harmony import */ var _components_App__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/App */ "./src/components/App.js");
 
- // import "@fortawesome/fontawesome-free/css/all.css";
-// render([App], document.querySelector("#app"), {});
+ // render([App], document.querySelector("#app"), {});
 
 Object(_lib_browser__WEBPACK_IMPORTED_MODULE_0__["hydrate"])([_components_App__WEBPACK_IMPORTED_MODULE_1__["default"]], document.querySelector("#app"), {});
 
@@ -20923,7 +21194,7 @@ const compileCSS = (segments, ...fns) => props => {
   return computed.join("");
 };
 
-const styled = component => (...args) => {
+const decor = component => (...args) => {
   const declarations = compileCSS(...args);
   const rules = [];
 
@@ -20976,8 +21247,8 @@ const styled = component => (...args) => {
   return StyleWrapper;
 };
 
-html_tags__WEBPACK_IMPORTED_MODULE_1___default.a.forEach(tag => styled[tag] = styled(tag));
-/* harmony default export */ __webpack_exports__["default"] = (styled);
+html_tags__WEBPACK_IMPORTED_MODULE_1___default.a.forEach(tag => decor[tag] = decor(tag));
+/* harmony default export */ __webpack_exports__["default"] = (decor);
 
 /***/ }),
 

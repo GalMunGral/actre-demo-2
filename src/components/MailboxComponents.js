@@ -1,6 +1,6 @@
-import styled from "lib/common/Decorator";
+import decor from "lib/common/Decorator";
 
-export const Container = styled.div`
+export const Container = decor.div`
   flex: 0 0 50px;
   display: flex;
   justify-content: start;

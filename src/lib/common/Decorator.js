@@ -13,7 +13,7 @@ const compileCSS = (segments, ...fns) => (props) => {
   return computed.join("");
 };
 
-const styled = (component) => (...args) => {
+const decor = (component) => (...args) => {
   const declarations = compileCSS(...args);
   const rules = [];
 
@@ -68,6 +68,6 @@ const styled = (component) => (...args) => {
   return StyleWrapper;
 };
 
-htmlTags.forEach((tag) => (styled[tag] = styled(tag)));
+htmlTags.forEach((tag) => (decor[tag] = decor(tag)));
 
-export default styled;
+export default decor;

@@ -1,4 +1,4 @@
-import styled from "lib/common/Decorator";
+import decor from "lib/common/Decorator";
 
 const colorMap = {
   primary: "#f44336",
@@ -6,11 +6,11 @@ const colorMap = {
   promotions: "#2e7d32",
 };
 
-export const Icon = styled.i`
+export const Icon = decor.i`
   margin: 0 20px;
 `;
 
-export const Box = styled.div`
+export const Box = decor.div`
   --height: 55px;
   display: inline-block;
   position: relative;

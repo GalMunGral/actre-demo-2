@@ -1,6 +1,6 @@
-import styled from "lib/common/Decorator";
+import decor from "lib/common/Decorator";
 
-export const Background = styled.div`
+export const Background = decor.div`
   --border-size: 2px;
   margin: 0;
   position: absolute;
@@ -18,7 +18,7 @@ export const Background = styled.div`
   transition: all ${({ checked }) => (checked ? "0.2s" : 0)};
 `;
 
-export const CheckMark = styled.div`
+export const CheckMark = decor.div`
   --border-size: 2px;
   margin: 0;
   position: absolute;
@@ -40,7 +40,7 @@ export const CheckMark = styled.div`
   transition: transform 0.2s;
 `;
 
-export const Clickable = styled.div`
+export const Clickable = decor.div`
   --size: 40px;
   display: flex;
   justify-content: center;

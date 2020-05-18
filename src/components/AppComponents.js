@@ -1,6 +1,6 @@
-import styled from "lib/common/Decorator";
+import decor from "lib/common/Decorator";
 
-export const Container = styled.div`
+export const Container = decor.div`
   position: fixed;
   top: 0;
   left: 0;

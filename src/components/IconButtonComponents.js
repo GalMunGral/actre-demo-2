@@ -1,6 +1,6 @@
-import styled from "lib/common/Decorator";
+import decor from "lib/common/Decorator";
 
-export const Button = styled.button`
+export const Button = decor.button`
   --size: 40px;
   border: none;
   outline: none;
@@ -25,6 +25,6 @@ export const Button = styled.button`
 }
 `;
 
-export const Icon = styled.i`
+export const Icon = decor.i`
   color: gray;
 `;
