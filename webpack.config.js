@@ -20,7 +20,7 @@ const moduleConfig = {
               },
             ],
           ],
-          plugins: ["./babel-plugin-transform-render-function.js"],
+          plugins: ["@actre/babel-plugin-transform-elements"],
         },
       },
     },
