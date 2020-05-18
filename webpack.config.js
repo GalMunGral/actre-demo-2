@@ -20,10 +20,7 @@ const moduleConfig = {
               },
             ],
           ],
-          plugins: [
-            "@babel/plugin-proposal-nullish-coalescing-operator",
-            "./src/lib/babel-plugin-transform-render-function.js",
-          ],
+          plugins: ["./src/lib/babel-plugin-transform-render-function.js"],
         },
       },
     },
