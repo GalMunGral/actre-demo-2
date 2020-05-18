@@ -26,11 +26,6 @@ const decor = (component) => (...args) => {
         className = "s-" + uid();
         const rule = "." + className + " { " + computedDeclarations + " } ";
         yield { type: "ADD_CSS_RULE", payload: rule };
-        // () => {
-        //   styleEl.sheet.insertRule(
-        // "." + className + " { " + computedDeclarations + " } "
-        //   );
-        // };
         classCache.set(computedDeclarations, className);
       } else {
         className = classCache.get(computedDeclarations);
@@ -40,9 +35,6 @@ const decor = (component) => (...args) => {
         const computedRule = "." + className + rule(props);
         if (!ruleCache.has(computedRule)) {
           yield { type: "ADD_CSS_RULE", payload: computedRule };
-          // () => {
-          //   styleEl.sheet.insertRule(computedRule);
-          // };
           ruleCache.add(computedRule);
         }
       }
