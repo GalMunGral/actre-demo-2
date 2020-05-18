@@ -7,7 +7,9 @@ const DragImage = (_, context) => () => {
   return (
     // use transform
     Box(
-      (style = {
+      (
+        
+        style = {
         visibility: dragging ? "visible" : "hidden",
         transform: `translate3d(${x}px, ${y}px, 0)`,
       }),
