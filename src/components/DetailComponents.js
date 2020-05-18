@@ -1,4 +1,4 @@
-import { decor } from "lib/common";
+import { decor } from "@actre/common";
 
 export const Main = decor.main`
   margin: 0 50px;

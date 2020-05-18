@@ -1,4 +1,4 @@
-import { decor } from "lib/common";
+import { decor } from "@actre/common";
 
 export const Container = decor.div`
   flex: 0 0 50px;

@@ -1,4 +1,4 @@
-import { decor } from "lib/common";
+import { decor } from "@actre/common";
 
 export const Background = decor.div`
   --border-size: 2px;

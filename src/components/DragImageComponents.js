@@ -1,4 +1,4 @@
-import { decor } from "lib/common";
+import { decor } from "@actre/common";
 
 export const Box = decor.div`
   position: fixed;

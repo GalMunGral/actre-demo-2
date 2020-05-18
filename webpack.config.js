@@ -20,7 +20,7 @@ const moduleConfig = {
               },
             ],
           ],
-          plugins: ["./src/lib/babel-plugin-transform-render-function.js"],
+          plugins: ["./babel-plugin-transform-render-function.js"],
         },
       },
     },

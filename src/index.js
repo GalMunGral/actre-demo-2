@@ -1,6 +1,6 @@
-import { render, hydrate } from "./lib/browser";
+import { render, hydrate } from "@actre/dom";
 import App from "./components/App";
 
-render([App], document.querySelector("#app"), {});
+const f = true ? render : hydrate;
 
-// hydrate([App], document.querySelector("#app"), {});
+f([App], document.querySelector("#app"), {});
