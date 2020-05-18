@@ -1,7 +1,7 @@
 const { readFileSync } = require("fs");
 const express = require("express");
 const { minify } = require("html-minifier");
-const { renderToString } = require("./lib/server/HTMLRenderer");
+const { renderToString } = require("./lib/server");
 const { default: App } = require("./components/App");
 
 const server = express();

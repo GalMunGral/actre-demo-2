@@ -1,4 +1,4 @@
-import decor from "lib/common/Decorator";
+import { decor } from "lib/common";
 
 export const PageRange = decor.div`
   flex: 0 0 200px;

@@ -1,4 +1,4 @@
-import decor from "lib/common/Decorator";
+import { decor } from "lib/common";
 
 const colorMap = {
   primary: "#f44336",
