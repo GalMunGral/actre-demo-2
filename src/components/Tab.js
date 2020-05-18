@@ -8,9 +8,10 @@ const iconMap = {
 
 const Tab = () => ({ name, key, onclick, active }) => {
   return (
-    // use transform
-    Box((active = active), (name = name), (key = key), (onclick = onclick), [
-      Icon((className = `fas fa-${iconMap[name]}`)),
+    // use-transform
+    // prettier-ignore
+    Box(active=active, name=name, key=key, onclick=onclick, [
+      Icon(className=`fas fa-${iconMap[name]}`),
       p(name),
     ])
   );

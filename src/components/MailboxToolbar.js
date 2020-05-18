@@ -21,19 +21,18 @@ const MailboxButtons = (_, context) => () => {
   const folder = getFolder();
 
   return (
-    // use transform
+    // use-transform
+    // prettier-ignore
     [
       folder !== "trash"
-        ? Checkbox((checked = allSelected()), (onchange = toggleAll))
+        ? Checkbox(checked=allSelected(), onchange=toggleAll)
         : null,
       Space(),
       PageRange([
-        PageRangeText(
-          (innerHTML = `${start}&ndash;${Math.min(end, total)} of ${total}`)
-        ),
+        PageRangeText(innerHTML=`${start}&ndash;${Math.min(end, total)} of ${total}`)
       ]),
-      IconButton((onclick = prevPage), (type = "angle-left")),
-      IconButton((onclick = nextPage), (type = "angle-right")),
+      IconButton(onclick=prevPage, type="angle-left"),
+      IconButton(onclick=nextPage, type="angle-right"),
     ]
   );
 };

@@ -83,38 +83,39 @@ const MailItem = (state, context) => {
     };
 
     return (
-      // use transform
+      // use-transform
+      // prettier-ignore
       Container(
-        (selected = selected),
-        (draggable = folder !== "trash"),
-        (ondragstart = ondragstart),
-        (ondrag = ondrag),
-        (ondragend = ondragend),
-        (onmousedown = onmousedown),
-        (onmouseup = onmouseup),
+        selected=selected,
+        draggable=(folder !== "trash"),
+        ondragstart=ondragstart,
+        ondrag=ondrag,
+        ondragend=ondragend,
+        onmousedown=onmousedown,
+        onmouseup=onmouseup,
         [
           folder !== "trash"
             ? Checkbox(
-                (checked = selected),
-                (onchange = () => toggleItem(item, !selected))
+                checked=selected,
+                onchange=() => toggleItem(item, !selected)
               )
             : null,
           SenderInfo(senderName || senderEmail || "(no name)"),
           Summary([
             Title(format(30)(subject) || "(empty)"),
             Preheader(
-              (innerHTML = `&nbsp;&mdash;&nbsp;${
+              innerHTML = `&nbsp;&mdash;&nbsp;${
                 format(50)(content) || "(empty)"
-              }`)
+              }`
             ),
           ]),
           folder !== "trash"
             ? Actions([
                 IconButton(
-                  (type = "trash"),
-                  (onclick = deleteItem),
-                  (onmousedown = (e) => e.stopPropagation()),
-                  (onmouseup = (e) => e.stopPropagation())
+                  type="trash",
+                  onclick=deleteItem,
+                  onmousedown=(e) => e.stopPropagation(),
+                  onmouseup=(e) => e.stopPropagation()
                 ),
               ])
             : null,

@@ -15,20 +15,21 @@ const MailList = (_, context) => {
     const selected = context.selection.getSelected();
 
     return (
-      // use transform
+      // use-transform
+      // prettier-ignore
       [
         ...mails.map((mail, i) =>
           MailItem(
-            (key = i), // Reuse these
-            (item = mail),
-            (selected = selected.includes(mail.id)),
-            (setCoordinates = (newX, newY) => {
+            key=i, // Reuse these
+            item=mail,
+            selected=selected.includes(mail.id),
+            setCoordinates=(newX, newY) => {
               context[x] = newX;
               context[y] = newY;
-            }),
-            (setDragging = (v) => {
+            },
+            setDragging=(v) => {
               context[dragging] = v;
-            })
+            }
           )
         ),
         DragImage(),

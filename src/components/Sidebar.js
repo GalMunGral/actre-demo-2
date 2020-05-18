@@ -40,63 +40,70 @@ const Sidebar = (state, context) => {
     };
 
     return (
-      // use transform
+      // use-transform
+      // prettier-ignore
       Menu(
-        (collapsed = collapsed && !state.hovered),
-        (onmouseenter = () => (state.hovered = true)),
-        (onmouseleave = () => (state.hovered = false)),
+        collapsed=(collapsed && !state.hovered),
+        onmouseenter=() => { state.hovered = true },
+        onmouseleave=() => { state.hovered = false },
         [
           EditorButton(
-            (collapsed = collapsed && !state.hovered),
-            (onclick = () => {
+            collapsed=(collapsed && !state.hovered),
+            onclick=() => {
               if (!editing) {
                 createDraft();
                 open();
               }
-            }),
+            },
             [
-              EditorButtonIcon((src = "/assets/images/create.png")),
-              !collapsed || state.hovered ? EditorButtonText("Compose") : null,
+              EditorButtonIcon(src="/assets/images/create.png"),
+              !collapsed || state.hovered
+                ? EditorButtonText("Compose") 
+                : null,
             ]
           ),
           ...["inbox", "sent", "drafts"].map((folder) =>
             MenuItem(
-              (collapsed = collapsed && !state.hovered),
-              (activated = getFolder() === folder),
-              (onclick = () => navigate("/" + folder)),
+              collapsed=(collapsed && !state.hovered),
+              activated=(getFolder() === folder),
+              onclick=() => navigate("/" + folder),
               [
-                MenuIcon((className = `fas fa-${iconMap[folder]}`)),
-                !collapsed || state.hovered ? span(folder) : null,
+                MenuIcon(className=`fas fa-${iconMap[folder]}`),
+                !collapsed || state.hovered
+                  ? span(folder)
+                  : null,
               ]
             )
           ),
           MenuItem(
-            (collapsed = collapsed && !state.hovered),
-            (activated = getFolder() === "trash"),
-            (style = {
+            collapsed=(collapsed && !state.hovered),
+            activated=(getFolder() === "trash"),
+            style={
               background: state.dropZoneActive ? "var(--theme)" : "",
               color: state.dropZoneActive ? "white" : "",
-            }),
-            (onclick = () => navigate("/trash")),
-            (ondragenter = (e) => {
+            },
+            onclick=() => navigate("/trash"),
+            ondragenter=(e) => {
               e.preventDefault();
               e.stopPropagation();
               state.dropZoneActive = true;
-            }),
-            (ondragover = (e) => {
+            },
+            ondragover=(e) => {
               e.preventDefault();
               e.stopPropagation();
-            }),
-            (ondragleave = () => {
+            },
+            ondragleave=() => {
               state.dropZoneActive = false;
-            }),
-            (ondrop = () => {
+            },
+            ondrop=() => {
               deleteAll();
               state.dropZoneActive = false;
-            }),
+            },
             [
-              MenuIcon((className = "fas fa-trash")),
-              !collapsed || state.hovered ? span("trash") : null,
+              MenuIcon(className="fas fa-trash"),
+              !collapsed || state.hovered 
+                ? span("trash") 
+                : null,
             ]
           ),
         ]

@@ -2,8 +2,16 @@ import { Container, ToolbarContainer, Scrollable } from "./LayoutComponents";
 
 const Layout = () => (_, [buttons, body]) => {
   return (
-    // use transform
-    Container([ToolbarContainer([buttons]), Scrollable([body])])
+    // use-transform
+    // prettier-ignore
+    Container([
+      ToolbarContainer([
+        buttons
+      ]),
+      Scrollable([
+        body
+      ])
+    ])
   );
 };
 

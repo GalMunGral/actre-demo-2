@@ -4,8 +4,6 @@ import Layout from "./Layout";
 import MailboxToolbar from "./MailboxToolbar";
 import { Container } from "./MailboxComponents";
 
-const tabs = ["primary", "social", "promotions"];
-
 const Mailbox = (_, context) => {
   const { getFolder, getTab, setTab } = context.route;
   const { getPage, resetPage } = context.pagination;
@@ -15,27 +13,31 @@ const Mailbox = (_, context) => {
     const currentTab = getTab();
     const page = getPage();
 
+    const tabs =
+      // use-transform
+      // prettier-ignore
+      Container(
+         ["primary", "social", "promotions"].map((tab) =>
+          Tab(
+            key=tab,
+            name=tab,
+            active=(tab === currentTab),
+            onclick=() => {
+              setTab(tab);
+              resetPage();
+            }
+          )
+        )
+      );
+
     return (
-      // use transform
+      // use-transform
+      // prettier-ignore
       Layout([
         MailboxToolbar(),
         section([
-          folder === "inbox"
-            ? Container(
-                tabs.map((tab) =>
-                  Tab(
-                    (key = tab),
-                    (name = tab),
-                    (onclick = () => {
-                      setTab(tab);
-                      resetPage();
-                    }),
-                    (active = tab === currentTab)
-                  )
-                )
-              )
-            : null,
-          MailList((mails = page)),
+          folder === "inbox" ? tabs[0] : null,
+          MailList(mails=page),
         ]),
       ])
     );

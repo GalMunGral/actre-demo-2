@@ -29,7 +29,7 @@ module.exports = function (babel) {
 
   function shouldTransform(path) {
     let comments = path.node.leadingComments;
-    return comments && comments[0].value.trim() == "use transform";
+    return comments && comments[0].value.trim() == "use-transform";
   }
 
   function isArrayMap(node) {

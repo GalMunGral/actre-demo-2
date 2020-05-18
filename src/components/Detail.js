@@ -17,7 +17,7 @@ const Detail = (__, context) => ({ mailId }) => {
 
   if (!mail) {
     redirect("/" + folder);
-    return /* use transform */ p("Redirecting...");
+    return /* use-transform */ p("Redirecting...");
   }
 
   const {
@@ -29,22 +29,22 @@ const Detail = (__, context) => ({ mailId }) => {
     content,
   } = mail;
 
+  const senderInfo = `${senderName || "(no name)"}&nbsp;&lt;${
+    senderEmail || "(no email)"
+  }&gt;`;
+  const recipientInfo = `To: ${recipientName || "(no name)"}&nbsp;&lt;${
+    recipientEmail || "(no email)"
+  }&gt;`;
+
   return (
-    // use transform
+    // use-transform
+    // prettier-ignore
     Layout([
       DetailToolbar(),
       Main([
         Header(subject),
-        SenderInfo(
-          (innerHTML = `${senderName || "(no name)"}&nbsp;&lt;${
-            senderEmail || "(no email)"
-          }&gt;`)
-        ),
-        RecipientInfo(
-          (innerHTML = `To: ${recipientName || "(no name)"}&nbsp;&lt;${
-            recipientEmail || "(no email)"
-          }&gt;`)
-        ),
+        SenderInfo(innerHTML=senderInfo),
+        RecipientInfo(innerHTML=recipientInfo),
         Body(content),
       ]),
     ])

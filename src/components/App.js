@@ -28,7 +28,7 @@ const App = (state, context) => {
     const editing = context.editor.getEditing();
 
     return (
-      // use transform
+      // use-transform
       // prettier-ignore
       Container([
         AppBar(toggle=() => { state.collapsed = !state.collapsed }),

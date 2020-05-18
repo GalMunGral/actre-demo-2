@@ -23,12 +23,13 @@ const DetailToolbar = (_, context) => () => {
   };
 
   return (
-    // use transform
+    // use-transform
+    // prettier-ignore
     [
-      IconButton((onclick = goBack), (type = "arrow-left")),
-      folder === "trash"
-        ? null
-        : IconButton((onclick = deleteMail), (type = "trash")),
+      IconButton(onclick=goBack, type="arrow-left"),
+      folder !== "trash"
+        ? IconButton(onclick=deleteMail, type="trash")
+        : null
     ]
   );
 };

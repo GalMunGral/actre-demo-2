@@ -10,15 +10,18 @@ import {
 } from "./AppBarComponents";
 
 const AppBar = () => ({ toggle }) =>
-  // use transform
+  // use-transform
+  // prettier-ignore
   Container([
     Group([
-      MenuButton((onclick = toggle), [MenuIcon((className = "fas fa-bars"))]),
-      AppLogo((src = "/assets/images/logo.png"), (alt = "logo")),
+      MenuButton(onclick=toggle, [
+        MenuIcon(className="fas fa-bars")
+      ]),
+      AppLogo(src="/assets/images/logo.png", alt="logo"),
     ]),
     SearchBar([
-      SearchIcon((className = "fas fa-search")),
-      SearchInput((placeholder = "Search mail")),
+      SearchIcon(className="fas fa-search"),
+      SearchInput(placeholder="Search mail"),
     ]),
     Group(),
   ]);
