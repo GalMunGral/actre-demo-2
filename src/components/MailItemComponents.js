@@ -12,18 +12,19 @@ export const Container = decor.div`
     selected ? "var(--highlight)" : "white"};
   align-items: center;
   justify-content: space-between;
-  cursor: pointer;\
+  cursor: pointer;
 
 `.and`:active {
-  cursor: grabbing;
-}
+    cursor: grabbing;
+  }
 `.and`:hover {
-  background: ${({ selected }) => (selected ? "var(--highlight)" : "white")};
-  filter: brightness(0.95);
-}
+    background: ${({ selected }) => (selected ? "var(--highlight)" : "white")};
+    filter: brightness(0.95);
+  }
 `.and`:hover * {
-  visibility: visible;
-}`;
+    visibility: visible;
+  }
+`;
 
 export const SenderInfo = decor.div`
   flex: 0 0 200px;

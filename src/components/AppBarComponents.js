@@ -62,12 +62,12 @@ export const SearchBar = decor.div`
   border-radius: 10px;
   transition: all 0.2s;
   display: flex;
-  align-items: center;\
+  align-items: center;
 
 `.and`:focus-within {
-  box-shadow: 0 1px 4px 0px var(--gray);
-  background: white;
-}
+    box-shadow: 0 1px 4px 0px var(--gray);
+    background: white;
+  }
 `;
 
 export const SearchIcon = decor.i`

@@ -25,19 +25,20 @@ export const Box = decor.div`
   width: 250px;
   color: ${({ active, name }) => (active ? colorMap[name] : "gray")};
   cursor: pointer;
-  transition: background 0.02s ease-in-out;\
+  transition: background 0.02s ease-in-out;
   
 `.and`::after {
-  content: "";
-  position: absolute;
-  left: 5%;
-  bottom: 0;
-  border-radius: 3px 3px 0 0;
-  width: 90%;
-  height: 3px;
-  background: ${({ active, name }) =>
-    active ? colorMap[name] : "transparent"};
-}
+    content: "";
+    position: absolute;
+    left: 5%;
+    bottom: 0;
+    border-radius: 3px 3px 0 0;
+    width: 90%;
+    height: 3px;
+    background: ${({ active, name }) =>
+      active ? colorMap[name] : "transparent"};
+  }
 `.and`:hover {
-  background: var(--light-gray);
-}`;
+    background: var(--light-gray);
+  }
+`;

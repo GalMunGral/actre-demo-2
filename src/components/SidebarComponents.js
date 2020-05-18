@@ -38,14 +38,14 @@ export const EditorButton = decor.button`
   transition: width 0.2s;
   font-family: inherit;
   cursor: pointer;
-  transition: box-shadow 0.2s;\
+  transition: box-shadow 0.2s;
 
 `.and`:hover {
-  box-shadow: 0 5px 10px 0 var(--gray);
-}
+    box-shadow: 0 5px 10px 0 var(--gray);
+  }
 `.and`:active {
-  background: var(--light-gray);
-}
+    background: var(--light-gray);
+  }
 `;
 
 export const EditorButtonText = decor.span`
@@ -79,21 +79,21 @@ export const MenuItem = decor.div`
   background: ${({ activated }) =>
     activated ? "var(--theme-light)" : "white"};
   cursor: pointer;
-  transition: all 0.2s;\
+  transition: all 0.2s;
 
 `.and`:hover {
-  background: ${({ activated }) =>
-    activated ? "var(--theme-light)" : "var(--light-gray)"};
-}
+    background: ${({ activated }) =>
+      activated ? "var(--theme-light)" : "var(--light-gray)"};
+  }
 `.and`:active {
-  background: ${({ activated }) =>
-    activated ? "var(--theme-light)" : "var(--gray)"};
-}
+    background: ${({ activated }) =>
+      activated ? "var(--theme-light)" : "var(--gray)"};
+  }
 `.and` > i {
-  margin: 0 ${({ collapsed }) => (collapsed ? "0" : "20px")};
-  color: inherit;
-}
+    margin: 0 ${({ collapsed }) => (collapsed ? "0" : "20px")};
+    color: inherit;
+  }
 `.and` * {
-  pointer-events: none;
-}
+    pointer-events: none;
+  }
 `;

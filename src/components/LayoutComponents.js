@@ -20,12 +20,12 @@ export const ToolbarContainer = decor.div`
 export const Scrollable = decor.div`
   flex: 1 1 auto;
   overflow-y: auto;
-  padding-bottom: 80px;\
+  padding-bottom: 80px;
 
 `.and`::-webkit-scrollbar-thumb {
-  background: var(--gray);
-}
+    background: var(--gray);
+  }
 `.and`::-webkit-scrollbar {
-  width: 10px;
-}
+    width: 10px;
+  }
 `;

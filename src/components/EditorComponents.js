@@ -39,12 +39,12 @@ export const CloseButton = decor.button`
   font-size: var(--size);
   color: white;
   cursor: pointer;
-  transition: all 0.2s;\
+  transition: all 0.2s;
 
 `.and`:hover {
-  color: var(--light-gray);
-  transform: scale(1.2);
-}
+    color: var(--light-gray);
+    transform: scale(1.2);
+  }
 `;
 
 export const Body = decor.section`
@@ -60,21 +60,21 @@ export const InputBox = decor.div`
   font-size: 1rem;
   margin: 0 20px;
   padding: 0;
-  border-bottom: 1px solid var(--light-gray);\
+  border-bottom: 1px solid var(--light-gray);
 
 `.and` > label {
-  color: gray;
-  margin-right: 5px;
-}
+    color: gray;
+    margin-right: 5px;
+  }
 `.and` > input {
-  line-height: 1rem;
-  font-size: 1rem;
-  padding: 8px 0;
-  border: none;
-  outline: none;
-  background: white;
-  font-family: inherit;
-}
+    line-height: 1rem;
+    font-size: 1rem;
+    padding: 8px 0;
+    border: none;
+    outline: none;
+    background: white;
+    font-family: inherit;
+  }
 `;
 
 export const TextArea = decor.textarea`
@@ -109,9 +109,10 @@ export const SendButton = decor.button`
   border: none;
   outline: none;
   cursor: pointer;
-  transition: all 0.1s;\
+  transition: all 0.1s;
 
 `.and`:hover {
-  filter: brightness(1.2);
-  box-shadow: 0 0 3px 0 var(--blue);
-}`;
+    filter: brightness(1.2);
+    box-shadow: 0 0 3px 0 var(--blue);
+  }
+`;
