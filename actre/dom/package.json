@@ -1,0 +1,23 @@
+{
+  "name": "@actre/dom",
+  "version": "0.0.2",
+  "description": "Yet another front-end framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GalMunGral/actre-dom.git"
+  },
+  "author": "Wenqi He",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GalMunGral/actre-dom/issues"
+  },
+  "homepage": "https://github.com/GalMunGral/actre-dom#readme",
+  "dependencies": {
+    "@actre/common": "0.0.1",
+    "heap": "^0.2.6"
+  }
+}

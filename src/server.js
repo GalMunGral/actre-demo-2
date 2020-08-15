@@ -4,7 +4,7 @@ const { minify } = require("html-minifier");
 const { renderToString } = require("@actre/server");
 const { default: App } = require("./components/App");
 
-const server = express();
+const server = express(), PORT = 8080;
 
 server.use(express.static("./public"));
 server.use(express.static("./assets"));
@@ -33,6 +33,6 @@ server.get("*", (req, res) => {
   );
 });
 
-server.listen(8080, () => {
-  console.log("Listening");
+server.listen(PORT, () => {
+  console.log(`Listening on ${PORT}`);
 });

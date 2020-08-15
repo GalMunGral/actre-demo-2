@@ -1,0 +1,19 @@
+{
+  "name": "@actre/babel-plugin-transform-elements",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GalMunGral/actre-babel-plugin-transform-elements.git"
+  },
+  "author": "Wenqi He",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GalMunGral/actre-babel-plugin-transform-elements/issues"
+  },
+  "homepage": "https://github.com/GalMunGral/actre-babel-plugin-transform-elements#readme"
+}
