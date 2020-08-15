@@ -1,0 +1,64 @@
+html {
+  user-select: none;
+}
+body::before {
+  z-index: -1;
+  content: "";
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: url("./background.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  opacity: 0.2;
+  min-height: 100vh;
+}
+#main {
+  margin-top: 6rem;
+  margin-bottom: 2rem;
+  transition: opacity 0.3s ease-in;
+}
+.panel {
+  background-color: white;
+}
+.transparent {
+  opacity: 0;
+}
+tr {
+  transition: background-color 0.2s ease-in-out;
+}
+.selected {
+  background: #e3ecfa !important;
+}
+.modal-content {
+  max-width: 30rem;
+}
+.notification {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 999;
+  transition: all 0.2s ease-in-out;
+  min-height: 4rem;
+}
+.notification.hidden {
+  transform: translate3d(calc(15rem + 2rem), 0, 0);
+  opacity: 0;
+}
+.sticky {
+  position: sticky;
+  top: 6rem;
+  z-index: 1;
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate3d(0, 0, 1, -0.2deg);
+  }
+  from {
+    transform: rotate3d(0, 0, 1, 0.2deg);
+  }
+}

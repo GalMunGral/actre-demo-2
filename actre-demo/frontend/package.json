@@ -1,0 +1,45 @@
+{
+  "name": "i-will-rename-this-later",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack-dev-server",
+    "build:components": "babel ./src/components -d ./build/components",
+    "build:renderer": "babel ./src/lib/HTMLRenderer.js ./src/lib/Utilities.js -d ./build/lib",
+    "build": "webpack && npm run build:components && npm run build:renderer",
+    "start": "npm run build && nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GalMunGral/i-will-rename-this-later.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GalMunGral/i-will-rename-this-later/issues"
+  },
+  "homepage": "https://github.com/GalMunGral/i-will-rename-this-later#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.6",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
+    "@babel/preset-env": "^7.9.6",
+    "babel-loader": "^8.1.0",
+    "css-loader": "^3.5.3",
+    "file-loader": "^6.0.0",
+    "nodemon": "^2.0.3",
+    "npm-run-all": "^4.1.5",
+    "style-loader": "^1.2.1",
+    "url-loader": "^4.1.0",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "body-parser": "^1.19.0",
+    "bulma": "^0.8.2",
+    "express": "^4.17.1"
+  }
+}
